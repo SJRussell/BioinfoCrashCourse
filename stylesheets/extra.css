@@ -1,0 +1,64 @@
+/* Fix mermaid diagram colors for dark mode */
+[data-md-color-scheme="slate"] .mermaid {
+  /* Override mermaid colors for dark mode */
+  --mermaid-theme: dark;
+  --mermaid-primary-color: #2d3748;
+  --mermaid-primary-text-color: #e2e8f0;
+  --mermaid-primary-border-color: #4a5568;
+  --mermaid-line-color: #718096;
+  --mermaid-section-bg-color: #2d3748;
+  --mermaid-alt-section-bg-color: #1a202c;
+  --mermaid-grid-color: #4a5568;
+  --mermaid-text-color: #e2e8f0;
+  --mermaid-task-bg-color: #2d3748;
+  --mermaid-task-text-light-color: #e2e8f0;
+  --mermaid-task-text-color: #e2e8f0;
+  --mermaid-task-text-dark-color: #e2e8f0;
+  --mermaid-task-text-outside-color: #e2e8f0;
+  --mermaid-active-task-bg-color: #4a5568;
+  --mermaid-active-task-border-color: #718096;
+  --mermaid-grid-color: #4a5568;
+  --mermaid-section0: #2d3748;
+  --mermaid-section1: #1a202c;
+  --mermaid-section2: #2d3748;
+  --mermaid-section3: #1a202c;
+}
+
+/* Specific fixes for flowchart nodes in dark mode */
+[data-md-color-scheme="slate"] .mermaid .node rect,
+[data-md-color-scheme="slate"] .mermaid .node circle,
+[data-md-color-scheme="slate"] .mermaid .node ellipse,
+[data-md-color-scheme="slate"] .mermaid .node polygon {
+  fill: #2d3748 !important;
+  stroke: #4a5568 !important;
+  color: #e2e8f0 !important;
+}
+
+[data-md-color-scheme="slate"] .mermaid .node .label,
+[data-md-color-scheme="slate"] .mermaid .nodeLabel {
+  color: #e2e8f0 !important;
+  fill: #e2e8f0 !important;
+}
+
+/* Fix for specific styled nodes */
+[data-md-color-scheme="slate"] .mermaid .node.fill-e3f2fd,
+[data-md-color-scheme="slate"] .mermaid .node.fill-fff3e0,
+[data-md-color-scheme="slate"] .mermaid .node.fill-f3e5f5,
+[data-md-color-scheme="slate"] .mermaid .node.fill-e8f5e8 {
+  fill: #2d3748 !important;
+}
+
+/* Override any light background colors in dark mode */
+[data-md-color-scheme="slate"] .mermaid g[style*="fill:#e3f2fd"],
+[data-md-color-scheme="slate"] .mermaid g[style*="fill:#fff3e0"],
+[data-md-color-scheme="slate"] .mermaid g[style*="fill:#f3e5f5"],
+[data-md-color-scheme="slate"] .mermaid g[style*="fill:#e8f5e8"] {
+  fill: #2d3748 !important;
+}
+
+[data-md-color-scheme="slate"] .mermaid rect[style*="fill:#e3f2fd"],
+[data-md-color-scheme="slate"] .mermaid rect[style*="fill:#fff3e0"],
+[data-md-color-scheme="slate"] .mermaid rect[style*="fill:#f3e5f5"],
+[data-md-color-scheme="slate"] .mermaid rect[style*="fill:#e8f5e8"] {
+  fill: #2d3748 !important;
+}
