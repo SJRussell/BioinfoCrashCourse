@@ -9,7 +9,7 @@ theme:
     - navigation.footer
     - navigation.indexes
     - navigation.sections
-    - navigation.tabs
+    - navigation.expand
     - navigation.top
     - search.highlight
     - search.suggest
@@ -68,5 +68,8 @@ markdown_extensions:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/your-username/bioinformatics-tutorial
+      link: https://github.com/SJRussell/BioinfoCrashCourse
   generator: false
+
+extra_css:
+  - stylesheets/extra.css
