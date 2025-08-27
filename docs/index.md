@@ -30,6 +30,9 @@ graph TD
 !!! info "Look before you loop"
     Always examine data with `head`, `tail`, `less`, or `zless` before writing scripts that process many files.
 
+!!! note "Help first, experiment second"
+    Always run `command --help` (or `man command`) the first time you encounter a new tool. Understanding the options saves time and prevents mistakes.
+
 ## What You'll Learn
 
 - **Command-line fundamentals**: navigation, file operations, text processing
