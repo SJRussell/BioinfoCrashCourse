@@ -30,11 +30,19 @@ jobs
 
 ## 2) See what's running
 
-Install a couple of helpers (Ubuntu/WSL2):
+Install a couple of helpers:
 
-```bash
-sudo apt update && sudo apt install -y htop psmisc
-```
+=== "Linux/WSL"
+
+    ```bash
+    sudo apt update && sudo apt install -y htop psmisc
+    ```
+
+=== "macOS"
+
+    ```bash
+    brew install htop psmisc
+    ```
 
 Now inspect:
 

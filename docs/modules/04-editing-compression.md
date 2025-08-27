@@ -24,27 +24,55 @@ Cheat sheet inside nano:
 
 ## 2) Compress & preview .gz
 
-```bash
-echo "some long text" > big.txt
-gzip big.txt           # creates big.txt.gz, removes original
-zless big.txt.gz       # view without decompressing
-zcat big.txt.gz | head
-gunzip big.txt.gz      # back to big.txt
-```
+=== "Linux/WSL"
 
-Optional (faster parallel gzip):
+    ```bash
+    echo "some long text" > big.txt
+    gzip big.txt           # creates big.txt.gz, removes original
+    zless big.txt.gz       # view without decompressing
+    zcat big.txt.gz | head
+    gunzip big.txt.gz      # back to big.txt
+    ```
 
-```bash
-sudo apt install -y pigz
-pigz big.txt
-```
+    Optional (faster parallel gzip):
+
+    ```bash
+    sudo apt install -y pigz
+    pigz big.txt
+    ```
+
+=== "macOS"
+
+    ```bash
+    echo "some long text" > big.txt
+    gzip big.txt           # creates big.txt.gz, removes original
+    zless big.txt.gz       # view without decompressing
+    gzcat big.txt.gz | head  # gzcat instead of zcat on macOS
+    gunzip big.txt.gz      # back to big.txt
+    ```
+
+    Optional (faster parallel gzip):
+
+    ```bash
+    brew install pigz
+    pigz big.txt
+    ```
 
 ## 3) Checksums = trust
 
-```bash
-sha256sum big.txt > big.txt.sha256
-sha256sum -c big.txt.sha256   # should say: OK
-```
+=== "Linux/WSL"
+
+    ```bash
+    sha256sum big.txt > big.txt.sha256
+    sha256sum -c big.txt.sha256   # should say: OK
+    ```
+
+=== "macOS"
+
+    ```bash
+    shasum -a 256 big.txt > big.txt.sha256
+    shasum -a 256 -c big.txt.sha256   # should say: OK
+    ```
 
 Why this matters: when you download FASTQs, you can verify integrity against provided checksums before analysis.
 
@@ -57,7 +85,7 @@ Why this matters: when you download FASTQs, you can verify integrity against pro
 
 ## Exit Ticket (email)
 
-**Subject:** DE M4 Exit Ticket – <Your Name>  
+**Subject:** DE M4 Exit Ticket – <Your Name>
 **Paste:**
 
-- Your `sha256sum -c` output, and two bullets on what you learned about .gz and checksums.
+- Your checksum verification output (`sha256sum -c` or `shasum -a 256 -c`), and two bullets on what you learned about .gz and checksums.

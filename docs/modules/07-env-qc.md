@@ -8,12 +8,15 @@
 
 ## 1) Install Miniforge/Mambaforge
 
+Bioinformatics often requires many specialized tools, and managing their dependencies can be tricky. **Conda** (and its faster alternative, **Mamba**) helps create isolated environments for these tools, preventing conflicts and making your analyses reproducible. **Mambaforge** is a distribution that includes Mamba and Conda.
+
 === "Windows (WSL2 Ubuntu)"
 
     ```bash
     cd ~
     wget https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh
     bash Mambaforge-Linux-x86_64.sh -b -p $HOME/mambaforge
+    # This line sets up your shell to use conda/mamba commands
     eval "$($HOME/mambaforge/bin/conda shell.bash hook)"
     conda config --set auto_activate_base false
     ```
@@ -24,6 +27,7 @@
     cd ~
     curl -LO https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-MacOSX-arm64.sh
     bash Mambaforge-MacOSX-arm64.sh -b -p $HOME/mambaforge
+    # This line sets up your shell to use conda/mamba commands
     eval "$($HOME/mambaforge/bin/conda shell.zsh hook)"  # or bash if you use bash
     conda config --set auto_activate_base false
     ```
@@ -34,6 +38,7 @@
     cd ~
     curl -LO https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-MacOSX-x86_64.sh
     bash Mambaforge-MacOSX-x86_64.sh -b -p $HOME/mambaforge
+    # This line sets up your shell to use conda/mamba commands
     eval "$($HOME/mambaforge/bin/conda shell.zsh hook)"
     conda config --set auto_activate_base false
     ```

@@ -29,17 +29,33 @@ graph TD
 
 ## 1) Inspect the data
 
-```bash
-cd ~/de-onramp/lesson5/data
-zcat SRR.fastq.gz | head -n 8
-zcat SRR.fastq.gz | awk 'NR%4==2{r++; bp+=length($0)} END{print "Reads:",r,"Bases:",bp}'
-```
+=== "Linux/WSL"
 
-If you made `SRR.10k.fastq.gz`, use that for speed:
+    ```bash
+    cd ~/de-onramp/lesson5/data
+    zcat SRR.fastq.gz | head -n 8
+    zcat SRR.fastq.gz | awk 'NR%4==2{r++; bp+=length($0)} END{print "Reads:",r,"Bases:",bp}'
+    ```
 
-```bash
-zcat SRR.10k.fastq.gz | head -n 8
-```
+    If you made `SRR.10k.fastq.gz`, use that for speed:
+
+    ```bash
+    zcat SRR.10k.fastq.gz | head -n 8
+    ```
+
+=== "macOS"
+
+    ```bash
+    cd ~/de-onramp/lesson5/data
+    gzcat SRR.fastq.gz | head -n 8
+    gzcat SRR.fastq.gz | awk 'NR%4==2{r++; bp+=length($0)} END{print "Reads:",r,"Bases:",bp}'
+    ```
+
+    If you made `SRR.10k.fastq.gz`, use that for speed:
+
+    ```bash
+    gzcat SRR.10k.fastq.gz | head -n 8
+    ```
 
 ## 2) Run FastQC + MultiQC
 

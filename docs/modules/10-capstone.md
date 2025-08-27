@@ -84,9 +84,10 @@ fastqc -o "$OUT/fastqc" "$TMP"
 multiqc -o "$OUT" "$OUT/fastqc" > "$OUT/logs/multiqc.log" 2>&1 || true
 
 # Summaries: reads, bases, GC (rough), file size
-READS=$(zcat "$TMP" | awk 'END{print NR/4}')
-BASES=$(zcat "$TMP" | awk 'NR%4==2{bp+=length($0)} END{print bp+0}')
-GC=$(zcat "$TMP" | awk 'NR%4==2{gsub(/[^GgCc]/,"");gc+=length($0);t+=length($0)} END{if(t) printf("%.2f",100*gc/t); else print 0}')
+# Use gzcat for macOS compatibility
+READS=$(( (uname -s | grep -q Darwin) && gzcat "$TMP" || zcat "$TMP" ) | awk 'END{print NR/4}')
+BASES=$(( (uname -s | grep -q Darwin) && gzcat "$TMP" || zcat "$TMP" ) | awk 'NR%4==2{bp+=length($0)} END{print bp+0}')
+GC=$(( (uname -s | grep -q Darwin) && gzcat "$TMP" || zcat "$TMP" ) | awk 'NR%4==2{gsub(/[^GgCc]/,"");gc+=length($0);t+=length($0)} END{if(t) printf("%.2f",100*gc/t); else print 0}')
 SIZE=$(ls -lh "$TMP" | awk '{print $5}')
 
 {

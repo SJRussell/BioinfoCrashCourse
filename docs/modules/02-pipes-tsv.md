@@ -21,8 +21,20 @@ mkdir -p ~/de-onramp/lesson2 && cd ~/de-onramp/lesson2
 We'll synthesize "student grades" so everyone has the same file.
 
 ```bash
-# If python3 is missing on Ubuntu:
-# sudo apt update && sudo apt install -y python3
+# If python3 is missing:
+=== "Linux/WSL"
+
+    ```bash
+    sudo apt update && sudo apt install -y python3
+    ```
+
+=== "macOS"
+
+    Python 3 is usually pre-installed on macOS. If not, you can install it via Homebrew:
+
+    ```bash
+    brew install python3
+    ```
 
 python3 - <<'PY'
 import random, string
@@ -67,12 +79,12 @@ wc -l grades.tsv
 ## 3) Pipes & redirects in 5 minutes
 
 ```bash
-grep -E '^S[0-9]{6}' grades.tsv | head -n 3
-cut -f1,4-7 grades.tsv | head -n 3
-cut -f7 grades.tsv | sort | uniq -c | sort -nr
-grep -E $'\tA07\t' grades.tsv | wc -l         # how many rows with assignment A07
-grep -E $'\tA07\t' grades.tsv > a07.tsv       # save
-grep -E 'notfound' grades.tsv 2> errors.log   # stderr redirect example
+grep -E '^S[0-9]{6}' grades.tsv | head -n 3   # grep -E: search using extended regex; |: pipe output to next command
+cut -f1,4-7 grades.tsv | head -n 3            # cut -f: extract specific fields (columns)
+cut -f7 grades.tsv | sort | uniq -c | sort -nr # sort: sort lines; uniq -c: count unique lines; sort -nr: sort numerically, reverse
+grep -E $'\tA07\t' grades.tsv | wc -l         # wc -l: count lines (useful for counting matches)
+grep -E $'\tA07\t' grades.tsv > a07.tsv       # >: redirect stdout to a file (overwrites)
+grep -E 'notfound' grades.tsv 2> errors.log   # 2>: redirect stderr to a file
 ```
 
 ## 4) One-liner challenges (type first, then refine)

@@ -23,21 +23,39 @@ From the SRR page, follow the ENA / EBI link. On the ENA run page, copy an HTTPS
 
 ## 3) Download (resumable) and verify
 
-```bash
-mkdir -p ~/de-onramp/lesson5/data && cd ~/de-onramp/lesson5/data
+=== "Linux/WSL"
 
-# Replace with your URL:
-wget -c "https://.../SRRxxxxxxx.fastq.gz" -O SRR.fastq.gz
+    ```bash
+    mkdir -p ~/de-onramp/lesson5/data && cd ~/de-onramp/lesson5/data
 
-# Optional: if ENA provides checksums, verify; otherwise compute your own
-sha256sum SRR.fastq.gz > SRR.fastq.gz.sha256
-sha256sum -c SRR.fastq.gz.sha256
+    # Replace with your URL:
+    wget -c "https://.../SRRxxxxxxx.fastq.gz" -O SRR.fastq.gz
 
-# Sanity peek (don't expand the whole file!):
-zcat SRR.fastq.gz | head -n 8
-```
+    # Optional: if ENA provides checksums, verify; otherwise compute your own
+    sha256sum SRR.fastq.gz > SRR.fastq.gz.sha256
+    sha256sum -c SRR.fastq.gz.sha256
 
-If the file is very large and `head` feels slow, use `pv` or `zcat | head` as above (fast).  
+    # Sanity peek (don't expand the whole file!):
+    zcat SRR.fastq.gz | head -n 8
+    ```
+
+=== "macOS"
+
+    ```bash
+    mkdir -p ~/de-onramp/lesson5/data && cd ~/de-onramp/lesson5/data
+
+    # Replace with your URL:
+    wget -c "https://.../SRRxxxxxxx.fastq.gz" -O SRR.fastq.gz
+
+    # Optional: if ENA provides checksums, verify; otherwise compute your own
+    shasum -a 256 SRR.fastq.gz > SRR.fastq.gz.sha256
+    shasum -a 256 -c SRR.fastq.gz.sha256
+
+    # Sanity peek (don't expand the whole file!):
+    gzcat SRR.fastq.gz | head -n 8
+    ```
+
+If the file is very large and `head` feels slow, use `pv` or `zcat`/`gzcat | head` as above (fast).
 If you need to stop, Ctrl-C and rerun `wget -c` later to resume.
 
 ## 4) (Optional) Keep a tiny working copy
@@ -54,4 +72,4 @@ seqtk sample -s 7 SRR.fastq.gz 10000 | gzip > SRR.10k.fastq.gz   # ~10k reads
 
 - The study accession and the SRR you chose
 - Your exact `wget` command (with URL redacted if you prefer)
-- File size (`ls -lh`) and the single line from `sha256sum -c`
+- File size (`ls -lh`) and the single line from checksum verification (`sha256sum -c` or `shasum -a 256 -c`)
