@@ -25,7 +25,10 @@ Bioinformatics often requires many specialized tools, and managing their depende
 
     ```bash
     cd ~
-    curl -LO https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-MacOSX-arm64.sh
+    # Use -L to follow redirects and a specific version for stability
+    curl -L -O https://github.com/conda-forge/miniforge/releases/download/24.7.1-0/Mambaforge-MacOSX-arm64.sh
+    # Verify the downloaded file is a shell script before running
+    file Mambaforge-MacOSX-arm64.sh
     bash Mambaforge-MacOSX-arm64.sh -b -p $HOME/mambaforge
     # This line sets up your shell to use conda/mamba commands
     eval "$($HOME/mambaforge/bin/conda shell.zsh hook)"  # or bash if you use bash
@@ -36,7 +39,10 @@ Bioinformatics often requires many specialized tools, and managing their depende
 
     ```bash
     cd ~
-    curl -LO https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-MacOSX-x86_64.sh
+    # Use -L to follow redirects and a specific version for stability
+    curl -L -O https://github.com/conda-forge/miniforge/releases/download/24.7.1-0/Mambaforge-MacOSX-x86_64.sh
+    # Verify the downloaded file is a shell script before running
+    file Mambaforge-MacOSX-x86_64.sh
     bash Mambaforge-MacOSX-x86_64.sh -b -p $HOME/mambaforge
     # This line sets up your shell to use conda/mamba commands
     eval "$($HOME/mambaforge/bin/conda shell.zsh hook)"
