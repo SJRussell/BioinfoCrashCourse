@@ -3,13 +3,13 @@
 **Time:** 30–45 min  
 **Goal:** Know the wet-lab → data flow so FASTQ lines make sense.
 
-!!! info "Pick any 1–2 videos (watch at 1.25× if you like)"
-    - [Illumina RNA-seq playlist](https://www.youtube.com) (short intros to library prep & analysis). YouTube
-    - [Part I: Intro to Illumina RNA library prep](https://www.illumina.com) (kit choices & outputs). Illumina Knowledge
-    - [Part III: Intro to RNA-seq analysis](https://www.illumina.com) (high-level analysis options). Illumina
-    - [EMBL-EBI "Introduction to RNA-seq & functional interpretation"](https://www.ebi.ac.uk) (course materials + recordings). EMBL-EBI
-    - [Sequencing-by-Synthesis workflow](https://www.youtube.com) (core NGS chemistry animation). YouTube
-    - [Gentle concept video: StatQuest: RNA-seq](https://www.youtube.com). YouTube
+!!! info "Pick any 2–3 videos (watch at 1.25× if you like)"
+    - [Gentle concept video: StatQuest: RNA-seq](https://www.youtube.com/watch?v=tlf6wYJrwKY): Great intro to gene expression analysis by RNA sequencing
+    - [Single Cell Sequencing - Eric Chow (UCSF)](https://www.youtube.com/watch?v=k9VFNLLQP8c): This one is mandatory!!
+    - [Part I: What is next generation sequencing](https://www.illumina.com/science/technology/next-generation-sequencing.html): This illumina page describes sequencing by synthesis, includes a video
+    - [Part II: Intro to RNA-seq analysis](https://www.illumina.com/company/video-hub/XdoAnsDPMfA.html): This is the first of several videos on RNA seq analysis (feel free to browse the others) 
+    - [EMBL-EBI "Introduction to RNA-seq & functional interpretation"](https://www.ebi.ac.uk/training/materials/introduction-to-rna-seq-materials/course-content/): Full course materials + recordings to get a minor in RNA seq
+
 
 !!! tip "Core habit you'll use forever"
     **Look before you loop.** For any new dataset or tool, skim raw inputs and outputs with `head`, `tail`, `less`, or `zless` before writing a script that blasts through many files.
