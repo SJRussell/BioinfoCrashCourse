@@ -113,8 +113,11 @@ Pipe to column:
 
 ## 6) Exit Ticket (email)
 
-**Subject:** DE M2 Exit Ticket – <Your Name>  
+**Subject:** DE M2 Exit Ticket – <Your Name>
 **Paste:**
 
 - Your three one-liners (exact commands).
 - The three answers (numbers / top 10 table).
+
+!!! tip "Next up: regex patterns"
+    Ready to validate manifest IDs or hunt motifs? Continue with [Module 2b — Regex Primer for Manifests & Motifs](02b-regex-basics.md) before diving into process management.

@@ -60,6 +60,20 @@ awk -F '\t' '$4=="A07"{print $5}' grades.tsv | sort -n | awk 'NR%2{a=$1;next} {p
 awk -F '\t' '$5==$6{print $1}' grades.tsv | sort -u | wc -l    # students with 100% on any assignment
 ```
 
+## Regex quick reference
+
+```bash
+^SMP-[0-9]{3}$             # anchored manifest ID (start to end)
+SMP-[0-9]{3}\t            # anchored ID followed by a tab (filter TSV rows)
+Temp: [0-9]{2}[CF]         # temperature note with Celsius/Fahrenheit
+A{12,18}                   # poly-A tail of 12–18 As
+TATA.{3}G                  # TATA box with 3 arbitrary bases then G
+(SMP-[0-9]{3})_vs_(SMP-[0-9]{3}) # capture paired IDs; use --replace '$1 -> $2'
+\b([A-Za-z]+)\b\s+\1    # repeated word (case-insensitive via -i)
+```
+
+Use `grep -E` for quick filters and `ripgrep` for faster recursive searches or replacements. The same anchors, classes, quantifiers, and groups power later steps when you scan FASTA/FASTQ headers or parse alignment logs.
+
 ## Processes (spot, juggle, stop)
 
 ```bash

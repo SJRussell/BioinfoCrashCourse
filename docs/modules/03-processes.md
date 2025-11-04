@@ -6,6 +6,9 @@
 !!! tip "Type it, don't paste it"
     For this module too: type each command once before you copy/paste.
 
+!!! note "Regex refresher required"
+    Make sure you've completed [Module 2b — Regex Primer for Manifests & Motifs](02b-regex-basics.md); the pattern-matching skills carry straight into spotting process names and log noise.
+
 ## 1) Foreground vs background
 
 Try these to feel the difference:

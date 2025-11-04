@@ -8,7 +8,8 @@ Welcome to the **Digital Embryo** bioinformatics tutorial! This hands-on course 
 graph TD
     A[Module 0: Setup & Environment] --> B[Module 1: Navigation & Files]
     B --> C[Module 2: Pipes & Data Wrangling]
-    C --> D[Module 3: Process Management]
+    C --> C2[Module 2b: Regex for Manifests & Motifs]
+    C2 --> D[Module 3: Process Management]
     D --> E[Module 4: Editing & Compression]
     E --> F[Module 5: RNA-seq Primer]
     F --> G[Module 6: FASTQ Analysis]
@@ -21,6 +22,19 @@ graph TD
     style K fill:#c8e6c9
     style F fill:#fff3e0
 ```
+
+1. [Module 0: Setup & Expectations](modules/00-setup.md) — Install tools and confirm your environment.
+2. [Module 1: Navigation & Files](modules/01-navigation-files.md) — Move around, inspect data, and manage directories.
+3. [Module 2: Pipes, Redirects & a TSV Search Lab](modules/02-pipes-tsv.md) — Chain commands to wrangle tabular manifests.
+4. [Module 2b: Regex Primer for Manifests & Motifs](modules/02b-regex-basics.md) — Learn anchors, classes, quantifiers, and groups to vet manifests and spot short DNA motifs.
+5. [Module 3: Processes & Hung-Terminal Rescue](modules/03-processes.md) — Monitor and control what’s running.
+6. [Module 4: Editing & Compression](modules/04-editing-compression.md) — Edit text safely and work with compressed data.
+7. [Module 5: RNA-seq Primer](modules/05-rnaseq-primer.md) — Preview the RNA-seq workflow and vocabulary.
+8. [Module 6: FASTQ Analysis](modules/06-fastq-101.md) — Inspect reads and compute quick QC stats.
+9. [Module 7: Conda & QC Tools](modules/07-env-qc.md) — Build environments and run FastQC/MultiQC.
+10. [Module 8: Download Real Data](modules/08-pull-one-srr.md) — Retrieve sequencing runs from public archives.
+11. [Module 9: View-Run-View Loop](modules/09-view-run-view.md) — Iterate on alignments and reports.
+12. [Module 10: Capstone Script](modules/10-capstone.md) — Automate the workflow end-to-end.
 
 ## Course Philosophy
 
