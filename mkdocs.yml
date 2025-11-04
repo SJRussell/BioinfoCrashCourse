@@ -37,6 +37,7 @@ nav:
       - 0 — Setup & Expectations: modules/00-setup.md
       - 1 — Navigation & Files: modules/01-navigation-files.md
       - 2 — Pipes, Redirects & TSV Lab: modules/02-pipes-tsv.md
+      - 2b — Regex Primer for Manifests & Motifs: modules/02b-regex-basics.md
       - 3 — Processes & Hung-Terminal Rescue: modules/03-processes.md
       - 4 — Editing, Compression & Checksums: modules/04-editing-compression.md
       - 5 — RNA-seq Primer (Watch): modules/05-rnaseq-primer.md
