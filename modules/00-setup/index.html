@@ -1,0 +1,2173 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://russell.lab.ca/bioinformatics-tutorial/modules/00-setup/">
+      
+      
+        <link rel="prev" href="../../cheatsheet/">
+      
+      
+        <link rel="next" href="../01-directory-tree/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>0 — Setup & Understanding Your Environment - Bioinformatics Tutorial</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#module-0-setup-understanding-your-environment" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Bioinformatics Tutorial" class="md-header__button md-logo" aria-label="Bioinformatics Tutorial" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Bioinformatics Tutorial
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              0 — Setup & Understanding Your Environment
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-purple"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="deep-orange"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Bioinformatics Tutorial" class="md-nav__button md-logo" aria-label="Bioinformatics Tutorial" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Bioinformatics Tutorial
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cheatsheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cheat Sheet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Unix Fundamentals
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Unix Fundamentals
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    0 — Setup & Understanding Your Environment
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    0 — Setup & Understanding Your Environment
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-youll-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      What You'll Learn
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-the-terminal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding the Terminal
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Understanding the Terminal">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-a-terminal" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is a Terminal?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-is-a-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is a Shell?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-unixlinux-for-bioinformatics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why Unix/Linux for Bioinformatics?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Understanding Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-a-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is a Command?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getting-help-with-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting Help with Commands
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-your-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setting Up Your Environment
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting Up Your Environment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#understanding-wsl2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding WSL2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1-install-wsl2-and-ubuntu" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Install WSL2 and Ubuntu
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-launch-ubuntu-and-create-your-user-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Launch Ubuntu and Create Your User Account
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-verify-wsl2-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Verify WSL2 Installation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-install-visual-studio-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Install Visual Studio Code
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-connect-vs-code-to-wsl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5: Connect VS Code to WSL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-open-your-terminal-in-vs-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 6: Open Your Terminal in VS Code
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#understanding-the-macos-terminal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding the macOS Terminal
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1-open-the-terminal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Open the Terminal
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-understand-your-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Understand Your Shell
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-install-visual-studio-code-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Install Visual Studio Code (Recommended)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-verify-your-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Verify Your Environment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#youre-already-using-unix" class="md-nav__link">
+    <span class="md-ellipsis">
+      You're Already Using Unix!
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1-open-your-terminal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Open Your Terminal
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-check-your-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Check Your Shell
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-install-visual-studio-code-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Install Visual Studio Code (Optional)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-verify-your-environment_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Verify Your Environment
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#essential-keyboard-shortcuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Essential Keyboard Shortcuts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Essential Keyboard Shortcuts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#try-tab-completion-now" class="md-nav__link">
+    <span class="md-ellipsis">
+      Try Tab Completion Now
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#your-first-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Your First Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Your First Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#where-am-i-pwd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Where Am I? (pwd)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#who-am-i-whoami" class="md-nav__link">
+    <span class="md-ellipsis">
+      Who Am I? (whoami)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-time-is-it-date" class="md-nav__link">
+    <span class="md-ellipsis">
+      What Time Is It? (date)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simple-output-echo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simple Output (echo)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-your-course-workspace" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create Your Course Workspace
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request-your-allianceccdb-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      Request Your Alliance/CCDB Account
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Request Your Alliance/CCDB Account">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps-to-register" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps to Register:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exit-ticket" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exit Ticket
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-directory-tree/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1 — The Directory Tree & Navigation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-working-with-files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2 — Working with Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-manipulating-files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3 — Manipulating Files (Safely!)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-wildcards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4 — Wildcards & Pattern Matching
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-pipes-filters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    5 — Pipes, Redirects & Filters
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-regex/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    6 — Regular Expressions for Bioinformatics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-processes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    7 — Process Management & Job Control
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-editing-compression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    8 — Text Editing & File Compression
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Bioinformatics Applications
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Bioinformatics Applications
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-pipes-tsv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    9 — Advanced TSV Data Wrangling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-rnaseq-primer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    10 — RNA-seq Primer (Watch)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-fastq-101/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    11 — FASTQ 101 (Hands-on)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-env-qc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    12 — Local Env + Tiny QC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-pull-one-srr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    13 — Pull One Single-Cell FASTQ
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-view-run-view/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    14 — The View → Run → View Loop
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-capstone/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    15 — Capstone One-Command QC Script
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-youll-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      What You'll Learn
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-the-terminal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding the Terminal
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Understanding the Terminal">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-a-terminal" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is a Terminal?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-is-a-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is a Shell?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-unixlinux-for-bioinformatics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Why Unix/Linux for Bioinformatics?
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Understanding Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-a-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is a Command?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getting-help-with-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting Help with Commands
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setting-up-your-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setting Up Your Environment
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Setting Up Your Environment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#understanding-wsl2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding WSL2
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1-install-wsl2-and-ubuntu" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Install WSL2 and Ubuntu
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-launch-ubuntu-and-create-your-user-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Launch Ubuntu and Create Your User Account
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-verify-wsl2-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Verify WSL2 Installation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-install-visual-studio-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Install Visual Studio Code
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-connect-vs-code-to-wsl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5: Connect VS Code to WSL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-open-your-terminal-in-vs-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 6: Open Your Terminal in VS Code
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#understanding-the-macos-terminal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding the macOS Terminal
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1-open-the-terminal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Open the Terminal
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-understand-your-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Understand Your Shell
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-install-visual-studio-code-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Install Visual Studio Code (Recommended)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-verify-your-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Verify Your Environment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#youre-already-using-unix" class="md-nav__link">
+    <span class="md-ellipsis">
+      You're Already Using Unix!
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-1-open-your-terminal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Open Your Terminal
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-check-your-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Check Your Shell
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-install-visual-studio-code-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Install Visual Studio Code (Optional)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-verify-your-environment_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Verify Your Environment
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#essential-keyboard-shortcuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Essential Keyboard Shortcuts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Essential Keyboard Shortcuts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#try-tab-completion-now" class="md-nav__link">
+    <span class="md-ellipsis">
+      Try Tab Completion Now
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#your-first-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Your First Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Your First Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#where-am-i-pwd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Where Am I? (pwd)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#who-am-i-whoami" class="md-nav__link">
+    <span class="md-ellipsis">
+      Who Am I? (whoami)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-time-is-it-date" class="md-nav__link">
+    <span class="md-ellipsis">
+      What Time Is It? (date)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simple-output-echo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simple Output (echo)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-your-course-workspace" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create Your Course Workspace
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request-your-allianceccdb-account" class="md-nav__link">
+    <span class="md-ellipsis">
+      Request Your Alliance/CCDB Account
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Request Your Alliance/CCDB Account">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#steps-to-register" class="md-nav__link">
+    <span class="md-ellipsis">
+      Steps to Register:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exit-ticket" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exit Ticket
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="module-0-setup-understanding-your-environment">Module 0 — Setup &amp; Understanding Your Environment</h1>
+<p><strong>Time:</strong> 45–60 min
+<strong>Goal:</strong> Understand what a terminal is, how commands work, and set up your computing environment for bioinformatics work.
+<strong>Exit ticket (email me):</strong> A screenshot of your terminal showing the output of <code>pwd</code>, <code>whoami</code>, and <code>date</code> commands, plus one sentence confirming you submitted your Alliance account request.</p>
+<hr />
+<h2 id="what-youll-learn">What You'll Learn</h2>
+<p>By the end of this module, you will understand:</p>
+<ul>
+<li>What a terminal, shell, and command line are</li>
+<li>The difference between your operating system and the Unix command line</li>
+<li>How commands are structured</li>
+<li>How to get your environment set up for bioinformatics work</li>
+</ul>
+<hr />
+<h2 id="understanding-the-terminal">Understanding the Terminal</h2>
+<h3 id="what-is-a-terminal">What is a Terminal?</h3>
+<p>A <strong>terminal</strong> (also called a <strong>terminal emulator</strong> or <strong>console</strong>) is a program that allows you to interact with your computer using text commands instead of clicking on icons and menus. Think of it as having a conversation with your computer through typing.</p>
+<p>The terminal does two main things:</p>
+<ol>
+<li><strong>Accepts input</strong>: It lets you type commands to tell the computer what to do</li>
+<li><strong>Displays output</strong>: It shows you the results of those commands</li>
+</ol>
+<p>Before graphical user interfaces (windows, icons, mice), the terminal was the <em>only</em> way to use a computer. Today, it's still the most powerful and efficient way to work with data, especially in bioinformatics.</p>
+<h3 id="what-is-a-shell">What is a Shell?</h3>
+<p>When you open a terminal, a program called a <strong>shell</strong> runs inside it. The shell is the interpreter that:</p>
+<ul>
+<li>Reads the commands you type</li>
+<li>Figures out what you want to do</li>
+<li>Executes those commands</li>
+<li>Returns the results to you</li>
+</ul>
+<p>The most common shell is called <strong>bash</strong> (Bourne Again SHell), though macOS now defaults to <strong>zsh</strong> (Z Shell). For this course, both work identically for our purposes.</p>
+<p>Think of it this way:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌─────────────────────────────────┐
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│         Terminal Window         │  ← The program you see
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│  ┌───────────────────────────┐  │
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│  │        Shell (bash)       │  │  ← The interpreter running inside
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│  │  Reads and executes your  │  │
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│  │        commands           │  │
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│  └───────────────────────────┘  │
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>└─────────────────────────────────┘
+</code></pre></div></p>
+<h3 id="why-unixlinux-for-bioinformatics">Why Unix/Linux for Bioinformatics?</h3>
+<p>Most bioinformatics tools are built for <strong>Unix-like</strong> operating systems (Linux, macOS). These systems provide:</p>
+<ul>
+<li>Powerful text processing tools (perfect for genomic data)</li>
+<li>Ability to chain commands together efficiently</li>
+<li>Remote access to high-performance computing clusters</li>
+<li>Free and open-source software ecosystem</li>
+</ul>
+<p><strong>Important for Windows users:</strong> Windows uses a different system, so we'll install a Linux environment inside Windows called WSL (Windows Subsystem for Linux). This gives you a real Linux environment to work in.</p>
+<hr />
+<h2 id="understanding-commands">Understanding Commands</h2>
+<h3 id="what-is-a-command">What is a Command?</h3>
+<p>A <strong>command</strong> is an instruction you type that tells the computer to perform an action. Commands follow a general structure:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>command [options] [arguments]
+</code></pre></div>
+<p>Let's break this down:</p>
+<ul>
+<li><strong>command</strong>: The program or action you want to run (e.g., <code>ls</code> to list files)</li>
+<li><strong>options</strong>: Modifiers that change how the command behaves (usually start with <code>-</code> or <code>--</code>)</li>
+<li><strong>arguments</strong>: The things you want the command to act on (e.g., file names, directories)</li>
+</ul>
+<p><strong>Example:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>ls<span class="w"> </span>-l<span class="w"> </span>/home
+</code></pre></div></p>
+<ul>
+<li><code>ls</code> = command (list directory contents)</li>
+<li><code>-l</code> = option (use long format to show details)</li>
+<li><code>/home</code> = argument (the directory to list)</li>
+</ul>
+<h3 id="getting-help-with-commands">Getting Help with Commands</h3>
+<p>Almost every command has built-in documentation. There are two main ways to access help:</p>
+<p><strong>Method 1: The <code>--help</code> option</strong></p>
+<p>Most commands understand <code>--help</code> (or sometimes <code>-h</code>):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ls<span class="w"> </span>--help
+</code></pre></div>
+<p>This displays a quick summary of what the command does and what options it accepts.</p>
+<p><strong>Method 2: Manual pages (man pages)</strong></p>
+<p>For more detailed information, use the <code>man</code> command (short for "manual"):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>man<span class="w"> </span>ls
+</code></pre></div>
+<p>This opens a detailed manual. Navigate it with:
+- <strong>Space bar</strong>: Move forward one page
+- <strong>b</strong>: Move backward one page
+- <strong>q</strong>: Quit and return to the command prompt
+- <strong>/word</strong>: Search for "word"
+- <strong>n</strong>: Go to next search result</p>
+<div class="admonition tip">
+<p class="admonition-title">Always Check Help First</p>
+<p>When you encounter a new command, run <code>command --help</code> or <code>man command</code> to understand what it does. This habit will save you time and prevent mistakes.</p>
+</div>
+<hr />
+<h2 id="setting-up-your-environment">Setting Up Your Environment</h2>
+<p>Now let's get your computer ready for bioinformatics work. Follow the instructions for your operating system.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Windows (WSL2)</label><label for="__tabbed_1_2">macOS</label><label for="__tabbed_1_3">Linux</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<h3 id="understanding-wsl2">Understanding WSL2</h3>
+<p><strong>WSL</strong> stands for <strong>Windows Subsystem for Linux</strong>. It allows you to run a real Linux environment directly on Windows without needing a virtual machine or dual-boot setup. WSL2 is the second version and provides better performance.</p>
+<h3 id="step-1-install-wsl2-and-ubuntu">Step 1: Install WSL2 and Ubuntu</h3>
+<p>Open <strong>PowerShell</strong> as Administrator (right-click the Start menu → choose "Windows PowerShell (Admin)"), then type:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">wsl</span> <span class="p">-</span><span class="n">-install</span>
+</code></pre></div>
+<p>This command installs WSL2 and the Ubuntu Linux distribution (a popular, beginner-friendly version of Linux).</p>
+<p>If prompted to choose a Linux distribution, select <strong>Ubuntu 22.04 LTS</strong> (LTS means "Long Term Support" — it's stable and well-supported).</p>
+<p><strong>You may need to reboot your computer.</strong> If so, restart and continue.</p>
+<h3 id="step-2-launch-ubuntu-and-create-your-user-account">Step 2: Launch Ubuntu and Create Your User Account</h3>
+<p>After installation (and reboot if necessary):</p>
+<ol>
+<li>Open the Start menu and search for "Ubuntu"</li>
+<li>Click on "Ubuntu" to launch it</li>
+<li>The first time, it will take a minute to set up</li>
+<li>Create a Linux username (can be different from your Windows username)</li>
+<li>Create a password (you won't see characters as you type—this is normal for security)</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Remember Your Password</p>
+<p>You'll need this password when running commands that require administrator privileges (using <code>sudo</code>). Write it down somewhere safe!</p>
+</div>
+<h3 id="step-3-verify-wsl2-installation">Step 3: Verify WSL2 Installation</h3>
+<p>Back in PowerShell, check your WSL version:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">wsl</span> <span class="n">-l</span> <span class="n">-v</span>
+</code></pre></div>
+<p>You should see Ubuntu listed with VERSION 2. If it shows version 1, update it:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">wsl</span> <span class="p">-</span><span class="n">-set-default-version</span> <span class="n">2</span>
+</code></pre></div>
+<h3 id="step-4-install-visual-studio-code">Step 4: Install Visual Studio Code</h3>
+<p>VS Code is a powerful, free code editor that works beautifully with WSL.</p>
+<ol>
+<li>Download VS Code for Windows from <a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a></li>
+<li>Install it (accept default options)</li>
+<li>Open VS Code</li>
+<li>Install these extensions (click the Extensions icon on the left sidebar, search for each):<ul>
+<li><strong>WSL</strong> (by Microsoft) — Required for connecting to your Linux environment</li>
+<li><strong>Remote - SSH</strong> (by Microsoft) — Useful later for connecting to compute clusters</li>
+</ul>
+</li>
+</ol>
+<h3 id="step-5-connect-vs-code-to-wsl">Step 5: Connect VS Code to WSL</h3>
+<ol>
+<li>In VS Code, press <strong>Ctrl+Shift+P</strong> to open the command palette</li>
+<li>Type "WSL: Connect to WSL" and press Enter</li>
+<li>A new VS Code window will open connected to your Ubuntu environment</li>
+</ol>
+<h3 id="step-6-open-your-terminal-in-vs-code">Step 6: Open Your Terminal in VS Code</h3>
+<p>Press <strong>Ctrl+`</strong> (that's the backtick key, usually above Tab) to open the integrated terminal.</p>
+<p>You should see a prompt like:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>username@computername:~$
+</code></pre></div></p>
+<p>This is your bash prompt! Let's verify everything works:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$SHELL</span>
+</code></pre></div>
+<p>Should output: <code>/bin/bash</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>bash<span class="w"> </span>--version
+</code></pre></div>
+<p>Should show the bash version (e.g., "GNU bash, version 5.1.16...")</p>
+<div class="admonition success">
+<p class="admonition-title">You're Ready!</p>
+<p>You now have a full Linux environment running on Windows!</p>
+</div>
+</div>
+<div class="tabbed-block">
+<h3 id="understanding-the-macos-terminal">Understanding the macOS Terminal</h3>
+<p>macOS is built on Unix (specifically, BSD Unix), so it already has a powerful terminal built in. You don't need to install anything extra—you already have everything you need!</p>
+<h3 id="step-1-open-the-terminal">Step 1: Open the Terminal</h3>
+<p>There are three ways to open the Terminal on macOS:</p>
+<ol>
+<li><strong>Spotlight Search</strong>: Press <strong>Cmd+Space</strong>, type "Terminal", press Enter</li>
+<li><strong>Finder</strong>: Go to Applications → Utilities → Terminal</li>
+<li><strong>Use iTerm2</strong> (optional): Many developers prefer <a href="https://iterm2.com/">iTerm2</a>, a terminal replacement with extra features, but the built-in Terminal works great</li>
+</ol>
+<h3 id="step-2-understand-your-shell">Step 2: Understand Your Shell</h3>
+<p>macOS Catalina (10.15) and later use <strong>zsh</strong> (Z Shell) as the default instead of bash. Don't worry—zsh is very similar to bash, and all commands in this tutorial work the same in both.</p>
+<p>To check which shell you're using:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$SHELL</span>
+</code></pre></div>
+<p>You'll see either <code>/bin/bash</code> or <code>/bin/zsh</code>.</p>
+<p>If you prefer bash, you can temporarily switch:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>bash
+</code></pre></div>
+<p>Or make bash your default shell:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>chsh<span class="w"> </span>-s<span class="w"> </span>/bin/bash
+</code></pre></div>
+<p>(You'll need to enter your password and restart the terminal)</p>
+<h3 id="step-3-install-visual-studio-code-recommended">Step 3: Install Visual Studio Code (Recommended)</h3>
+<p>While you can use the built-in Terminal, VS Code provides a nice integrated environment.</p>
+<ol>
+<li>Download VS Code for macOS from <a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a></li>
+<li>Open the .dmg file and drag VS Code to your Applications folder</li>
+<li>Open VS Code</li>
+<li>Press <strong>Cmd+`</strong> (backtick) to open the integrated terminal</li>
+</ol>
+<h3 id="step-4-verify-your-environment">Step 4: Verify Your Environment</h3>
+<p>In your terminal (built-in or VS Code), run:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>uname<span class="w"> </span>-a
+</code></pre></div>
+<p>This shows your system information. You should see "Darwin" (the name of the macOS kernel).</p>
+<p>Try a few basic commands:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nb">pwd</span>
+</code></pre></div>
+<p>This shows your current directory (probably <code>/Users/yourusername</code>).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>whoami
+</code></pre></div>
+<p>This displays your username.</p>
+<div class="admonition success">
+<p class="admonition-title">You're Ready!</p>
+<p>Your Mac is ready for bioinformatics work right out of the box!</p>
+</div>
+</div>
+<div class="tabbed-block">
+<h3 id="youre-already-using-unix">You're Already Using Unix!</h3>
+<p>If you're running Linux, you're already in a Unix environment—no setup needed! Linux users are typically comfortable with the terminal, but we'll still walk through everything assuming no prior knowledge.</p>
+<h3 id="step-1-open-your-terminal">Step 1: Open Your Terminal</h3>
+<p>Every Linux distribution has a terminal. Common ways to open it:</p>
+<ul>
+<li><strong>Keyboard shortcut</strong>: Usually <strong>Ctrl+Alt+T</strong></li>
+<li><strong>Application menu</strong>: Search for "Terminal" or "Console"</li>
+<li><strong>Desktop environment</strong>:<ul>
+<li>GNOME: Activities → Terminal</li>
+<li>KDE: Applications → System → Konsole</li>
+<li>XFCE: Applications → System → Terminal</li>
+</ul>
+</li>
+</ul>
+<h3 id="step-2-check-your-shell">Step 2: Check Your Shell</h3>
+<p>Most Linux distributions use bash by default. Check with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$SHELL</span>
+</code></pre></div>
+<p>Should output: <code>/bin/bash</code></p>
+<h3 id="step-3-install-visual-studio-code-optional">Step 3: Install Visual Studio Code (Optional)</h3>
+<p>VS Code provides a nice integrated environment, but it's entirely optional. If you want it:</p>
+<p><strong>Ubuntu/Debian:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>sudo<span class="w"> </span>apt<span class="w"> </span>update
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>code
+</code></pre></div></p>
+<p><strong>Fedora:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>code
+</code></pre></div></p>
+<p>Or download from <a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a></p>
+<h3 id="step-4-verify-your-environment_1">Step 4: Verify Your Environment</h3>
+<p>Run these commands:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>uname<span class="w"> </span>-a
+</code></pre></div>
+<p>Shows your kernel version and system info.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>whoami
+</code></pre></div>
+<p>Displays your username.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="nb">pwd</span>
+</code></pre></div>
+<p>Shows your current directory.</p>
+<div class="admonition success">
+<p class="admonition-title">You're Ready!</p>
+<p>Your Linux system is ready for bioinformatics work!</p>
+</div>
+</div>
+</div>
+</div>
+<hr />
+<h2 id="essential-keyboard-shortcuts">Essential Keyboard Shortcuts</h2>
+<p>Before we continue, learn these keyboard shortcuts. They will save you enormous amounts of time:</p>
+<table>
+<thead>
+<tr>
+<th>Shortcut</th>
+<th>What It Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tab</strong></td>
+<td>Autocomplete commands and file names</td>
+</tr>
+<tr>
+<td><strong>Tab Tab</strong></td>
+<td>Show all possible completions</td>
+</tr>
+<tr>
+<td><strong>↑</strong> (Up arrow)</td>
+<td>Recall previous command</td>
+</tr>
+<tr>
+<td><strong>↓</strong> (Down arrow)</td>
+<td>Cycle forward through command history</td>
+</tr>
+<tr>
+<td><strong>Ctrl+R</strong></td>
+<td>Search command history (type to search, Enter to run)</td>
+</tr>
+<tr>
+<td><strong>Ctrl+A</strong></td>
+<td>Jump to beginning of line</td>
+</tr>
+<tr>
+<td><strong>Ctrl+E</strong></td>
+<td>Jump to end of line</td>
+</tr>
+<tr>
+<td><strong>Ctrl+U</strong></td>
+<td>Delete from cursor to beginning of line</td>
+</tr>
+<tr>
+<td><strong>Ctrl+K</strong></td>
+<td>Delete from cursor to end of line</td>
+</tr>
+<tr>
+<td><strong>Ctrl+C</strong></td>
+<td>Cancel the current command</td>
+</tr>
+<tr>
+<td><strong>Ctrl+L</strong></td>
+<td>Clear the screen</td>
+</tr>
+</tbody>
+</table>
+<h3 id="try-tab-completion-now">Try Tab Completion Now</h3>
+<p>Type this but <strong>don't press Enter yet</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>mkdi
+</code></pre></div>
+<p>Now press <strong>Tab</strong>. The terminal should automatically complete it to <code>mkdir</code>.</p>
+<p>This works for commands, file names, and directory names. If there are multiple possibilities, press <strong>Tab twice</strong> to see all options.</p>
+<div class="admonition tip">
+<p class="admonition-title">Type It, Don't Paste It</p>
+<p>For this tutorial, <strong>type commands by hand</strong> first. Copy/paste only to check your work. Typing builds muscle memory, and in a few weeks, you'll be much faster than if you had copy/pasted everything. Your future self will thank you!</p>
+</div>
+<hr />
+<h2 id="your-first-commands">Your First Commands</h2>
+<p>Let's try some actual commands to make sure everything is working.</p>
+<h3 id="where-am-i-pwd">Where Am I? (<code>pwd</code>)</h3>
+<p>Type this command and press Enter:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="nb">pwd</span>
+</code></pre></div>
+<p><strong>What it does:</strong> <code>pwd</code> stands for "print working directory." It tells you which folder (directory) you're currently in.</p>
+<p>You'll see output like:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>/home/username          (Linux/WSL)
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>/Users/username         (macOS)
+</code></pre></div></p>
+<p>This is your <strong>home directory</strong>—your personal folder on the system.</p>
+<h3 id="who-am-i-whoami">Who Am I? (<code>whoami</code>)</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>whoami
+</code></pre></div>
+<p><strong>What it does:</strong> Displays your username on the system.</p>
+<h3 id="what-time-is-it-date">What Time Is It? (<code>date</code>)</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>date
+</code></pre></div>
+<p><strong>What it does:</strong> Shows the current date and time.</p>
+<h3 id="simple-output-echo">Simple Output (<code>echo</code>)</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Hello, terminal!&quot;</span>
+</code></pre></div>
+<p><strong>What it does:</strong> <code>echo</code> simply prints whatever you give it. It's like the terminal's way of talking back to you.</p>
+<p>Try:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;I am ready to learn bioinformatics&quot;</span>
+</code></pre></div></p>
+<hr />
+<h2 id="create-your-course-workspace">Create Your Course Workspace</h2>
+<p>Let's create a organized folder structure for this course. Type this command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>~/bioinfo-course
+</code></pre></div>
+<p><strong>Breaking this down:</strong></p>
+<ul>
+<li><code>mkdir</code> = "make directory" (create a folder)</li>
+<li><code>-p</code> = create parent directories if needed, and don't error if it already exists</li>
+<li><code>~</code> = shorthand for your home directory</li>
+<li><code>/bioinfo-course</code> = the folder name</li>
+</ul>
+<p>Now move into that directory:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="nb">cd</span><span class="w"> </span>~/bioinfo-course
+</code></pre></div>
+<ul>
+<li><code>cd</code> = "change directory" (move to a different folder)</li>
+</ul>
+<p>Verify you're there:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="nb">pwd</span>
+</code></pre></div>
+<p>You should see something like <code>/home/username/bioinfo-course</code></p>
+<p>Create some subdirectories for organization:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>mkdir<span class="w"> </span>module01<span class="w"> </span>module02<span class="w"> </span>module03
+</code></pre></div>
+<p>This creates three folders at once.</p>
+<p>List them:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>ls
+</code></pre></div>
+<ul>
+<li><code>ls</code> = "list" (show contents of current directory)</li>
+</ul>
+<p>You should see:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>module01  module02  module03
+</code></pre></div></p>
+<hr />
+<h2 id="request-your-allianceccdb-account">Request Your Alliance/CCDB Account</h2>
+<p>For later modules, you'll need access to the Digital Research Alliance of Canada's computing resources. <strong>Start the registration process now</strong> to avoid delays (it can take a few days to be approved).</p>
+<h3 id="steps-to-register">Steps to Register:</h3>
+<ol>
+<li>Go to <a href="https://ccdb.alliancecan.ca">https://ccdb.alliancecan.ca</a></li>
+<li>Click "Register" (top right)</li>
+<li>Fill out the form:<ul>
+<li><strong>Role:</strong> Select "Sponsored Student" or "Group Member"</li>
+<li><strong>Sponsor:</strong> <code>def-srussell</code> (Dr. Russell's research group)</li>
+<li><strong>Email:</strong> Use your institutional email address</li>
+<li><strong>Username:</strong> Choose carefully—you'll use this for remote login</li>
+</ul>
+</li>
+<li>Submit the form</li>
+</ol>
+<div class="admonition info">
+<p class="admonition-title">Save Your Username</p>
+<p>Write down the username you choose. You'll need it when we cover remote computing in later modules.</p>
+</div>
+<p><strong>You won't actually use this account yet</strong>—we're doing all early modules on your local computer. But starting the registration now avoids waiting later.</p>
+<hr />
+<h2 id="exit-ticket">Exit Ticket</h2>
+<p>To complete this module, send me an email with:</p>
+<p><strong>Subject:</strong> Bioinfo M0 Exit Ticket – [Your Name]</p>
+<p><strong>Content:</strong>
+1. A screenshot of your terminal showing the output of these three commands:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="nb">pwd</span>
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>whoami
+<a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>date
+</code></pre></div>
+2. One sentence confirming you submitted your Alliance account request (or when you plan to)</p>
+<p><strong>How to take a screenshot:</strong>
+- <strong>Windows:</strong> Press <strong>Windows+Shift+S</strong>, select the area, paste into your email
+- <strong>macOS:</strong> Press <strong>Cmd+Shift+4</strong>, drag to select, image saves to Desktop
+- <strong>Linux:</strong> Use <strong>Print Screen</strong> or Screenshot tool from your app menu</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>Congratulations! You now understand:</p>
+<p>✓ What a terminal, shell, and command are
+✓ How commands are structured (command + options + arguments)
+✓ How to get help with <code>--help</code> and <code>man</code>
+✓ Essential keyboard shortcuts like Tab completion
+✓ Your first commands: <code>pwd</code>, <code>whoami</code>, <code>echo</code>, <code>date</code>
+✓ How to create directories with <code>mkdir</code>
+✓ How to navigate with <code>cd</code>
+✓ How to list contents with <code>ls</code></p>
+<p>In the next module, we'll dive deeper into the directory tree structure and learn how to navigate your file system like a pro.</p>
+<p><strong>Next:</strong> <a href="01-terminal-basics.md">Module 1 — Terminal Basics &amp; First Commands</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../cheatsheet/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Cheat Sheet">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Cheat Sheet
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../01-directory-tree/" class="md-footer__link md-footer__link--next" aria-label="Next: 1 — The Directory Tree &amp; Navigation">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                1 — The Directory Tree & Navigation
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/SJRussell/BioinfoCrashCourse" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.edit", "content.action.view", "content.code.copy", "navigation.footer", "navigation.indexes", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

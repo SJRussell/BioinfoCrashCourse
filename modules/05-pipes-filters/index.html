@@ -1,0 +1,2798 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://russell.lab.ca/bioinformatics-tutorial/modules/05-pipes-filters/">
+      
+      
+        <link rel="prev" href="../04-wildcards/">
+      
+      
+        <link rel="next" href="../06-regex/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>5 — Pipes, Redirects & Filters - Bioinformatics Tutorial</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#module-5-pipes-redirects-filters" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Bioinformatics Tutorial" class="md-header__button md-logo" aria-label="Bioinformatics Tutorial" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Bioinformatics Tutorial
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              5 — Pipes, Redirects & Filters
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-purple"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="deep-orange"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Bioinformatics Tutorial" class="md-nav__button md-logo" aria-label="Bioinformatics Tutorial" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Bioinformatics Tutorial
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cheatsheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cheat Sheet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Unix Fundamentals
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Unix Fundamentals
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    0 — Setup & Understanding Your Environment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-directory-tree/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1 — The Directory Tree & Navigation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-working-with-files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2 — Working with Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-manipulating-files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3 — Manipulating Files (Safely!)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-wildcards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4 — Wildcards & Pattern Matching
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    5 — Pipes, Redirects & Filters
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    5 — Pipes, Redirects & Filters
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-youll-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      What You'll Learn
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-unix-philosophy" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Unix Philosophy
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-standard-streams" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding Standard Streams
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Understanding Standard Streams">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-standard-input-stdin" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Standard Input (stdin)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-standard-output-stdout" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Standard Output (stdout)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-standard-error-stderr" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Standard Error (stderr)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#output-redirection-saving-results-to-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Output Redirection: Saving Results to Files
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Output Redirection: Saving Results to Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#redirect-stdout-with" class="md-nav__link">
+    <span class="md-ellipsis">
+      Redirect stdout with &gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#append-with" class="md-nav__link">
+    <span class="md-ellipsis">
+      Append with &gt;&gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redirect-stderr-with-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Redirect stderr with 2&gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redirect-both-stdout-and-stderr" class="md-nav__link">
+    <span class="md-ellipsis">
+      Redirect both stdout and stderr
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#discard-output-with-devnull" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discard output with /dev/null
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-example-logging-an-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practical Example: Logging an Analysis
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pipes-chaining-commands-together" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pipes: Chaining Commands Together
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pipes: Chaining Commands Together">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#your-first-pipe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Your First Pipe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chaining-multiple-pipes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chaining Multiple Pipes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipes-vs-redirection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pipes vs Redirection
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#essential-filter-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Essential Filter Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Essential Filter Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-grep-search-for-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. grep — Search for Patterns
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-cut-extract-columns" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. cut — Extract Columns
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-sort-sort-lines" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. sort — Sort Lines
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-uniq-find-unique-lines" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. uniq — Find Unique Lines
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-wc-count-lines-words-characters" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. wc — Count Lines, Words, Characters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-tee-split-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. tee — Split Output
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-complex-pipelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Building Complex Pipelines
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Building Complex Pipelines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-analyze-a-gene-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 1: Analyze a Gene List
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-process-a-sample-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 2: Process a Sample Manifest
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-exercise-genomic-data-wrangling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practical Exercise: Genomic Data Wrangling
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practical Exercise: Genomic Data Wrangling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-variant-call-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup: Variant Call Data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#challenges" class="md-nav__link">
+    <span class="md-ellipsis">
+      Challenges
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-exit-ticket-challenge-rna-seq-sample-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Exit Ticket Challenge: RNA-seq Sample Analysis
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Exit Ticket Challenge: RNA-seq Sample Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#your-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Your Tasks
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#redirection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Redirection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#essential-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Essential Filters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Patterns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exit-ticket" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exit Ticket
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-regex/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    6 — Regular Expressions for Bioinformatics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-processes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    7 — Process Management & Job Control
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-editing-compression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    8 — Text Editing & File Compression
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Bioinformatics Applications
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Bioinformatics Applications
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-pipes-tsv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    9 — Advanced TSV Data Wrangling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-rnaseq-primer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    10 — RNA-seq Primer (Watch)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-fastq-101/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    11 — FASTQ 101 (Hands-on)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-env-qc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    12 — Local Env + Tiny QC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-pull-one-srr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    13 — Pull One Single-Cell FASTQ
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-view-run-view/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    14 — The View → Run → View Loop
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-capstone/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    15 — Capstone One-Command QC Script
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-youll-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      What You'll Learn
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-unix-philosophy" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Unix Philosophy
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-standard-streams" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding Standard Streams
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Understanding Standard Streams">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-standard-input-stdin" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Standard Input (stdin)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-standard-output-stdout" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Standard Output (stdout)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-standard-error-stderr" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Standard Error (stderr)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#output-redirection-saving-results-to-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Output Redirection: Saving Results to Files
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Output Redirection: Saving Results to Files">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#redirect-stdout-with" class="md-nav__link">
+    <span class="md-ellipsis">
+      Redirect stdout with &gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#append-with" class="md-nav__link">
+    <span class="md-ellipsis">
+      Append with &gt;&gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redirect-stderr-with-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Redirect stderr with 2&gt;
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redirect-both-stdout-and-stderr" class="md-nav__link">
+    <span class="md-ellipsis">
+      Redirect both stdout and stderr
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#discard-output-with-devnull" class="md-nav__link">
+    <span class="md-ellipsis">
+      Discard output with /dev/null
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-example-logging-an-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practical Example: Logging an Analysis
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pipes-chaining-commands-together" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pipes: Chaining Commands Together
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pipes: Chaining Commands Together">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#your-first-pipe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Your First Pipe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chaining-multiple-pipes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Chaining Multiple Pipes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pipes-vs-redirection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pipes vs Redirection
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#essential-filter-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Essential Filter Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Essential Filter Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-grep-search-for-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. grep — Search for Patterns
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-cut-extract-columns" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. cut — Extract Columns
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-sort-sort-lines" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. sort — Sort Lines
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-uniq-find-unique-lines" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. uniq — Find Unique Lines
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-wc-count-lines-words-characters" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. wc — Count Lines, Words, Characters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-tee-split-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. tee — Split Output
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-complex-pipelines" class="md-nav__link">
+    <span class="md-ellipsis">
+      Building Complex Pipelines
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Building Complex Pipelines">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-analyze-a-gene-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 1: Analyze a Gene List
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-process-a-sample-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 2: Process a Sample Manifest
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-exercise-genomic-data-wrangling" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practical Exercise: Genomic Data Wrangling
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practical Exercise: Genomic Data Wrangling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-variant-call-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup: Variant Call Data
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#challenges" class="md-nav__link">
+    <span class="md-ellipsis">
+      Challenges
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-exit-ticket-challenge-rna-seq-sample-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Exit Ticket Challenge: RNA-seq Sample Analysis
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Exit Ticket Challenge: RNA-seq Sample Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#your-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Your Tasks
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#redirection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Redirection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#essential-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Essential Filters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Patterns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exit-ticket" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exit Ticket
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="module-5-pipes-redirects-filters">Module 5 — Pipes, Redirects &amp; Filters</h1>
+<p><strong>Time:</strong> 90–120 min (this is a big one!)
+<strong>Goal:</strong> Master the Unix philosophy: combine simple tools using pipes to accomplish complex data processing tasks.
+<strong>Exit ticket (email me):</strong> Your solutions to the genomic data analysis challenge showing command pipelines and outputs.</p>
+<hr />
+<h2 id="what-youll-learn">What You'll Learn</h2>
+<p>By the end of this module, you will understand:</p>
+<ul>
+<li>How programs communicate: standard input, output, and error streams</li>
+<li>How to redirect output to files with <code>&gt;</code>, <code>&gt;&gt;</code>, and <code>2&gt;</code></li>
+<li>How to chain commands together with pipes (<code>|</code>)</li>
+<li>Essential filter commands: <code>grep</code>, <code>cut</code>, <code>sort</code>, <code>uniq</code>, <code>wc</code></li>
+<li>How to use <code>tee</code> to split output</li>
+<li>How to build complex data processing pipelines</li>
+<li>Real-world bioinformatics data wrangling with TSV files</li>
+</ul>
+<hr />
+<h2 id="the-unix-philosophy">The Unix Philosophy</h2>
+<p>Before we dive into commands, let's understand the philosophy behind Unix tools:</p>
+<blockquote>
+<p><strong>"Write programs that do one thing and do it well. Write programs to work together."</strong>
+— Doug McIlroy, inventor of Unix pipes</p>
+</blockquote>
+<p>Instead of one massive program that does everything, Unix provides many <strong>small, focused tools</strong> that each do one thing well. You combine them like LEGO blocks to solve complex problems.</p>
+<p><strong>Example:</strong>
+Rather than a single "analyze-genomic-data" program, you chain together:
+- <code>grep</code> (find patterns)
+- <code>cut</code> (extract columns)
+- <code>sort</code> (order data)
+- <code>uniq</code> (find unique entries)
+- <code>awk</code> (process text)</p>
+<p>This modular approach is perfect for bioinformatics, where data formats and analyses vary wildly.</p>
+<hr />
+<h2 id="understanding-standard-streams">Understanding Standard Streams</h2>
+<p>Every program in Unix has three communication channels called <strong>streams</strong>:</p>
+<h3 id="1-standard-input-stdin">1. Standard Input (stdin)</h3>
+<p><strong>stdin</strong> is where a program reads its input data.</p>
+<ul>
+<li>By default: keyboard input</li>
+<li>Can be: redirected from a file or another program</li>
+</ul>
+<h3 id="2-standard-output-stdout">2. Standard Output (stdout)</h3>
+<p><strong>stdout</strong> is where a program writes its normal output.</p>
+<ul>
+<li>By default: printed to your terminal screen</li>
+<li>Can be: redirected to a file or another program</li>
+</ul>
+<h3 id="3-standard-error-stderr">3. Standard Error (stderr)</h3>
+<p><strong>stderr</strong> is where a program writes error messages.</p>
+<ul>
+<li>By default: printed to your terminal screen (same as stdout)</li>
+<li>Can be: redirected separately from stdout</li>
+</ul>
+<p><strong>Visual representation:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌─────────────┐
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│   Program   │
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>├─────────────┤
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│ stdin  (0) ←┼─ Input data
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│ stdout (1) ─┼→ Normal output
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│ stderr (2) ─┼→ Error messages
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>└─────────────┘
+</code></pre></div>
+<p>Each stream has a number:
+- stdin = 0
+- stdout = 1
+- stderr = 2</p>
+<p><strong>Why separate stdout and stderr?</strong></p>
+<p>So you can:
+- Save normal output to a file while still seeing errors on screen
+- Process output with other commands without error messages interfering
+- Log errors separately from results</p>
+<hr />
+<h2 id="output-redirection-saving-results-to-files">Output Redirection: Saving Results to Files</h2>
+<h3 id="redirect-stdout-with">Redirect stdout with <code>&gt;</code></h3>
+<p>The <code>&gt;</code> operator redirects stdout to a file, <strong>overwriting</strong> the file if it exists.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">command</span><span class="w"> </span>&gt;<span class="w"> </span>output.txt
+</code></pre></div>
+<p><strong>Example:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>~/bioinfo-course
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>module05
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nb">cd</span><span class="w"> </span>module05
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># Redirect output to a file</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>ls<span class="w"> </span>-lh<span class="w"> </span>&gt;<span class="w"> </span>directory_listing.txt
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1"># View the file</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>cat<span class="w"> </span>directory_listing.txt
+</code></pre></div></p>
+<p>The <code>ls</code> output went to the file instead of your screen.</p>
+<p><strong>Another example:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Experiment started: </span><span class="k">$(</span>date<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>lab_notes.txt
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>cat<span class="w"> </span>lab_notes.txt
+</code></pre></div></p>
+<h3 id="append-with">Append with <code>&gt;&gt;</code></h3>
+<p>The <code>&gt;&gt;</code> operator redirects stdout to a file, <strong>appending</strong> to it (adds to the end without erasing existing content).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">command</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>output.txt
+</code></pre></div>
+<p><strong>Example:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Experiment started: </span><span class="k">$(</span>date<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>lab_notes.txt
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Sample 1 processed&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>lab_notes.txt
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Sample 2 processed&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>lab_notes.txt
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>cat<span class="w"> </span>lab_notes.txt
+</code></pre></div></p>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Experiment started: Thu Jan 15 14:32:01 UTC 2024
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>Sample 1 processed
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>Sample 2 processed
+</code></pre></div></p>
+<div class="admonition warning">
+<p class="admonition-title">Single <code>&gt;</code> vs Double <code>&gt;&gt;</code></p>
+<ul>
+<li><code>&gt;</code> <strong>overwrites</strong> the file (destroys existing content)</li>
+<li><code>&gt;&gt;</code> <strong>appends</strong> to the file (adds to the end)</li>
+</ul>
+<p><strong>Common mistake:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Line 1&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>file.txt
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Line 2&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>file.txt<span class="w">    </span><span class="c1"># OOPS! Line 1 is gone</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>cat<span class="w"> </span>file.txt
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Output: Line 2</span>
+</code></pre></div></p>
+</div>
+<h3 id="redirect-stderr-with-2">Redirect stderr with <code>2&gt;</code></h3>
+<p>To redirect error messages separately from normal output, use <code>2&gt;</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">command</span><span class="w"> </span><span class="m">2</span>&gt;<span class="w"> </span>errors.txt
+</code></pre></div>
+<p><strong>Example:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Try to list a nonexistent file</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>ls<span class="w"> </span>/nonexistent/path<span class="w"> </span>&gt;<span class="w"> </span>output.txt<span class="w"> </span><span class="m">2</span>&gt;<span class="w"> </span>errors.txt
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Check both files</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>cat<span class="w"> </span>output.txt<span class="w">    </span><span class="c1"># Empty (no normal output)</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>cat<span class="w"> </span>errors.txt<span class="w">    </span><span class="c1"># Contains the error message</span>
+</code></pre></div></p>
+<h3 id="redirect-both-stdout-and-stderr">Redirect both stdout and stderr</h3>
+<p><strong>Redirect both to the same file:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nb">command</span><span class="w"> </span>&gt;<span class="w"> </span>output.txt<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+</code></pre></div></p>
+<p><code>2&gt;&amp;1</code> means "redirect stderr (2) to wherever stdout (1) is going."</p>
+<p><strong>Modern simpler syntax (bash 4+):</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nb">command</span><span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>output.txt
+</code></pre></div></p>
+<p><strong>Example:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Mix of valid and invalid commands</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>ls<span class="w"> </span>/home<span class="w"> </span>/nonexistent<span class="w"> </span>&gt;<span class="w"> </span>all_output.txt<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>cat<span class="w"> </span>all_output.txt
+</code></pre></div></p>
+<h3 id="discard-output-with-devnull">Discard output with <code>/dev/null</code></h3>
+<p><code>/dev/null</code> is a special "black hole" file that discards everything sent to it.</p>
+<p><strong>Example: Run a command silently (no output at all):</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nb">command</span><span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+</code></pre></div></p>
+<p><strong>Example: Keep only errors:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nb">command</span><span class="w"> </span>&gt;<span class="w"> </span>/dev/null<span class="w">    </span><span class="c1"># Discard normal output, keep errors on screen</span>
+</code></pre></div></p>
+<p><strong>Example: Keep only normal output:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nb">command</span><span class="w"> </span><span class="m">2</span>&gt;<span class="w"> </span>/dev/null<span class="w">   </span><span class="c1"># Discard errors, keep normal output on screen</span>
+</code></pre></div></p>
+<h3 id="practical-example-logging-an-analysis">Practical Example: Logging an Analysis</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Run an analysis and log everything</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>analysis_script.sh<span class="w"> </span>&gt;<span class="w"> </span>results.txt<span class="w"> </span><span class="m">2</span>&gt;<span class="w"> </span>errors.log
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># Or capture both in one log</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>analysis_script.sh<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>full_log.txt
+</code></pre></div>
+<hr />
+<h2 id="pipes-chaining-commands-together">Pipes: Chaining Commands Together</h2>
+<p>A <strong>pipe</strong> (<code>|</code>) connects the stdout of one command to the stdin of another.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>command1<span class="w"> </span><span class="p">|</span><span class="w"> </span>command2
+</code></pre></div>
+<p>The output of <code>command1</code> becomes the input to <code>command2</code>.</p>
+<p><strong>Visual representation:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>command1 ─┬─ stdout ─→ | ─→ stdin ─┬─ command2
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>          └─ stderr ────────────────→ screen
+</code></pre></div></p>
+<h3 id="your-first-pipe">Your First Pipe</h3>
+<p><strong>Count lines in a directory listing:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>ls<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+</code></pre></div></p>
+<p>Breaking it down:
+1. <code>ls</code> lists files → stdout
+2. <code>|</code> pipes that output to...
+3. <code>wc -l</code> counts the lines</p>
+<p><strong>Example:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nb">cd</span><span class="w"> </span>~/bioinfo-course/module05
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>touch<span class="w"> </span>file<span class="o">{</span><span class="m">1</span>..10<span class="o">}</span>.txt
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>ls<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+</code></pre></div></p>
+<p>Output: <code>10</code></p>
+<h3 id="chaining-multiple-pipes">Chaining Multiple Pipes</h3>
+<p>You can chain as many pipes as you want:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>command1<span class="w"> </span><span class="p">|</span><span class="w"> </span>command2<span class="w"> </span><span class="p">|</span><span class="w"> </span>command3<span class="w"> </span><span class="p">|</span><span class="w"> </span>command4
+</code></pre></div>
+<p><strong>Example: Find the 5 largest files</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>ls<span class="w"> </span>-lh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-k5<span class="w"> </span>-hr<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">5</span>
+</code></pre></div></p>
+<p>Breaking it down:
+1. <code>ls -lh</code> lists files with human-readable sizes
+2. <code>sort -k5 -hr</code> sorts by column 5 (size), human-readable, reverse order (largest first)
+3. <code>head -n 5</code> shows only the first 5 lines</p>
+<h3 id="pipes-vs-redirection">Pipes vs Redirection</h3>
+<p><strong>Pipes (<code>|</code>)</strong> connect commands:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>command1<span class="w"> </span><span class="p">|</span><span class="w"> </span>command2
+</code></pre></div></p>
+<p><strong>Redirection (<code>&gt;</code>)</strong> connects commands to files:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="nb">command</span><span class="w"> </span>&gt;<span class="w"> </span>file.txt
+</code></pre></div></p>
+<p><strong>You can use both:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>command1<span class="w"> </span><span class="p">|</span><span class="w"> </span>command2<span class="w"> </span><span class="p">|</span><span class="w"> </span>command3<span class="w"> </span>&gt;<span class="w"> </span>results.txt
+</code></pre></div></p>
+<hr />
+<h2 id="essential-filter-commands">Essential Filter Commands</h2>
+<p>"Filter commands" are programs that read from stdin, process data, and write to stdout. They're perfect for pipes!</p>
+<h3 id="1-grep-search-for-patterns">1. <code>grep</code> — Search for Patterns</h3>
+<p><code>grep</code> searches for lines matching a pattern.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>grep<span class="w"> </span><span class="o">[</span>options<span class="o">]</span><span class="w"> </span><span class="s1">&#39;pattern&#39;</span><span class="w"> </span><span class="o">[</span>file<span class="o">]</span>
+</code></pre></div>
+<p><code>grep</code> stands for "<strong>g</strong>lobally search for a <strong>r</strong>egular <strong>e</strong>xpression and <strong>p</strong>rint."</p>
+<p><strong>Basic usage:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># Create a sample file</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>samples.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="s">sample001 tumor pass</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="s">sample002 normal pass</span>
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="s">sample003 tumor fail</span>
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="s">sample004 normal pass</span>
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="s">sample005 tumor pass</span>
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a><span class="s">EOF</span>
+<a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a>
+<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a><span class="c1"># Search for lines containing &quot;tumor&quot;</span>
+<a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a>grep<span class="w"> </span><span class="s1">&#39;tumor&#39;</span><span class="w"> </span>samples.txt
+</code></pre></div></p>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>sample001 tumor pass
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>sample003 tumor fail
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>sample005 tumor pass
+</code></pre></div></p>
+<p><strong>Common <code>grep</code> options:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>What It Does</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-i</code></td>
+<td>Case-insensitive search</td>
+<td><code>grep -i 'TUMOR' samples.txt</code></td>
+</tr>
+<tr>
+<td><code>-v</code></td>
+<td>Invert match (show lines NOT matching)</td>
+<td><code>grep -v 'tumor' samples.txt</code></td>
+</tr>
+<tr>
+<td><code>-c</code></td>
+<td>Count matching lines</td>
+<td><code>grep -c 'tumor' samples.txt</code></td>
+</tr>
+<tr>
+<td><code>-n</code></td>
+<td>Show line numbers</td>
+<td><code>grep -n 'tumor' samples.txt</code></td>
+</tr>
+<tr>
+<td><code>-w</code></td>
+<td>Match whole words only</td>
+<td><code>grep -w 'pass' samples.txt</code></td>
+</tr>
+<tr>
+<td><code>-A N</code></td>
+<td>Show N lines after match</td>
+<td><code>grep -A 2 'fail' samples.txt</code></td>
+</tr>
+<tr>
+<td><code>-B N</code></td>
+<td>Show N lines before match</td>
+<td><code>grep -B 1 'fail' samples.txt</code></td>
+</tr>
+<tr>
+<td><code>-C N</code></td>
+<td>Show N lines before and after</td>
+<td><code>grep -C 1 'fail' samples.txt</code></td>
+</tr>
+<tr>
+<td><code>-E</code></td>
+<td>Extended regex (more powerful patterns)</td>
+<td><code>grep -E 'tumor\|normal' samples.txt</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># Case-insensitive search</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>grep<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;PASS&#39;</span><span class="w"> </span>samples.txt
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="c1"># Find lines that DON&#39;T contain &quot;tumor&quot;</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>grep<span class="w"> </span>-v<span class="w"> </span><span class="s1">&#39;tumor&#39;</span><span class="w"> </span>samples.txt
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a><span class="c1"># Count how many samples passed</span>
+<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>grep<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;pass&#39;</span><span class="w"> </span>samples.txt
+<a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>
+<a id="__codelineno-29-10" name="__codelineno-29-10" href="#__codelineno-29-10"></a><span class="c1"># Show line numbers</span>
+<a id="__codelineno-29-11" name="__codelineno-29-11" href="#__codelineno-29-11"></a>grep<span class="w"> </span>-n<span class="w"> </span><span class="s1">&#39;fail&#39;</span><span class="w"> </span>samples.txt
+</code></pre></div>
+<p><strong>Using grep in pipes:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c1"># List all Python scripts in the current directory</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>ls<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">&#39;\.py$&#39;</span>
+<a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>
+<a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="c1"># Find running processes related to python</span>
+<a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>python
+<a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>
+<a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a><span class="c1"># Count how many .txt files exist</span>
+<a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a>ls<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">&#39;\.txt$&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+</code></pre></div></p>
+<h3 id="2-cut-extract-columns">2. <code>cut</code> — Extract Columns</h3>
+<p><code>cut</code> extracts specific columns (fields) from each line.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>cut<span class="w"> </span><span class="o">[</span>options<span class="o">]</span><span class="w"> </span><span class="o">[</span>file<span class="o">]</span>
+</code></pre></div>
+<p><strong>For tab-separated files:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">1</span>,3<span class="w"> </span>file.tsv<span class="w">    </span><span class="c1"># Extract columns 1 and 3</span>
+</code></pre></div></p>
+<p><strong>For comma-separated files:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>cut<span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;,&#39;</span><span class="w"> </span>-f<span class="w"> </span><span class="m">2</span><span class="w"> </span>file.csv<span class="w">    </span><span class="c1"># Extract column 2, using comma as delimiter</span>
+</code></pre></div></p>
+<p><strong>Common options:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>What It Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-f N</code></td>
+<td>Select field(s) N (columns)</td>
+</tr>
+<tr>
+<td><code>-d 'X'</code></td>
+<td>Use X as delimiter (default is tab)</td>
+</tr>
+<tr>
+<td><code>-f 1,3,5</code></td>
+<td>Select columns 1, 3, and 5</td>
+</tr>
+<tr>
+<td><code>-f 1-3</code></td>
+<td>Select columns 1 through 3</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="c1"># Create a TSV file</span>
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>data.tsv<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a><span class="s">sample001   tumor   85  pass</span>
+<a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="s">sample002   normal  92  pass</span>
+<a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a><span class="s">sample003   tumor   45  fail</span>
+<a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a><span class="s">sample004   normal  88  pass</span>
+<a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a><span class="s">EOF</span>
+<a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a>
+<a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a><span class="c1"># Extract sample IDs (column 1)</span>
+<a id="__codelineno-34-10" name="__codelineno-34-10" href="#__codelineno-34-10"></a>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="w"> </span>data.tsv
+<a id="__codelineno-34-11" name="__codelineno-34-11" href="#__codelineno-34-11"></a>
+<a id="__codelineno-34-12" name="__codelineno-34-12" href="#__codelineno-34-12"></a><span class="c1"># Extract sample ID and quality score (columns 1 and 3)</span>
+<a id="__codelineno-34-13" name="__codelineno-34-13" href="#__codelineno-34-13"></a>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">1</span>,3<span class="w"> </span>data.tsv
+<a id="__codelineno-34-14" name="__codelineno-34-14" href="#__codelineno-34-14"></a>
+<a id="__codelineno-34-15" name="__codelineno-34-15" href="#__codelineno-34-15"></a><span class="c1"># Extract columns 1-3</span>
+<a id="__codelineno-34-16" name="__codelineno-34-16" href="#__codelineno-34-16"></a>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">1</span>-3<span class="w"> </span>data.tsv
+</code></pre></div></p>
+<p><strong>Using cut in pipes:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Get just sample IDs from tumor samples</span>
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>grep<span class="w"> </span><span class="s1">&#39;tumor&#39;</span><span class="w"> </span>data.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">1</span>
+</code></pre></div></p>
+<div class="admonition tip">
+<p class="admonition-title">Working with TSV vs CSV</p>
+<ul>
+<li><strong>TSV (tab-separated)</strong>: <code>cut -f 1</code> (default delimiter is tab)</li>
+<li><strong>CSV (comma-separated)</strong>: <code>cut -d ',' -f 1</code></li>
+</ul>
+<p>TSV is often easier to work with because commas can appear inside fields.</p>
+</div>
+<h3 id="3-sort-sort-lines">3. <code>sort</code> — Sort Lines</h3>
+<p><code>sort</code> arranges lines in order.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>sort<span class="w"> </span><span class="o">[</span>options<span class="o">]</span><span class="w"> </span><span class="o">[</span>file<span class="o">]</span>
+</code></pre></div>
+<p><strong>Basic usage:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="c1"># Create unsorted data</span>
+<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>numbers.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a><span class="s">5</span>
+<a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a><span class="s">2</span>
+<a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a><span class="s">8</span>
+<a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a><span class="s">1</span>
+<a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a><span class="s">3</span>
+<a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a><span class="s">EOF</span>
+<a id="__codelineno-37-9" name="__codelineno-37-9" href="#__codelineno-37-9"></a>
+<a id="__codelineno-37-10" name="__codelineno-37-10" href="#__codelineno-37-10"></a><span class="c1"># Sort it</span>
+<a id="__codelineno-37-11" name="__codelineno-37-11" href="#__codelineno-37-11"></a>sort<span class="w"> </span>numbers.txt
+</code></pre></div></p>
+<p>Wait, that gives:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>1
+<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>2
+<a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>3
+<a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a>5
+<a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a>8
+</code></pre></div></p>
+<p>Perfect! But what about...</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>numbers2.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="s">10</span>
+<a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a><span class="s">2</span>
+<a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a><span class="s">5</span>
+<a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a><span class="s">100</span>
+<a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a><span class="s">20</span>
+<a id="__codelineno-39-7" name="__codelineno-39-7" href="#__codelineno-39-7"></a><span class="s">EOF</span>
+<a id="__codelineno-39-8" name="__codelineno-39-8" href="#__codelineno-39-8"></a>
+<a id="__codelineno-39-9" name="__codelineno-39-9" href="#__codelineno-39-9"></a>sort<span class="w"> </span>numbers2.txt
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>10
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>100
+<a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>2
+<a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a>20
+<a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a>5
+</code></pre></div></p>
+<p>That's wrong! It's sorting as text (lexicographic), not numbers.</p>
+<p><strong>Fix: numeric sort</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>sort<span class="w"> </span>-n<span class="w"> </span>numbers2.txt
+</code></pre></div></p>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>2
+<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>5
+<a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>10
+<a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a>20
+<a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a>100
+</code></pre></div></p>
+<p><strong>Common <code>sort</code> options:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>What It Does</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-n</code></td>
+<td>Numeric sort</td>
+<td><code>sort -n numbers.txt</code></td>
+</tr>
+<tr>
+<td><code>-r</code></td>
+<td>Reverse order</td>
+<td><code>sort -r file.txt</code></td>
+</tr>
+<tr>
+<td><code>-k N</code></td>
+<td>Sort by column N</td>
+<td><code>sort -k 2 file.tsv</code></td>
+</tr>
+<tr>
+<td><code>-t 'X'</code></td>
+<td>Use X as field delimiter</td>
+<td><code>sort -t ',' -k 2 file.csv</code></td>
+</tr>
+<tr>
+<td><code>-u</code></td>
+<td>Unique (remove duplicates)</td>
+<td><code>sort -u file.txt</code></td>
+</tr>
+<tr>
+<td><code>-h</code></td>
+<td>Human-readable numbers (1K, 2M, 3G)</td>
+<td><code>sort -h sizes.txt</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="c1"># Sort by second column</span>
+<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>sort<span class="w"> </span>-k<span class="w"> </span><span class="m">2</span><span class="w"> </span>data.tsv
+<a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>
+<a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a><span class="c1"># Sort by third column numerically, reverse order</span>
+<a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a>sort<span class="w"> </span>-k<span class="w"> </span><span class="m">3</span><span class="w"> </span>-nr<span class="w"> </span>data.tsv
+<a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a>
+<a id="__codelineno-43-7" name="__codelineno-43-7" href="#__codelineno-43-7"></a><span class="c1"># Sort by multiple columns: first by column 2, then by column 3</span>
+<a id="__codelineno-43-8" name="__codelineno-43-8" href="#__codelineno-43-8"></a>sort<span class="w"> </span>-k<span class="w"> </span><span class="m">2</span>,2<span class="w"> </span>-k<span class="w"> </span><span class="m">3</span>,3n<span class="w"> </span>data.tsv
+</code></pre></div>
+<p><strong>Using sort in pipes:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="c1"># Find the sample with the highest quality score</span>
+<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">1</span>,3<span class="w"> </span>data.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-k<span class="w"> </span><span class="m">2</span><span class="w"> </span>-nr<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+</code></pre></div></p>
+<h3 id="4-uniq-find-unique-lines">4. <code>uniq</code> — Find Unique Lines</h3>
+<p><code>uniq</code> removes or reports duplicate adjacent lines.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>uniq<span class="w"> </span><span class="o">[</span>options<span class="o">]</span><span class="w"> </span><span class="o">[</span>file<span class="o">]</span>
+</code></pre></div>
+<p><strong>Important:</strong> <code>uniq</code> only removes <strong>adjacent</strong> duplicates, so you almost always want to <code>sort</code> first!</p>
+<p><strong>Example:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>fruits.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="s">apple</span>
+<a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a><span class="s">banana</span>
+<a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a><span class="s">apple</span>
+<a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a><span class="s">apple</span>
+<a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a><span class="s">orange</span>
+<a id="__codelineno-46-7" name="__codelineno-46-7" href="#__codelineno-46-7"></a><span class="s">banana</span>
+<a id="__codelineno-46-8" name="__codelineno-46-8" href="#__codelineno-46-8"></a><span class="s">EOF</span>
+<a id="__codelineno-46-9" name="__codelineno-46-9" href="#__codelineno-46-9"></a>
+<a id="__codelineno-46-10" name="__codelineno-46-10" href="#__codelineno-46-10"></a><span class="c1"># Without sorting (only adjacent duplicates removed)</span>
+<a id="__codelineno-46-11" name="__codelineno-46-11" href="#__codelineno-46-11"></a>uniq<span class="w"> </span>fruits.txt
+</code></pre></div></p>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>apple
+<a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>banana
+<a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a>apple
+<a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a>orange
+<a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a>banana
+</code></pre></div></p>
+<p>Not what we wanted!</p>
+<p><strong>With sorting:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>sort<span class="w"> </span>fruits.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq
+</code></pre></div></p>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>apple
+<a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a>banana
+<a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a>orange
+</code></pre></div></p>
+<p>Perfect!</p>
+<p><strong>Common <code>uniq</code> options:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>What It Does</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-c</code></td>
+<td>Count occurrences</td>
+<td><code>sort file.txt \| uniq -c</code></td>
+</tr>
+<tr>
+<td><code>-d</code></td>
+<td>Show only duplicates</td>
+<td><code>sort file.txt \| uniq -d</code></td>
+</tr>
+<tr>
+<td><code>-u</code></td>
+<td>Show only unique lines (no duplicates)</td>
+<td><code>sort file.txt \| uniq -u</code></td>
+</tr>
+<tr>
+<td><code>-i</code></td>
+<td>Ignore case</td>
+<td><code>sort file.txt \| uniq -i</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Examples:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="c1"># Count occurrences of each fruit</span>
+<a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a>sort<span class="w"> </span>fruits.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span>-c
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>      3 apple
+<a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a>      2 banana
+<a id="__codelineno-51-3" name="__codelineno-51-3" href="#__codelineno-51-3"></a>      1 orange
+</code></pre></div></p>
+<p><strong>Using uniq in pipes:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="c1"># Find the most common sample type</span>
+<a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">2</span><span class="w"> </span>data.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span>-c<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-nr<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+</code></pre></div></p>
+<p>Breaking it down:
+1. <code>cut -f 2 data.tsv</code> → extract sample types
+2. <code>sort</code> → group same types together
+3. <code>uniq -c</code> → count each type
+4. <code>sort -nr</code> → sort by count (numeric, reverse)
+5. <code>head -n 1</code> → show the top one</p>
+<h3 id="5-wc-count-lines-words-characters">5. <code>wc</code> — Count Lines, Words, Characters</h3>
+<p>We've used <code>wc</code> before, but let's see it in detail:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>wc<span class="w"> </span><span class="o">[</span>options<span class="o">]</span><span class="w"> </span><span class="o">[</span>file<span class="o">]</span>
+</code></pre></div>
+<p><strong>Default: shows lines, words, and characters:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>wc<span class="w"> </span>data.tsv
+</code></pre></div></p>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>  4  16 104 data.tsv
+</code></pre></div></p>
+<p>This means: 4 lines, 16 words, 104 characters.</p>
+<p><strong>Common options:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>What It Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-l</code></td>
+<td>Count lines only</td>
+</tr>
+<tr>
+<td><code>-w</code></td>
+<td>Count words only</td>
+</tr>
+<tr>
+<td><code>-c</code></td>
+<td>Count characters (bytes)</td>
+</tr>
+<tr>
+<td><code>-m</code></td>
+<td>Count characters (multibyte-aware)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Using wc in pipes:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a><span class="c1"># Count tumor samples</span>
+<a id="__codelineno-56-2" name="__codelineno-56-2" href="#__codelineno-56-2"></a>grep<span class="w"> </span><span class="s1">&#39;tumor&#39;</span><span class="w"> </span>data.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+<a id="__codelineno-56-3" name="__codelineno-56-3" href="#__codelineno-56-3"></a>
+<a id="__codelineno-56-4" name="__codelineno-56-4" href="#__codelineno-56-4"></a><span class="c1"># Count unique sample types</span>
+<a id="__codelineno-56-5" name="__codelineno-56-5" href="#__codelineno-56-5"></a>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">2</span><span class="w"> </span>data.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-u<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+</code></pre></div></p>
+<h3 id="6-tee-split-output">6. <code>tee</code> — Split Output</h3>
+<p><code>tee</code> reads from stdin and writes to both stdout AND a file.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a><span class="nb">command</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>output.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>next_command
+</code></pre></div>
+<p>Think of a "T" pipe junction—the data flows in one end and splits to two outputs.</p>
+<p><strong>Example:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a><span class="c1"># Save intermediate results while continuing the pipeline</span>
+<a id="__codelineno-58-2" name="__codelineno-58-2" href="#__codelineno-58-2"></a>grep<span class="w"> </span><span class="s1">&#39;tumor&#39;</span><span class="w"> </span>data.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>tumor_samples.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+</code></pre></div></p>
+<p>This:
+1. Filters for tumor samples
+2. Saves them to <code>tumor_samples.txt</code>
+3. Continues piping to <code>wc -l</code> to count them</p>
+<p><strong>Multiple outputs:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a><span class="nb">command</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>file1.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>file2.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>file3.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>next_command
+</code></pre></div></p>
+<p><strong>Append mode:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a><span class="nb">command</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>tee<span class="w"> </span>-a<span class="w"> </span>output.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>next_command
+</code></pre></div></p>
+<p>The <code>-a</code> flag appends instead of overwriting.</p>
+<hr />
+<h2 id="building-complex-pipelines">Building Complex Pipelines</h2>
+<p>Now let's combine everything to solve real problems!</p>
+<h3 id="example-1-analyze-a-gene-list">Example 1: Analyze a Gene List</h3>
+<p><strong>Setup:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a><span class="nb">cd</span><span class="w"> </span>~/bioinfo-course/module05
+<a id="__codelineno-61-2" name="__codelineno-61-2" href="#__codelineno-61-2"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>genes.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-61-3" name="__codelineno-61-3" href="#__codelineno-61-3"></a><span class="s">BRCA1 tumor_suppressor chr17 pass</span>
+<a id="__codelineno-61-4" name="__codelineno-61-4" href="#__codelineno-61-4"></a><span class="s">TP53 tumor_suppressor chr17 pass</span>
+<a id="__codelineno-61-5" name="__codelineno-61-5" href="#__codelineno-61-5"></a><span class="s">MYC oncogene chr8 pass</span>
+<a id="__codelineno-61-6" name="__codelineno-61-6" href="#__codelineno-61-6"></a><span class="s">EGFR oncogene chr7 fail</span>
+<a id="__codelineno-61-7" name="__codelineno-61-7" href="#__codelineno-61-7"></a><span class="s">KRAS oncogene chr12 pass</span>
+<a id="__codelineno-61-8" name="__codelineno-61-8" href="#__codelineno-61-8"></a><span class="s">PTEN tumor_suppressor chr10 pass</span>
+<a id="__codelineno-61-9" name="__codelineno-61-9" href="#__codelineno-61-9"></a><span class="s">BRAF oncogene chr7 pass</span>
+<a id="__codelineno-61-10" name="__codelineno-61-10" href="#__codelineno-61-10"></a><span class="s">BRCA2 tumor_suppressor chr13 pass</span>
+<a id="__codelineno-61-11" name="__codelineno-61-11" href="#__codelineno-61-11"></a><span class="s">RB1 tumor_suppressor chr13 fail</span>
+<a id="__codelineno-61-12" name="__codelineno-61-12" href="#__codelineno-61-12"></a><span class="s">EOF</span>
+</code></pre></div></p>
+<p><strong>Task: Find tumor suppressor genes that passed QC, sorted by chromosome</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a>grep<span class="w"> </span><span class="s1">&#39;tumor_suppressor&#39;</span><span class="w"> </span>genes.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">&#39;pass&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-k<span class="w"> </span><span class="m">3</span>
+</code></pre></div>
+<p>Breaking it down:
+1. <code>grep 'tumor_suppressor'</code> → filter for tumor suppressors
+2. <code>grep 'pass'</code> → filter for those that passed QC
+3. <code>sort -k 3</code> → sort by chromosome (column 3)</p>
+<p><strong>Task: Count genes per chromosome</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">3</span><span class="w"> </span>genes.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span>-c
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a>      1 chr10
+<a id="__codelineno-64-2" name="__codelineno-64-2" href="#__codelineno-64-2"></a>      1 chr12
+<a id="__codelineno-64-3" name="__codelineno-64-3" href="#__codelineno-64-3"></a>      1 chr13
+<a id="__codelineno-64-4" name="__codelineno-64-4" href="#__codelineno-64-4"></a>      2 chr17
+<a id="__codelineno-64-5" name="__codelineno-64-5" href="#__codelineno-64-5"></a>      2 chr7
+<a id="__codelineno-64-6" name="__codelineno-64-6" href="#__codelineno-64-6"></a>      1 chr8
+</code></pre></div></p>
+<p><strong>Task: Find the most common gene type</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">2</span><span class="w"> </span>genes.txt<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span>-c<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-nr<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+</code></pre></div>
+<h3 id="example-2-process-a-sample-manifest">Example 2: Process a Sample Manifest</h3>
+<p><strong>Setup:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>manifest.tsv<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-66-2" name="__codelineno-66-2" href="#__codelineno-66-2"></a><span class="s">SampleID    Type    Date    QC_Score    Status</span>
+<a id="__codelineno-66-3" name="__codelineno-66-3" href="#__codelineno-66-3"></a><span class="s">S001    tumor   2024-01-10  95  pass</span>
+<a id="__codelineno-66-4" name="__codelineno-66-4" href="#__codelineno-66-4"></a><span class="s">S002    normal  2024-01-10  88  pass</span>
+<a id="__codelineno-66-5" name="__codelineno-66-5" href="#__codelineno-66-5"></a><span class="s">S003    tumor   2024-01-11  45  fail</span>
+<a id="__codelineno-66-6" name="__codelineno-66-6" href="#__codelineno-66-6"></a><span class="s">S004    normal  2024-01-11  92  pass</span>
+<a id="__codelineno-66-7" name="__codelineno-66-7" href="#__codelineno-66-7"></a><span class="s">S005    tumor   2024-01-12  87  pass</span>
+<a id="__codelineno-66-8" name="__codelineno-66-8" href="#__codelineno-66-8"></a><span class="s">S006    normal  2024-01-12  91  pass</span>
+<a id="__codelineno-66-9" name="__codelineno-66-9" href="#__codelineno-66-9"></a><span class="s">S007    tumor   2024-01-13  30  fail</span>
+<a id="__codelineno-66-10" name="__codelineno-66-10" href="#__codelineno-66-10"></a><span class="s">S008    normal  2024-01-13  89  pass</span>
+<a id="__codelineno-66-11" name="__codelineno-66-11" href="#__codelineno-66-11"></a><span class="s">S009    tumor   2024-01-14  94  pass</span>
+<a id="__codelineno-66-12" name="__codelineno-66-12" href="#__codelineno-66-12"></a><span class="s">S010    normal  2024-01-14  90  pass</span>
+<a id="__codelineno-66-13" name="__codelineno-66-13" href="#__codelineno-66-13"></a><span class="s">EOF</span>
+</code></pre></div></p>
+<p><strong>Task: Extract sample IDs that passed QC</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a>grep<span class="w"> </span><span class="s1">&#39;pass&#39;</span><span class="w"> </span>manifest.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">1</span>
+</code></pre></div>
+<p><strong>Task: Calculate average QC score for passed samples</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a>grep<span class="w"> </span><span class="s1">&#39;pass&#39;</span><span class="w"> </span>manifest.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{sum+=$1; n++} END {print sum/n}&#39;</span>
+</code></pre></div>
+<p>Output: <code>91</code></p>
+<p>(We'll learn <code>awk</code> properly in a future module!)</p>
+<p><strong>Task: Count samples by type and status</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a>tail<span class="w"> </span>-n<span class="w"> </span>+2<span class="w"> </span>manifest.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">2</span>,5<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span>-c
+</code></pre></div>
+<p>Breaking it down:
+1. <code>tail -n +2 manifest.tsv</code> → skip the header line (start from line 2)
+2. <code>cut -f 2,5</code> → extract Type and Status columns
+3. <code>sort</code> → group same combinations
+4. <code>uniq -c</code> → count each combination</p>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a>      3 normal  pass
+<a id="__codelineno-70-2" name="__codelineno-70-2" href="#__codelineno-70-2"></a>      1 tumor   fail
+<a id="__codelineno-70-3" name="__codelineno-70-3" href="#__codelineno-70-3"></a>      3 tumor   pass
+</code></pre></div></p>
+<p>Wait, that's showing 7 samples but we have 10! Let's fix:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a>tail<span class="w"> </span>-n<span class="w"> </span>+2<span class="w"> </span>manifest.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">2</span>,5<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span>-c
+</code></pre></div>
+<p>Actually, that's wrong. Let me recalculate:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a>grep<span class="w"> </span>-v<span class="w"> </span><span class="s1">&#39;^SampleID&#39;</span><span class="w"> </span>manifest.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">2</span>,5<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span>-c
+</code></pre></div>
+<p>This uses <code>grep -v</code> to exclude the header line instead.</p>
+<hr />
+<h2 id="practical-exercise-genomic-data-wrangling">Practical Exercise: Genomic Data Wrangling</h2>
+<p>Let's work with realistic genomic data!</p>
+<h3 id="setup-variant-call-data">Setup: Variant Call Data</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-73-1" name="__codelineno-73-1" href="#__codelineno-73-1"></a><span class="nb">cd</span><span class="w"> </span>~/bioinfo-course/module05
+<a id="__codelineno-73-2" name="__codelineno-73-2" href="#__codelineno-73-2"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>variants.tsv<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-73-3" name="__codelineno-73-3" href="#__codelineno-73-3"></a><span class="s">Chr Pos Ref Alt Gene    Type    Quality Filter</span>
+<a id="__codelineno-73-4" name="__codelineno-73-4" href="#__codelineno-73-4"></a><span class="s">chr1    12345   A   G   GENE1   SNP 98  PASS</span>
+<a id="__codelineno-73-5" name="__codelineno-73-5" href="#__codelineno-73-5"></a><span class="s">chr1    67890   C   T   GENE2   SNP 45  LowQual</span>
+<a id="__codelineno-73-6" name="__codelineno-73-6" href="#__codelineno-73-6"></a><span class="s">chr2    11111   G   A   GENE3   SNP 99  PASS</span>
+<a id="__codelineno-73-7" name="__codelineno-73-7" href="#__codelineno-73-7"></a><span class="s">chr2    22222   A   T   GENE3   SNP 87  PASS</span>
+<a id="__codelineno-73-8" name="__codelineno-73-8" href="#__codelineno-73-8"></a><span class="s">chr3    33333   C   G   GENE4   SNP 32  LowQual</span>
+<a id="__codelineno-73-9" name="__codelineno-73-9" href="#__codelineno-73-9"></a><span class="s">chr3    44444   T   A   GENE5   SNP 95  PASS</span>
+<a id="__codelineno-73-10" name="__codelineno-73-10" href="#__codelineno-73-10"></a><span class="s">chr3    55555   G   C   GENE5   SNP 91  PASS</span>
+<a id="__codelineno-73-11" name="__codelineno-73-11" href="#__codelineno-73-11"></a><span class="s">chr4    66666   A   C   GENE6   SNP 88  PASS</span>
+<a id="__codelineno-73-12" name="__codelineno-73-12" href="#__codelineno-73-12"></a><span class="s">chr4    77777   C   T   GENE6   SNP 41  LowQual</span>
+<a id="__codelineno-73-13" name="__codelineno-73-13" href="#__codelineno-73-13"></a><span class="s">chr5    88888   G   A   GENE7   SNP 97  PASS</span>
+<a id="__codelineno-73-14" name="__codelineno-73-14" href="#__codelineno-73-14"></a><span class="s">chr5    99999   T   C   GENE8   SNP 93  PASS</span>
+<a id="__codelineno-73-15" name="__codelineno-73-15" href="#__codelineno-73-15"></a><span class="s">chrX    11111   A   G   GENE9   SNP 89  PASS</span>
+<a id="__codelineno-73-16" name="__codelineno-73-16" href="#__codelineno-73-16"></a><span class="s">chrX    22222   C   A   GENE10  SNP 48  LowQual</span>
+<a id="__codelineno-73-17" name="__codelineno-73-17" href="#__codelineno-73-17"></a><span class="s">EOF</span>
+</code></pre></div>
+<h3 id="challenges">Challenges</h3>
+<p>For each challenge, build a pipeline and record your command!</p>
+<p><strong>Challenge 1:</strong> Count how many variants passed QC (Filter = PASS)</p>
+<details>
+<summary>Solution</summary>
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a>grep<span class="w"> </span><span class="s1">&#39;PASS&#39;</span><span class="w"> </span>variants.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+</code></pre></div>
+
+Output: `8`
+</details>
+
+<p><strong>Challenge 2:</strong> Extract chromosome and position for all failed variants</p>
+<details>
+<summary>Solution</summary>
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a>grep<span class="w"> </span><span class="s1">&#39;LowQual&#39;</span><span class="w"> </span>variants.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">1</span>,2
+</code></pre></div>
+</details>
+
+<p><strong>Challenge 3:</strong> List unique genes that have variants</p>
+<details>
+<summary>Solution</summary>
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-76-1" name="__codelineno-76-1" href="#__codelineno-76-1"></a>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">5</span><span class="w"> </span>variants.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span>+2<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-u
+</code></pre></div>
+
+Or:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-77-1" name="__codelineno-77-1" href="#__codelineno-77-1"></a>grep<span class="w"> </span>-v<span class="w"> </span><span class="s1">&#39;^Chr&#39;</span><span class="w"> </span>variants.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-u
+</code></pre></div>
+</details>
+
+<p><strong>Challenge 4:</strong> Count variants per chromosome</p>
+<details>
+<summary>Solution</summary>
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-78-1" name="__codelineno-78-1" href="#__codelineno-78-1"></a>grep<span class="w"> </span>-v<span class="w"> </span><span class="s1">&#39;^Chr&#39;</span><span class="w"> </span>variants.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span>-c
+</code></pre></div>
+</details>
+
+<p><strong>Challenge 5:</strong> Find the variant with the highest quality score</p>
+<details>
+<summary>Solution</summary>
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-79-1" name="__codelineno-79-1" href="#__codelineno-79-1"></a>grep<span class="w"> </span>-v<span class="w"> </span><span class="s1">&#39;^Chr&#39;</span><span class="w"> </span>variants.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-k<span class="w"> </span><span class="m">7</span><span class="w"> </span>-nr<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+</code></pre></div>
+</details>
+
+<p><strong>Challenge 6:</strong> List genes on chr3 that have passing variants</p>
+<details>
+<summary>Solution</summary>
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-80-1" name="__codelineno-80-1" href="#__codelineno-80-1"></a>grep<span class="w"> </span><span class="s1">&#39;chr3&#39;</span><span class="w"> </span>variants.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">&#39;PASS&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-u
+</code></pre></div>
+</details>
+
+<p><strong>Challenge 7:</strong> Count how many passing variants are on chromosome X</p>
+<details>
+<summary>Solution</summary>
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-81-1" name="__codelineno-81-1" href="#__codelineno-81-1"></a>grep<span class="w"> </span><span class="s1">&#39;chrX&#39;</span><span class="w"> </span>variants.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">&#39;PASS&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+</code></pre></div>
+</details>
+
+<p><strong>Challenge 8:</strong> Create a file with only passing variants, sorted by quality (highest first)</p>
+<details>
+<summary>Solution</summary>
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-82-1" name="__codelineno-82-1" href="#__codelineno-82-1"></a>head<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span><span class="w"> </span>variants.tsv<span class="w"> </span>&gt;<span class="w"> </span>passing_variants.tsv
+<a id="__codelineno-82-2" name="__codelineno-82-2" href="#__codelineno-82-2"></a>grep<span class="w"> </span><span class="s1">&#39;PASS&#39;</span><span class="w"> </span>variants.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-k<span class="w"> </span><span class="m">7</span><span class="w"> </span>-nr<span class="w"> </span>&gt;&gt;<span class="w"> </span>passing_variants.tsv
+<a id="__codelineno-82-3" name="__codelineno-82-3" href="#__codelineno-82-3"></a>cat<span class="w"> </span>passing_variants.tsv
+</code></pre></div>
+</details>
+
+<hr />
+<h2 id="the-exit-ticket-challenge-rna-seq-sample-analysis">The Exit Ticket Challenge: RNA-seq Sample Analysis</h2>
+<h3 id="scenario">Scenario</h3>
+<p>You've received an RNA-seq sample manifest from the sequencing core. Your task: analyze the manifest and generate summary statistics using pipes and filters.</p>
+<h3 id="setup">Setup</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-83-1" name="__codelineno-83-1" href="#__codelineno-83-1"></a><span class="nb">cd</span><span class="w"> </span>~/bioinfo-course/module05
+<a id="__codelineno-83-2" name="__codelineno-83-2" href="#__codelineno-83-2"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>rnaseq_manifest.tsv<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-83-3" name="__codelineno-83-3" href="#__codelineno-83-3"></a><span class="s">SampleID    Condition   Batch   ReadCount   MappingRate Status  Notes</span>
+<a id="__codelineno-83-4" name="__codelineno-83-4" href="#__codelineno-83-4"></a><span class="s">P001_T1 control Batch1  25000000    95.2    pass    good</span>
+<a id="__codelineno-83-5" name="__codelineno-83-5" href="#__codelineno-83-5"></a><span class="s">P001_T2 control Batch1  26000000    94.8    pass    good</span>
+<a id="__codelineno-83-6" name="__codelineno-83-6" href="#__codelineno-83-6"></a><span class="s">P002_T1 treated Batch1  24500000    93.1    pass    good</span>
+<a id="__codelineno-83-7" name="__codelineno-83-7" href="#__codelineno-83-7"></a><span class="s">P002_T2 treated Batch1  23000000    89.3    pass    acceptable</span>
+<a id="__codelineno-83-8" name="__codelineno-83-8" href="#__codelineno-83-8"></a><span class="s">P003_T1 control Batch2  22000000    96.1    pass    good</span>
+<a id="__codelineno-83-9" name="__codelineno-83-9" href="#__codelineno-83-9"></a><span class="s">P003_T2 control Batch2  21500000    95.8    pass    good</span>
+<a id="__codelineno-83-10" name="__codelineno-83-10" href="#__codelineno-83-10"></a><span class="s">P004_T1 treated Batch2  19000000    88.7    pass    acceptable</span>
+<a id="__codelineno-83-11" name="__codelineno-83-11" href="#__codelineno-83-11"></a><span class="s">P004_T2 treated Batch2  17000000    72.4    fail    low_mapping</span>
+<a id="__codelineno-83-12" name="__codelineno-83-12" href="#__codelineno-83-12"></a><span class="s">P005_T1 control Batch3  26500000    94.3    pass    good</span>
+<a id="__codelineno-83-13" name="__codelineno-83-13" href="#__codelineno-83-13"></a><span class="s">P005_T2 control Batch3  25800000    93.9    pass    good</span>
+<a id="__codelineno-83-14" name="__codelineno-83-14" href="#__codelineno-83-14"></a><span class="s">P006_T1 treated Batch3  24300000    91.2    pass    good</span>
+<a id="__codelineno-83-15" name="__codelineno-83-15" href="#__codelineno-83-15"></a><span class="s">P006_T2 treated Batch3  15000000    68.1    fail    low_mapping</span>
+<a id="__codelineno-83-16" name="__codelineno-83-16" href="#__codelineno-83-16"></a><span class="s">P007_T1 control Batch3  27000000    96.5    pass    excellent</span>
+<a id="__codelineno-83-17" name="__codelineno-83-17" href="#__codelineno-83-17"></a><span class="s">P007_T2 control Batch3  26800000    95.9    pass    excellent</span>
+<a id="__codelineno-83-18" name="__codelineno-83-18" href="#__codelineno-83-18"></a><span class="s">P008_T1 treated Batch3  23900000    90.8    pass    good</span>
+<a id="__codelineno-83-19" name="__codelineno-83-19" href="#__codelineno-83-19"></a><span class="s">P008_T2 treated Batch3  16500000    70.3    fail    low_mapping</span>
+<a id="__codelineno-83-20" name="__codelineno-83-20" href="#__codelineno-83-20"></a><span class="s">EOF</span>
+</code></pre></div>
+<h3 id="your-tasks">Your Tasks</h3>
+<p>Build pipelines to answer these questions. <strong>Record each command and its output.</strong></p>
+<p><strong>Task 1:</strong> How many samples passed QC?</p>
+<p><strong>Task 2:</strong> How many samples failed QC?</p>
+<p><strong>Task 3:</strong> List all sample IDs that failed (just the IDs, one per line)</p>
+<p><strong>Task 4:</strong> Count samples by condition (control vs treated)</p>
+<p><strong>Task 5:</strong> Count samples by batch</p>
+<p><strong>Task 6:</strong> What is the average read count for samples that passed? (Hint: you'll need <code>awk</code>)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-84-1" name="__codelineno-84-1" href="#__codelineno-84-1"></a><span class="c1"># Hint for awk:</span>
+<a id="__codelineno-84-2" name="__codelineno-84-2" href="#__codelineno-84-2"></a>grep<span class="w"> </span><span class="s1">&#39;pass&#39;</span><span class="w"> </span>rnaseq_manifest.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;{sum+=$1; n++} END {print sum/n}&#39;</span>
+</code></pre></div></p>
+<p><strong>Task 7:</strong> Find the sample with the highest read count (show the whole line)</p>
+<p><strong>Task 8:</strong> Find the sample with the lowest mapping rate (show sample ID and mapping rate)</p>
+<p><strong>Task 9:</strong> Create a new file called <code>qc_pass_samples.tsv</code> containing:
+- The header line
+- Only samples that passed QC
+- Sorted by read count (highest first)</p>
+<p><strong>Task 10:</strong> Generate a summary report file <code>summary.txt</code> containing:
+- Total number of samples
+- Number that passed
+- Number that failed
+- Number of control samples
+- Number of treated samples</p>
+<p>(You'll need to run multiple commands and redirect outputs to build this file)</p>
+<hr />
+<h2 id="quick-reference">Quick Reference</h2>
+<h3 id="redirection">Redirection</h3>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>What It Does</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&gt;</code></td>
+<td>Redirect stdout (overwrite)</td>
+<td><code>ls &gt; files.txt</code></td>
+</tr>
+<tr>
+<td><code>&gt;&gt;</code></td>
+<td>Redirect stdout (append)</td>
+<td><code>echo "data" &gt;&gt; log.txt</code></td>
+</tr>
+<tr>
+<td><code>2&gt;</code></td>
+<td>Redirect stderr</td>
+<td><code>command 2&gt; errors.log</code></td>
+</tr>
+<tr>
+<td><code>&amp;&gt;</code></td>
+<td>Redirect both stdout and stderr</td>
+<td><code>command &amp;&gt; all.log</code></td>
+</tr>
+<tr>
+<td><code>2&gt;&amp;1</code></td>
+<td>Redirect stderr to stdout</td>
+<td><code>command &gt; all.log 2&gt;&amp;1</code></td>
+</tr>
+<tr>
+<td><code>&lt;</code></td>
+<td>Redirect stdin from file</td>
+<td><code>command &lt; input.txt</code></td>
+</tr>
+<tr>
+<td><code>\|</code></td>
+<td>Pipe stdout to next command</td>
+<td><code>ls \| wc -l</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="essential-filters">Essential Filters</h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What It Does</th>
+<th>Common Options</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>grep 'pattern'</code></td>
+<td>Search for patterns</td>
+<td><code>-i</code>, <code>-v</code>, <code>-c</code>, <code>-n</code>, <code>-E</code></td>
+</tr>
+<tr>
+<td><code>cut -f N</code></td>
+<td>Extract columns</td>
+<td><code>-f</code>, <code>-d</code></td>
+</tr>
+<tr>
+<td><code>sort</code></td>
+<td>Sort lines</td>
+<td><code>-n</code>, <code>-r</code>, <code>-k</code>, <code>-u</code></td>
+</tr>
+<tr>
+<td><code>uniq</code></td>
+<td>Remove adjacent duplicates</td>
+<td><code>-c</code>, <code>-d</code>, <code>-u</code></td>
+</tr>
+<tr>
+<td><code>wc</code></td>
+<td>Count lines/words/characters</td>
+<td><code>-l</code>, <code>-w</code>, <code>-c</code></td>
+</tr>
+<tr>
+<td><code>tee file</code></td>
+<td>Split output to file and stdout</td>
+<td><code>-a</code> (append)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="common-patterns">Common Patterns</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-85-1" name="__codelineno-85-1" href="#__codelineno-85-1"></a><span class="c1"># Count unique values</span>
+<a id="__codelineno-85-2" name="__codelineno-85-2" href="#__codelineno-85-2"></a>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">2</span><span class="w"> </span>file.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-u<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+<a id="__codelineno-85-3" name="__codelineno-85-3" href="#__codelineno-85-3"></a>
+<a id="__codelineno-85-4" name="__codelineno-85-4" href="#__codelineno-85-4"></a><span class="c1"># Find most common value</span>
+<a id="__codelineno-85-5" name="__codelineno-85-5" href="#__codelineno-85-5"></a>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">2</span><span class="w"> </span>file.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span>-c<span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span>-nr<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-85-6" name="__codelineno-85-6" href="#__codelineno-85-6"></a>
+<a id="__codelineno-85-7" name="__codelineno-85-7" href="#__codelineno-85-7"></a><span class="c1"># Filter and extract</span>
+<a id="__codelineno-85-8" name="__codelineno-85-8" href="#__codelineno-85-8"></a>grep<span class="w"> </span><span class="s1">&#39;pattern&#39;</span><span class="w"> </span>file.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">1</span>,3
+<a id="__codelineno-85-9" name="__codelineno-85-9" href="#__codelineno-85-9"></a>
+<a id="__codelineno-85-10" name="__codelineno-85-10" href="#__codelineno-85-10"></a><span class="c1"># Sort by numeric column</span>
+<a id="__codelineno-85-11" name="__codelineno-85-11" href="#__codelineno-85-11"></a>sort<span class="w"> </span>-k<span class="w"> </span><span class="m">3</span><span class="w"> </span>-nr<span class="w"> </span>file.tsv
+<a id="__codelineno-85-12" name="__codelineno-85-12" href="#__codelineno-85-12"></a>
+<a id="__codelineno-85-13" name="__codelineno-85-13" href="#__codelineno-85-13"></a><span class="c1"># Remove header, process data</span>
+<a id="__codelineno-85-14" name="__codelineno-85-14" href="#__codelineno-85-14"></a>tail<span class="w"> </span>-n<span class="w"> </span>+2<span class="w"> </span>file.tsv<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-f<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sort<span class="w"> </span><span class="p">|</span><span class="w"> </span>uniq<span class="w"> </span>-c
+</code></pre></div>
+<hr />
+<h2 id="exit-ticket">Exit Ticket</h2>
+<p>To complete this module, send me an email with:</p>
+<p><strong>Subject:</strong> Bioinfo M5 Exit Ticket – [Your Name]</p>
+<p><strong>Content:</strong></p>
+<ol>
+<li>Your commands and outputs for all 10 tasks in the RNA-seq Sample Analysis Challenge</li>
+<li>The contents of your <code>qc_pass_samples.tsv</code> file</li>
+<li>The contents of your <code>summary.txt</code> file</li>
+<li>One paragraph (3-5 sentences) explaining the Unix philosophy and why pipes are powerful for bioinformatics</li>
+</ol>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>Congratulations! You now understand:</p>
+<p>✓ How Unix programs communicate via stdin, stdout, and stderr
+✓ How to redirect output to files with <code>&gt;</code>, <code>&gt;&gt;</code>, and <code>2&gt;</code>
+✓ How to chain commands with pipes (<code>|</code>)
+✓ Essential filter commands: <code>grep</code>, <code>cut</code>, <code>sort</code>, <code>uniq</code>, <code>wc</code>
+✓ How to use <code>tee</code> to split output
+✓ How to build complex data processing pipelines
+✓ Real-world bioinformatics data wrangling techniques</p>
+<p><strong>This is one of the most important skills in Unix!</strong> Pipes let you combine simple tools to solve complex problems, and this modular approach is perfect for the varied analyses you'll do in bioinformatics.</p>
+<p>In the next module, we'll learn about regular expressions (regex) for even more powerful pattern matching.</p>
+<p><strong>Next:</strong> <a href="../06-regex/">Module 6 — Regular Expressions for Bioinformatics</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../04-wildcards/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 4 — Wildcards &amp; Pattern Matching">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                4 — Wildcards & Pattern Matching
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../06-regex/" class="md-footer__link md-footer__link--next" aria-label="Next: 6 — Regular Expressions for Bioinformatics">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                6 — Regular Expressions for Bioinformatics
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/SJRussell/BioinfoCrashCourse" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.edit", "content.action.view", "content.code.copy", "navigation.footer", "navigation.indexes", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

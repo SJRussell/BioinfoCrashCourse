@@ -1,0 +1,3304 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://russell.lab.ca/bioinformatics-tutorial/modules/06-regex/">
+      
+      
+        <link rel="prev" href="../05-pipes-filters/">
+      
+      
+        <link rel="next" href="../07-processes/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>6 — Regular Expressions for Bioinformatics - Bioinformatics Tutorial</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#module-6-regular-expressions-for-bioinformatics" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Bioinformatics Tutorial" class="md-header__button md-logo" aria-label="Bioinformatics Tutorial" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Bioinformatics Tutorial
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              6 — Regular Expressions for Bioinformatics
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-purple"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="deep-orange"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Bioinformatics Tutorial" class="md-nav__button md-logo" aria-label="Bioinformatics Tutorial" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Bioinformatics Tutorial
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cheatsheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cheat Sheet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Unix Fundamentals
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Unix Fundamentals
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    0 — Setup & Understanding Your Environment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-directory-tree/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    1 — The Directory Tree & Navigation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-working-with-files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2 — Working with Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-manipulating-files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3 — Manipulating Files (Safely!)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-wildcards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4 — Wildcards & Pattern Matching
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-pipes-filters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    5 — Pipes, Redirects & Filters
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    6 — Regular Expressions for Bioinformatics
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    6 — Regular Expressions for Bioinformatics
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-youll-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      What You'll Learn
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#regular-expressions-vs-wildcards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Regular Expressions vs Wildcards
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Regular Expressions vs Wildcards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-differences" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Differences
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-use-each" class="md-nav__link">
+    <span class="md-ellipsis">
+      When to Use Each
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#your-first-regular-expression" class="md-nav__link">
+    <span class="md-ellipsis">
+      Your First Regular Expression
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#literal-characters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Literal Characters
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metacharacters-special-characters-with-superpowers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Metacharacters: Special Characters with Superpowers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Metacharacters: Special Characters with Superpowers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-metacharacters" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Metacharacters
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-dot-match-any-single-character" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Dot (.) — Match Any Single Character
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#character-classes-match-specific-characters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Character Classes [...] — Match Specific Characters
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Character Classes [...] — Match Specific Characters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#negated-character-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Negated Character Classes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#predefined-character-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Predefined Character Classes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anchors-match-positions-not-characters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Anchors — Match Positions, Not Characters
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Anchors — Match Positions, Not Characters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#start-of-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      Start of Line: ^
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#end-of-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      End of Line: $
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#combining-anchors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Combining Anchors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-bioinformatics-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practical Bioinformatics Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quantifiers-repeat-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quantifiers — Repeat Patterns
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quantifiers — Repeat Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-quantifiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Quantifiers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples-with-zero-or-more" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples with * (Zero or More)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples-with-one-or-more" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples with + (One or More)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples-with-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples with ? (Optional)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples-with-n-exact-count" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples with {n} (Exact Count)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples-with-nm-range" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples with {n,m} (Range)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dna-motif-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      DNA Motif Examples
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grouping-with-treat-multiple-characters-as-one" class="md-nav__link">
+    <span class="md-ellipsis">
+      Grouping with (...) — Treat Multiple Characters as One
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Grouping with (...) — Treat Multiple Characters as One">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#without-grouping" class="md-nav__link">
+    <span class="md-ellipsis">
+      Without Grouping
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-grouping" class="md-nav__link">
+    <span class="md-ellipsis">
+      With Grouping
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-example-tandem-repeats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practical Example: Tandem Repeats
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternation-with-match-this-or-that" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alternation with | — Match This OR That
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Alternation with | — Match This OR That">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#combining-with-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      Combining with Groups
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiple-alternations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multiple Alternations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-escapes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Escapes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-matching-version-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Matching Version Numbers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grep-flavors-basic-vs-extended-vs-perl" class="md-nav__link">
+    <span class="md-ellipsis">
+      grep Flavors: Basic vs Extended vs Perl
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="grep Flavors: Basic vs Extended vs Perl">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-basic-regular-expressions-bre" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Basic Regular Expressions (BRE)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-extended-regular-expressions-ere" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Extended Regular Expressions (ERE)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-perl-compatible-regular-expressions-pcre" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Perl-Compatible Regular Expressions (PCRE)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-bioinformatics-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practical Bioinformatics Applications
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practical Bioinformatics Applications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-validate-sample-ids" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Validate Sample IDs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-find-dna-motifs" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Find DNA Motifs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-extract-email-addresses" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Extract Email Addresses
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-parse-fasta-headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Parse FASTA Headers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-validate-genomic-coordinates" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Validate Genomic Coordinates
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practice-exercises" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practice Exercises
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practice Exercises">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-create-test-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup: Create Test Files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercises" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercises
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-exit-ticket-challenge-variant-annotation-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Exit Ticket Challenge: Variant Annotation File
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Exit Ticket Challenge: Variant Annotation File">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#format-explanation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Format Explanation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#your-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Your Tasks
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Syntax
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anchors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Anchors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#character-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Character Classes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantifiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quantifiers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#groups-and-alternation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Groups and Alternation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grep-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      grep Options
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exit-ticket" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exit Ticket
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-processes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    7 — Process Management & Job Control
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-editing-compression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    8 — Text Editing & File Compression
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Bioinformatics Applications
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Bioinformatics Applications
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-pipes-tsv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    9 — Advanced TSV Data Wrangling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-rnaseq-primer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    10 — RNA-seq Primer (Watch)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-fastq-101/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    11 — FASTQ 101 (Hands-on)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-env-qc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    12 — Local Env + Tiny QC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-pull-one-srr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    13 — Pull One Single-Cell FASTQ
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-view-run-view/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    14 — The View → Run → View Loop
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-capstone/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    15 — Capstone One-Command QC Script
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-youll-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      What You'll Learn
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#regular-expressions-vs-wildcards" class="md-nav__link">
+    <span class="md-ellipsis">
+      Regular Expressions vs Wildcards
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Regular Expressions vs Wildcards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-differences" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Differences
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#when-to-use-each" class="md-nav__link">
+    <span class="md-ellipsis">
+      When to Use Each
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#your-first-regular-expression" class="md-nav__link">
+    <span class="md-ellipsis">
+      Your First Regular Expression
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#literal-characters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Literal Characters
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metacharacters-special-characters-with-superpowers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Metacharacters: Special Characters with Superpowers
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Metacharacters: Special Characters with Superpowers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-metacharacters" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Metacharacters
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-dot-match-any-single-character" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Dot (.) — Match Any Single Character
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#character-classes-match-specific-characters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Character Classes [...] — Match Specific Characters
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Character Classes [...] — Match Specific Characters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#negated-character-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Negated Character Classes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#predefined-character-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Predefined Character Classes
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anchors-match-positions-not-characters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Anchors — Match Positions, Not Characters
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Anchors — Match Positions, Not Characters">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#start-of-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      Start of Line: ^
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#end-of-line" class="md-nav__link">
+    <span class="md-ellipsis">
+      End of Line: $
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#combining-anchors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Combining Anchors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-bioinformatics-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practical Bioinformatics Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quantifiers-repeat-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quantifiers — Repeat Patterns
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quantifiers — Repeat Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-quantifiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Quantifiers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples-with-zero-or-more" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples with * (Zero or More)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples-with-one-or-more" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples with + (One or More)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples-with-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples with ? (Optional)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples-with-n-exact-count" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples with {n} (Exact Count)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples-with-nm-range" class="md-nav__link">
+    <span class="md-ellipsis">
+      Examples with {n,m} (Range)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dna-motif-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      DNA Motif Examples
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grouping-with-treat-multiple-characters-as-one" class="md-nav__link">
+    <span class="md-ellipsis">
+      Grouping with (...) — Treat Multiple Characters as One
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Grouping with (...) — Treat Multiple Characters as One">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#without-grouping" class="md-nav__link">
+    <span class="md-ellipsis">
+      Without Grouping
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-grouping" class="md-nav__link">
+    <span class="md-ellipsis">
+      With Grouping
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-example-tandem-repeats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practical Example: Tandem Repeats
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternation-with-match-this-or-that" class="md-nav__link">
+    <span class="md-ellipsis">
+      Alternation with | — Match This OR That
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Alternation with | — Match This OR That">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#combining-with-groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      Combining with Groups
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiple-alternations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multiple Alternations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-escapes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Escapes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-matching-version-numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example: Matching Version Numbers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grep-flavors-basic-vs-extended-vs-perl" class="md-nav__link">
+    <span class="md-ellipsis">
+      grep Flavors: Basic vs Extended vs Perl
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="grep Flavors: Basic vs Extended vs Perl">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-basic-regular-expressions-bre" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Basic Regular Expressions (BRE)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-extended-regular-expressions-ere" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Extended Regular Expressions (ERE)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-perl-compatible-regular-expressions-pcre" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Perl-Compatible Regular Expressions (PCRE)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-bioinformatics-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practical Bioinformatics Applications
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practical Bioinformatics Applications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-validate-sample-ids" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Validate Sample IDs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-find-dna-motifs" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Find DNA Motifs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-extract-email-addresses" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Extract Email Addresses
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-parse-fasta-headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Parse FASTA Headers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-validate-genomic-coordinates" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Validate Genomic Coordinates
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practice-exercises" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practice Exercises
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practice Exercises">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-create-test-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup: Create Test Files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercises" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercises
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-exit-ticket-challenge-variant-annotation-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Exit Ticket Challenge: Variant Annotation File
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Exit Ticket Challenge: Variant Annotation File">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#format-explanation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Format Explanation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#your-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Your Tasks
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Syntax
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#anchors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Anchors
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#character-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Character Classes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantifiers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quantifiers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#groups-and-alternation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Groups and Alternation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grep-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      grep Options
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exit-ticket" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exit Ticket
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="module-6-regular-expressions-for-bioinformatics">Module 6 — Regular Expressions for Bioinformatics</h1>
+<p><strong>Time:</strong> 90–120 min
+<strong>Goal:</strong> Master regular expressions (regex) for powerful pattern matching in genomic data, sample manifests, and sequence motifs.
+<strong>Exit ticket (email me):</strong> Your solutions to the variant annotation challenge with all regex patterns used.</p>
+<hr />
+<h2 id="what-youll-learn">What You'll Learn</h2>
+<p>By the end of this module, you will understand:</p>
+<ul>
+<li>What regular expressions are and how they differ from wildcards</li>
+<li>Literal characters and metacharacters</li>
+<li>Anchors (^, $) for matching positions</li>
+<li>Character classes ([...]) and predefined classes (\d, \w, \s)</li>
+<li>Quantifiers (*, +, ?, {n,m}) for repetition</li>
+<li>Groups and capturing with (...)</li>
+<li>Alternation with |</li>
+<li>Practical bioinformatics applications: validating IDs, finding motifs, parsing file formats</li>
+</ul>
+<hr />
+<h2 id="regular-expressions-vs-wildcards">Regular Expressions vs Wildcards</h2>
+<p>In Module 4, we learned <strong>wildcards (globs)</strong> for matching file names. Now we'll learn <strong>regular expressions</strong> for matching text <strong>inside</strong> files.</p>
+<h3 id="key-differences">Key Differences</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Wildcards (Globs)</th>
+<th>Regular Expressions (Regex)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Used for</strong></td>
+<td>Matching <strong>file names</strong></td>
+<td>Matching <strong>text content</strong></td>
+</tr>
+<tr>
+<td><strong>Commands</strong></td>
+<td><code>ls</code>, <code>cp</code>, <code>mv</code>, <code>rm</code></td>
+<td><code>grep</code>, <code>sed</code>, <code>awk</code>, <code>perl</code></td>
+</tr>
+<tr>
+<td><strong><code>*</code> means</strong></td>
+<td>Zero or more characters</td>
+<td>Repeat previous character</td>
+</tr>
+<tr>
+<td><strong><code>.</code> means</strong></td>
+<td>Literal dot</td>
+<td>Any single character</td>
+</tr>
+<tr>
+<td><strong>Complexity</strong></td>
+<td>Simple patterns</td>
+<td>Very powerful patterns</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example contrast:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Wildcard (file names):</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>ls<span class="w"> </span>sample*.fastq<span class="w">        </span><span class="c1"># Match files: sample001.fastq, sample_ABC.fastq</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># Regex (text content):</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>grep<span class="w"> </span><span class="s1">&#39;sample.*fastq&#39;</span><span class="w"> </span>file.txt<span class="w">   </span><span class="c1"># Match text containing &quot;sample&quot; then anything then &quot;fastq&quot;</span>
+</code></pre></div>
+<h3 id="when-to-use-each">When to Use Each</h3>
+<ul>
+<li><strong>Wildcards</strong>: When working with files and directories</li>
+<li><strong>Regex</strong>: When searching or processing text content</li>
+</ul>
+<hr />
+<h2 id="your-first-regular-expression">Your First Regular Expression</h2>
+<p>Let's start simple:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">cd</span><span class="w"> </span>~/bioinfo-course
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>module06
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nb">cd</span><span class="w"> </span>module06
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># Create a sample manifest</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>samples.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="s">SMP-001 tumor patient_A</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="s">SMP-002 normal patient_A</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="s">SMP-003 tumor patient_B</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="s">BACKUP-SMP-001 tumor patient_A</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="s">SMP-004X normal patient_B</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="s">SMP-999 tumor patient_C</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="s">EOF</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="c1"># Search for lines containing &quot;SMP&quot;</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>grep<span class="w"> </span><span class="s1">&#39;SMP&#39;</span><span class="w"> </span>samples.txt
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>SMP-001 tumor patient_A
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>SMP-002 normal patient_A
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>SMP-003 tumor patient_B
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>BACKUP-SMP-001 tumor patient_A
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>SMP-004X normal patient_B
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>SMP-999 tumor patient_C
+</code></pre></div></p>
+<p>All lines contain "SMP" somewhere, so they all match. Let's get more specific.</p>
+<hr />
+<h2 id="literal-characters">Literal Characters</h2>
+<p>Most characters in a regex match themselves exactly. These are called <strong>literal characters</strong>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Match exactly &quot;tumor&quot;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>grep<span class="w"> </span><span class="s1">&#39;tumor&#39;</span><span class="w"> </span>samples.txt
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>SMP-001 tumor patient_A
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>SMP-003 tumor patient_B
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>BACKUP-SMP-001 tumor patient_A
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>SMP-999 tumor patient_C
+</code></pre></div></p>
+<p><strong>Multiple words:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Match &quot;patient_B&quot;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>grep<span class="w"> </span><span class="s1">&#39;patient_B&#39;</span><span class="w"> </span>samples.txt
+</code></pre></div></p>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>SMP-003 tumor patient_B
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>SMP-004X normal patient_B
+</code></pre></div></p>
+<p>Simple! But some characters are special...</p>
+<hr />
+<h2 id="metacharacters-special-characters-with-superpowers">Metacharacters: Special Characters with Superpowers</h2>
+<p><strong>Metacharacters</strong> have special meanings in regex instead of matching themselves literally.</p>
+<h3 id="the-metacharacters">The Metacharacters</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>. ^ $ * + ? { } [ ] \ | ( )
+</code></pre></div>
+<p>We'll learn each one. For now, know that if you want to match them literally, you need to <strong>escape</strong> them with a backslash <code>\</code>.</p>
+<p><strong>Example: Match a literal dot</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Create a file list</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;file.txt&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>files.txt
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;fileAtxt&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>files.txt
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;file-txt&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>files.txt
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="c1"># Wrong: . matches ANY character</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>grep<span class="w"> </span><span class="s1">&#39;file.txt&#39;</span><span class="w"> </span>files.txt
+</code></pre></div></p>
+<p>Output (matches all!):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>file.txt
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>fileAtxt
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>file-txt
+</code></pre></div></p>
+<p><strong>Correct: Escape the dot</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>grep<span class="w"> </span><span class="s1">&#39;file\.txt&#39;</span><span class="w"> </span>files.txt
+</code></pre></div></p>
+<p>Output (only the exact match):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>file.txt
+</code></pre></div></p>
+<hr />
+<h2 id="the-dot-match-any-single-character">The Dot (.) — Match Any Single Character</h2>
+<p>The <strong>dot</strong> (<code>.</code>) matches <strong>any single character</strong> except newline.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>sequences.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="s">ATGC</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="s">ATCC</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="s">ATNC</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="s">AT-C</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="s">AT7C</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="s">EOF</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="c1"># Match &quot;AT&quot; + any character + &quot;C&quot;</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>grep<span class="w"> </span><span class="s1">&#39;AT.C&#39;</span><span class="w"> </span>sequences.txt
+</code></pre></div>
+<p>Output (all match because . matches any character):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>ATGC
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>ATCC
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>ATNC
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>AT-C
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>AT7C
+</code></pre></div></p>
+<p><strong>Practical example:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Match sample IDs like SMP-001, SMP-002, etc.</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="c1"># Pattern: SMP-00 followed by any single digit</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>grep<span class="w"> </span><span class="s1">&#39;SMP-00.&#39;</span><span class="w"> </span>samples.txt
+</code></pre></div></p>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>SMP-001 tumor patient_A
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>SMP-002 normal patient_A
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>SMP-003 tumor patient_B
+</code></pre></div></p>
+<p>But this also matches <code>SMP-004X</code> if we had <code>SMP-00X</code>. Let's be more specific with character classes...</p>
+<hr />
+<h2 id="character-classes-match-specific-characters">Character Classes [...] — Match Specific Characters</h2>
+<p><strong>Character classes</strong> let you specify which characters are allowed in a position.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="o">[</span>abc<span class="o">]</span><span class="w">      </span><span class="c1"># Match a, b, or c</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="o">[</span><span class="m">0</span>-9<span class="o">]</span><span class="w">      </span><span class="c1"># Match any digit</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="o">[</span>A-Z<span class="o">]</span><span class="w">      </span><span class="c1"># Match any uppercase letter</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="o">[</span>a-z<span class="o">]</span><span class="w">      </span><span class="c1"># Match any lowercase letter</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="o">[</span>a-zA-Z<span class="o">]</span><span class="w">   </span><span class="c1"># Match any letter</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="o">[</span>^abc<span class="o">]</span><span class="w">     </span><span class="c1"># Match anything EXCEPT a, b, or c (negation)</span>
+</code></pre></div>
+<p><strong>Note:</strong> Inside brackets, most metacharacters lose their special meaning (except <code>^</code>, <code>-</code>, <code>]</code>, and <code>\</code>).</p>
+<h3 id="examples">Examples</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Match SMP- followed by exactly 3 digits</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>grep<span class="w"> </span><span class="s1">&#39;SMP-[0-9][0-9][0-9]&#39;</span><span class="w"> </span>samples.txt
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>SMP-001 tumor patient_A
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>SMP-002 normal patient_A
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>SMP-003 tumor patient_B
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>SMP-999 tumor patient_C
+</code></pre></div></p>
+<p>Doesn't match <code>SMP-004X</code> (has an X) or <code>BACKUP-SMP-001</code> (doesn't start with SMP-).</p>
+<p><strong>Match samples ending with specific patients:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Match patient_A or patient_B</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>grep<span class="w"> </span><span class="s1">&#39;patient_[AB]&#39;</span><span class="w"> </span>samples.txt
+</code></pre></div></p>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>SMP-001 tumor patient_A
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>SMP-002 normal patient_A
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>SMP-003 tumor patient_B
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>SMP-004X normal patient_B
+</code></pre></div></p>
+<h3 id="negated-character-classes">Negated Character Classes</h3>
+<p>Use <code>^</code> at the start to match anything EXCEPT those characters:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>ids.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="s">ID-A01</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="s">ID-B02</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="s">ID-C03</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="s">ID-X99</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="s">EOF</span>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="c1"># Match IDs that DON&#39;T contain X, Y, or Z</span>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>grep<span class="w"> </span><span class="s1">&#39;ID-[^XYZ]&#39;</span><span class="w"> </span>ids.txt
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>ID-A01
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>ID-B02
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>ID-C03
+</code></pre></div></p>
+<h3 id="predefined-character-classes">Predefined Character Classes</h3>
+<p>Some character classes are so common they have shortcuts:</p>
+<table>
+<thead>
+<tr>
+<th>Shortcut</th>
+<th>Equivalent</th>
+<th>Matches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>\d</code></td>
+<td><code>[0-9]</code></td>
+<td>Any digit</td>
+</tr>
+<tr>
+<td><code>\D</code></td>
+<td><code>[^0-9]</code></td>
+<td>Any non-digit</td>
+</tr>
+<tr>
+<td><code>\w</code></td>
+<td><code>[a-zA-Z0-9_]</code></td>
+<td>Word character (letter, digit, underscore)</td>
+</tr>
+<tr>
+<td><code>\W</code></td>
+<td><code>[^a-zA-Z0-9_]</code></td>
+<td>Non-word character</td>
+</tr>
+<tr>
+<td><code>\s</code></td>
+<td><code>[ \t\n\r]</code></td>
+<td>Whitespace (space, tab, newline)</td>
+</tr>
+<tr>
+<td><code>\S</code></td>
+<td><code>[^ \t\n\r]</code></td>
+<td>Non-whitespace</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Important:</strong> With <code>grep</code>, use <code>-P</code> flag for these shortcuts (Perl-compatible regex):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Match sample IDs with digits</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>grep<span class="w"> </span>-P<span class="w"> </span><span class="s1">&#39;SMP-\d{3}&#39;</span><span class="w"> </span>samples.txt
+</code></pre></div>
+<p>Or use the extended regex flag <code>-E</code> with traditional classes:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;SMP-[0-9]{3}&#39;</span><span class="w"> </span>samples.txt
+</code></pre></div>
+<hr />
+<h2 id="anchors-match-positions-not-characters">Anchors — Match Positions, Not Characters</h2>
+<p><strong>Anchors</strong> don't match characters—they match <strong>positions</strong> in the string.</p>
+<h3 id="start-of-line">Start of Line: <code>^</code></h3>
+<p><code>^</code> matches the beginning of a line.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Match lines that START with &quot;SMP-&quot;</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>grep<span class="w"> </span><span class="s1">&#39;^SMP-&#39;</span><span class="w"> </span>samples.txt
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>SMP-001 tumor patient_A
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>SMP-002 normal patient_A
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>SMP-003 tumor patient_B
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>SMP-004X normal patient_B
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>SMP-999 tumor patient_C
+</code></pre></div></p>
+<p>Doesn't match <code>BACKUP-SMP-001</code> (doesn't start with SMP-).</p>
+<h3 id="end-of-line">End of Line: <code>$</code></h3>
+<p><code>$</code> matches the end of a line.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># Match lines that END with &quot;patient_A&quot;</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>grep<span class="w"> </span><span class="s1">&#39;patient_A$&#39;</span><span class="w"> </span>samples.txt
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>SMP-001 tumor patient_A
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>SMP-002 normal patient_A
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>BACKUP-SMP-001 tumor patient_A
+</code></pre></div></p>
+<h3 id="combining-anchors">Combining Anchors</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># Match lines that are EXACTLY &quot;tumor&quot;</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>types.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="s">tumor</span>
+<a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="s">normal</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a><span class="s">tumor_derived</span>
+<a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a><span class="s">EOF</span>
+<a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>
+<a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>grep<span class="w"> </span><span class="s1">&#39;^tumor$&#39;</span><span class="w"> </span>types.txt
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>tumor
+</code></pre></div></p>
+<p>Only the exact line, not <code>tumor_derived</code>.</p>
+<h3 id="practical-bioinformatics-example">Practical Bioinformatics Example</h3>
+<p><strong>Validate sample IDs that must be exactly in the format SMP-###:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Must start with SMP-, have exactly 3 digits, and nothing after</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;^SMP-[0-9]{3}$&#39;</span><span class="w"> </span>samples.txt
+</code></pre></div>
+<p>This rejects:
+- Lines not starting with SMP-
+- Lines with more/fewer than 3 digits
+- Lines with anything after the digits</p>
+<hr />
+<h2 id="quantifiers-repeat-patterns">Quantifiers — Repeat Patterns</h2>
+<p>Quantifiers specify how many times the previous element should repeat.</p>
+<h3 id="basic-quantifiers">Basic Quantifiers</h3>
+<table>
+<thead>
+<tr>
+<th>Quantifier</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>*</code></td>
+<td>Zero or more times</td>
+<td><code>a*</code> matches "", "a", "aa", "aaa"</td>
+</tr>
+<tr>
+<td><code>+</code></td>
+<td>One or more times</td>
+<td><code>a+</code> matches "a", "aa", "aaa" (not "")</td>
+</tr>
+<tr>
+<td><code>?</code></td>
+<td>Zero or one time (optional)</td>
+<td><code>a?</code> matches "", "a"</td>
+</tr>
+<tr>
+<td><code>{n}</code></td>
+<td>Exactly n times</td>
+<td><code>a{3}</code> matches "aaa"</td>
+</tr>
+<tr>
+<td><code>{n,}</code></td>
+<td>At least n times</td>
+<td><code>a{2,}</code> matches "aa", "aaa", "aaaa"</td>
+</tr>
+<tr>
+<td><code>{n,m}</code></td>
+<td>Between n and m times</td>
+<td><code>a{2,4}</code> matches "aa", "aaa", "aaaa"</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Important:</strong> The quantifier applies to the character or group immediately before it!</p>
+<h3 id="examples-with-zero-or-more">Examples with <code>*</code> (Zero or More)</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>codes.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="s">SMP001</span>
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="s">SMP-001</span>
+<a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="s">SMP--001</span>
+<a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="s">SMP---001</span>
+<a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a><span class="s">EOF</span>
+<a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a>
+<a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a><span class="c1"># Match SMP, then zero or more dashes, then 001</span>
+<a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a>grep<span class="w"> </span><span class="s1">&#39;SMP-*001&#39;</span><span class="w"> </span>codes.txt
+</code></pre></div>
+<p>Output (all match):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>SMP001
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>SMP-001
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>SMP--001
+<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>SMP---001
+</code></pre></div></p>
+<h3 id="examples-with-one-or-more">Examples with <code>+</code> (One or More)</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="c1"># Match SMP, then ONE OR MORE dashes, then 001</span>
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>grep<span class="w"> </span><span class="s1">&#39;SMP-\+001&#39;</span><span class="w"> </span>codes.txt
+</code></pre></div>
+<p>Output (doesn't match SMP001 with no dashes):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>SMP-001
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>SMP--001
+<a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>SMP---001
+</code></pre></div></p>
+<p><strong>Note:</strong> In basic grep, you need to escape <code>+</code> as <code>\+</code>. With <code>grep -E</code> (extended), you don't:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;SMP-+001&#39;</span><span class="w"> </span>codes.txt<span class="w">    </span><span class="c1"># Same result</span>
+</code></pre></div>
+<h3 id="examples-with-optional">Examples with <code>?</code> (Optional)</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>colors.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a><span class="s">color</span>
+<a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a><span class="s">colour</span>
+<a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a><span class="s">EOF</span>
+<a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a>
+<a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a><span class="c1"># Match &quot;colo&quot; + optional &quot;u&quot; + &quot;r&quot;</span>
+<a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;colou?r&#39;</span><span class="w"> </span>colors.txt
+</code></pre></div>
+<p>Output (both match):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>color
+<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>colour
+</code></pre></div></p>
+<h3 id="examples-with-n-exact-count">Examples with <code>{n}</code> (Exact Count)</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="c1"># Match exactly 3 digits</span>
+<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;[0-9]{3}&#39;</span><span class="w"> </span>samples.txt
+</code></pre></div>
+<h3 id="examples-with-nm-range">Examples with <code>{n,m}</code> (Range)</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>phone.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a><span class="s">555-1234</span>
+<a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a><span class="s">555-12345</span>
+<a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a><span class="s">555-123456</span>
+<a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a><span class="s">555-12</span>
+<a id="__codelineno-40-6" name="__codelineno-40-6" href="#__codelineno-40-6"></a><span class="s">EOF</span>
+<a id="__codelineno-40-7" name="__codelineno-40-7" href="#__codelineno-40-7"></a>
+<a id="__codelineno-40-8" name="__codelineno-40-8" href="#__codelineno-40-8"></a><span class="c1"># Match phone numbers with 4 to 6 digits after the dash</span>
+<a id="__codelineno-40-9" name="__codelineno-40-9" href="#__codelineno-40-9"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;555-[0-9]{4,6}&#39;</span><span class="w"> </span>phone.txt
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>555-1234
+<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>555-12345
+<a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>555-123456
+</code></pre></div></p>
+<h3 id="dna-motif-examples">DNA Motif Examples</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>dna.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a><span class="s">ATGCCCCCGAT</span>
+<a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a><span class="s">ATGCGAT</span>
+<a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a><span class="s">ATGCCGAT</span>
+<a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a><span class="s">ATGCCCGAT</span>
+<a id="__codelineno-42-6" name="__codelineno-42-6" href="#__codelineno-42-6"></a><span class="s">EOF</span>
+<a id="__codelineno-42-7" name="__codelineno-42-7" href="#__codelineno-42-7"></a>
+<a id="__codelineno-42-8" name="__codelineno-42-8" href="#__codelineno-42-8"></a><span class="c1"># Match poly-C: &quot;ATGC&quot; + 2 to 5 Cs + &quot;GAT&quot;</span>
+<a id="__codelineno-42-9" name="__codelineno-42-9" href="#__codelineno-42-9"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;ATGC{2,5}GAT&#39;</span><span class="w"> </span>dna.txt
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>ATGCCCCCGAT
+<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>ATGCCGAT
+<a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>ATGCCCGAT
+</code></pre></div></p>
+<hr />
+<h2 id="grouping-with-treat-multiple-characters-as-one">Grouping with (...) — Treat Multiple Characters as One</h2>
+<p>Parentheses <code>()</code> group characters together so quantifiers apply to the whole group.</p>
+<h3 id="without-grouping">Without Grouping</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="c1"># This repeats only the &quot;e&quot;</span>
+<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;AGe{3}&#39;</span><span class="w"> </span>dna.txt<span class="w">    </span><span class="c1"># Matches &quot;AGeee&quot;</span>
+</code></pre></div>
+<h3 id="with-grouping">With Grouping</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>repeats.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a><span class="s">AGAGAG</span>
+<a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a><span class="s">ATATAT</span>
+<a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a><span class="s">AGAG</span>
+<a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a><span class="s">ATAT</span>
+<a id="__codelineno-45-6" name="__codelineno-45-6" href="#__codelineno-45-6"></a><span class="s">EOF</span>
+<a id="__codelineno-45-7" name="__codelineno-45-7" href="#__codelineno-45-7"></a>
+<a id="__codelineno-45-8" name="__codelineno-45-8" href="#__codelineno-45-8"></a><span class="c1"># Match &quot;AG&quot; repeated exactly 3 times</span>
+<a id="__codelineno-45-9" name="__codelineno-45-9" href="#__codelineno-45-9"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;(AG){3}&#39;</span><span class="w"> </span>repeats.txt
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>AGAGAG
+</code></pre></div></p>
+<h3 id="practical-example-tandem-repeats">Practical Example: Tandem Repeats</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>microsatellite.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a><span class="s">ATCGATCGATCG</span>
+<a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a><span class="s">CAGCAGCAGCAG</span>
+<a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a><span class="s">TTATTATTA</span>
+<a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a><span class="s">GGCGGCGGC</span>
+<a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a><span class="s">EOF</span>
+<a id="__codelineno-47-7" name="__codelineno-47-7" href="#__codelineno-47-7"></a>
+<a id="__codelineno-47-8" name="__codelineno-47-8" href="#__codelineno-47-8"></a><span class="c1"># Match &quot;CAG&quot; repeated 2-4 times</span>
+<a id="__codelineno-47-9" name="__codelineno-47-9" href="#__codelineno-47-9"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;(CAG){2,4}&#39;</span><span class="w"> </span>microsatellite.txt
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>CAGCAGCAGCAG
+</code></pre></div></p>
+<hr />
+<h2 id="alternation-with-match-this-or-that">Alternation with | — Match This OR That</h2>
+<p>The pipe <code>|</code> means "or" — match the pattern on the left OR the right.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>phenotypes.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a><span class="s">patient001 resistant healthy</span>
+<a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a><span class="s">patient002 sensitive sick</span>
+<a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a><span class="s">patient003 resistant sick</span>
+<a id="__codelineno-49-5" name="__codelineno-49-5" href="#__codelineno-49-5"></a><span class="s">patient004 sensitive healthy</span>
+<a id="__codelineno-49-6" name="__codelineno-49-6" href="#__codelineno-49-6"></a><span class="s">EOF</span>
+<a id="__codelineno-49-7" name="__codelineno-49-7" href="#__codelineno-49-7"></a>
+<a id="__codelineno-49-8" name="__codelineno-49-8" href="#__codelineno-49-8"></a><span class="c1"># Match lines with &quot;resistant&quot; OR &quot;sensitive&quot;</span>
+<a id="__codelineno-49-9" name="__codelineno-49-9" href="#__codelineno-49-9"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;resistant|sensitive&#39;</span><span class="w"> </span>phenotypes.txt
+</code></pre></div>
+<p>Output (all match):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>patient001 resistant healthy
+<a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a>patient002 sensitive sick
+<a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a>patient003 resistant sick
+<a id="__codelineno-50-4" name="__codelineno-50-4" href="#__codelineno-50-4"></a>patient004 sensitive healthy
+</code></pre></div></p>
+<h3 id="combining-with-groups">Combining with Groups</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="c1"># Match tumor OR normal samples</span>
+<a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;^SMP-[0-9]{3} (tumor|normal)&#39;</span><span class="w"> </span>samples.txt
+</code></pre></div>
+<h3 id="multiple-alternations">Multiple Alternations</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="c1"># Match lines mentioning patient_A OR patient_B OR patient_C</span>
+<a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;patient_(A|B|C)&#39;</span><span class="w"> </span>samples.txt
+</code></pre></div>
+<hr />
+<p>## Escape Characters: \</p>
+<p>To match metacharacters literally, escape them with <code>\</code>.</p>
+<h3 id="common-escapes">Common Escapes</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a><span class="se">\.</span><span class="w">    </span><span class="c1"># Literal dot</span>
+<a id="__codelineno-53-2" name="__codelineno-53-2" href="#__codelineno-53-2"></a><span class="se">\*</span><span class="w">    </span><span class="c1"># Literal asterisk</span>
+<a id="__codelineno-53-3" name="__codelineno-53-3" href="#__codelineno-53-3"></a><span class="se">\+</span><span class="w">    </span><span class="c1"># Literal plus</span>
+<a id="__codelineno-53-4" name="__codelineno-53-4" href="#__codelineno-53-4"></a><span class="se">\?</span><span class="w">    </span><span class="c1"># Literal question mark</span>
+<a id="__codelineno-53-5" name="__codelineno-53-5" href="#__codelineno-53-5"></a><span class="se">\^</span><span class="w">    </span><span class="c1"># Literal caret</span>
+<a id="__codelineno-53-6" name="__codelineno-53-6" href="#__codelineno-53-6"></a><span class="se">\$</span><span class="w">    </span><span class="c1"># Literal dollar sign</span>
+<a id="__codelineno-53-7" name="__codelineno-53-7" href="#__codelineno-53-7"></a><span class="se">\[</span><span class="w">    </span><span class="c1"># Literal left bracket</span>
+<a id="__codelineno-53-8" name="__codelineno-53-8" href="#__codelineno-53-8"></a><span class="se">\]</span><span class="w">    </span><span class="c1"># Literal right bracket</span>
+<a id="__codelineno-53-9" name="__codelineno-53-9" href="#__codelineno-53-9"></a><span class="se">\(</span><span class="w">    </span><span class="c1"># Literal left paren</span>
+<a id="__codelineno-53-10" name="__codelineno-53-10" href="#__codelineno-53-10"></a><span class="se">\)</span><span class="w">    </span><span class="c1"># Literal right paren</span>
+<a id="__codelineno-53-11" name="__codelineno-53-11" href="#__codelineno-53-11"></a><span class="se">\\</span><span class="w">    </span><span class="c1"># Literal backslash</span>
+</code></pre></div>
+<h3 id="example-matching-version-numbers">Example: Matching Version Numbers</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>versions.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-54-2" name="__codelineno-54-2" href="#__codelineno-54-2"></a><span class="s">version 1.0</span>
+<a id="__codelineno-54-3" name="__codelineno-54-3" href="#__codelineno-54-3"></a><span class="s">version 2.5</span>
+<a id="__codelineno-54-4" name="__codelineno-54-4" href="#__codelineno-54-4"></a><span class="s">version 10.12</span>
+<a id="__codelineno-54-5" name="__codelineno-54-5" href="#__codelineno-54-5"></a><span class="s">EOF</span>
+<a id="__codelineno-54-6" name="__codelineno-54-6" href="#__codelineno-54-6"></a>
+<a id="__codelineno-54-7" name="__codelineno-54-7" href="#__codelineno-54-7"></a><span class="c1"># Match &quot;version&quot; + space + number + dot + number</span>
+<a id="__codelineno-54-8" name="__codelineno-54-8" href="#__codelineno-54-8"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;version [0-9]+\.[0-9]+&#39;</span><span class="w"> </span>versions.txt
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>version 1.0
+<a id="__codelineno-55-2" name="__codelineno-55-2" href="#__codelineno-55-2"></a>version 2.5
+<a id="__codelineno-55-3" name="__codelineno-55-3" href="#__codelineno-55-3"></a>version 10.12
+</code></pre></div></p>
+<hr />
+<h2 id="grep-flavors-basic-vs-extended-vs-perl">grep Flavors: Basic vs Extended vs Perl</h2>
+<p><code>grep</code> has different regex flavors:</p>
+<h3 id="1-basic-regular-expressions-bre">1. Basic Regular Expressions (BRE)</h3>
+<p>Default <code>grep</code> — requires escaping <code>+</code>, <code>?</code>, <code>{</code>, <code>}</code>, <code>|</code>, <code>(</code>, <code>)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>grep<span class="w"> </span><span class="s1">&#39;pattern\+&#39;</span><span class="w"> </span>file.txt<span class="w">    </span><span class="c1"># Need to escape +</span>
+</code></pre></div>
+<h3 id="2-extended-regular-expressions-ere">2. Extended Regular Expressions (ERE)</h3>
+<p>Use <code>grep -E</code> or <code>egrep</code> — don't escape <code>+</code>, <code>?</code>, <code>{</code>, <code>}</code>, <code>|</code>, <code>(</code>, <code>)</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;pattern+&#39;</span><span class="w"> </span>file.txt<span class="w">    </span><span class="c1"># No escape needed</span>
+</code></pre></div>
+<p><strong>Recommendation:</strong> Always use <code>grep -E</code> for clarity!</p>
+<h3 id="3-perl-compatible-regular-expressions-pcre">3. Perl-Compatible Regular Expressions (PCRE)</h3>
+<p>Use <code>grep -P</code> — most powerful, supports <code>\d</code>, <code>\w</code>, <code>\s</code>, lookaheads, and more</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>grep<span class="w"> </span>-P<span class="w"> </span><span class="s1">&#39;\d{3}-\d{4}&#39;</span><span class="w"> </span>file.txt
+</code></pre></div>
+<p><strong>Note:</strong> <code>grep -P</code> isn't available on all systems (especially macOS). For portability, stick with <code>grep -E</code>.</p>
+<hr />
+<h2 id="practical-bioinformatics-applications">Practical Bioinformatics Applications</h2>
+<h3 id="1-validate-sample-ids">1. Validate Sample IDs</h3>
+<p><strong>Requirement:</strong> Sample IDs must be exactly <code>SMP-</code> followed by 3 digits.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>manifest.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-59-2" name="__codelineno-59-2" href="#__codelineno-59-2"></a><span class="s">SMP-001</span>
+<a id="__codelineno-59-3" name="__codelineno-59-3" href="#__codelineno-59-3"></a><span class="s">SMP-042</span>
+<a id="__codelineno-59-4" name="__codelineno-59-4" href="#__codelineno-59-4"></a><span class="s">SMP-999</span>
+<a id="__codelineno-59-5" name="__codelineno-59-5" href="#__codelineno-59-5"></a><span class="s">BACKUP-SMP-001</span>
+<a id="__codelineno-59-6" name="__codelineno-59-6" href="#__codelineno-59-6"></a><span class="s">SMP-1234</span>
+<a id="__codelineno-59-7" name="__codelineno-59-7" href="#__codelineno-59-7"></a><span class="s">SMP-01</span>
+<a id="__codelineno-59-8" name="__codelineno-59-8" href="#__codelineno-59-8"></a><span class="s">SMP-A01</span>
+<a id="__codelineno-59-9" name="__codelineno-59-9" href="#__codelineno-59-9"></a><span class="s">EOF</span>
+<a id="__codelineno-59-10" name="__codelineno-59-10" href="#__codelineno-59-10"></a>
+<a id="__codelineno-59-11" name="__codelineno-59-11" href="#__codelineno-59-11"></a><span class="c1"># Valid sample IDs only</span>
+<a id="__codelineno-59-12" name="__codelineno-59-12" href="#__codelineno-59-12"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;^SMP-[0-9]{3}$&#39;</span><span class="w"> </span>manifest.txt
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a>SMP-001
+<a id="__codelineno-60-2" name="__codelineno-60-2" href="#__codelineno-60-2"></a>SMP-042
+<a id="__codelineno-60-3" name="__codelineno-60-3" href="#__codelineno-60-3"></a>SMP-999
+</code></pre></div></p>
+<h3 id="2-find-dna-motifs">2. Find DNA Motifs</h3>
+<p><strong>Find TATA box (TATAAA or TATAAAA):</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>promoter.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-61-2" name="__codelineno-61-2" href="#__codelineno-61-2"></a><span class="s">GCGATATAAAAGGCT</span>
+<a id="__codelineno-61-3" name="__codelineno-61-3" href="#__codelineno-61-3"></a><span class="s">ATGCGCTATAAGGCT</span>
+<a id="__codelineno-61-4" name="__codelineno-61-4" href="#__codelineno-61-4"></a><span class="s">CGCTATAATTAGGCT</span>
+<a id="__codelineno-61-5" name="__codelineno-61-5" href="#__codelineno-61-5"></a><span class="s">EOF</span>
+<a id="__codelineno-61-6" name="__codelineno-61-6" href="#__codelineno-61-6"></a>
+<a id="__codelineno-61-7" name="__codelineno-61-7" href="#__codelineno-61-7"></a><span class="c1"># Match &quot;TATA&quot; + 2 or 3 As</span>
+<a id="__codelineno-61-8" name="__codelineno-61-8" href="#__codelineno-61-8"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;TATA{2,3}&#39;</span><span class="w"> </span>promoter.txt
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a>GCGATATAAAAGGCT
+<a id="__codelineno-62-2" name="__codelineno-62-2" href="#__codelineno-62-2"></a>ATGCGCTATAAGGCT
+</code></pre></div></p>
+<p><strong>Find poly-A tails (10+ As):</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>sequences.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-63-2" name="__codelineno-63-2" href="#__codelineno-63-2"></a><span class="s">ATGCGCTAAAAAAAAAAAAGTC</span>
+<a id="__codelineno-63-3" name="__codelineno-63-3" href="#__codelineno-63-3"></a><span class="s">CGTATGCAAAAGTC</span>
+<a id="__codelineno-63-4" name="__codelineno-63-4" href="#__codelineno-63-4"></a><span class="s">TGCAAAAAAAAAAAAAAAAAAATGC</span>
+<a id="__codelineno-63-5" name="__codelineno-63-5" href="#__codelineno-63-5"></a><span class="s">EOF</span>
+<a id="__codelineno-63-6" name="__codelineno-63-6" href="#__codelineno-63-6"></a>
+<a id="__codelineno-63-7" name="__codelineno-63-7" href="#__codelineno-63-7"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;A{10,}&#39;</span><span class="w"> </span>sequences.txt
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a>ATGCGCTAAAAAAAAAAAAGTC
+<a id="__codelineno-64-2" name="__codelineno-64-2" href="#__codelineno-64-2"></a>TGCAAAAAAAAAAAAAAAAAAATGC
+</code></pre></div></p>
+<h3 id="3-extract-email-addresses">3. Extract Email Addresses</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>contacts.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-65-2" name="__codelineno-65-2" href="#__codelineno-65-2"></a><span class="s">Contact: john.doe@university.edu</span>
+<a id="__codelineno-65-3" name="__codelineno-65-3" href="#__codelineno-65-3"></a><span class="s">Email jane_smith@lab.org for details</span>
+<a id="__codelineno-65-4" name="__codelineno-65-4" href="#__codelineno-65-4"></a><span class="s">Reach out to admin@server.com</span>
+<a id="__codelineno-65-5" name="__codelineno-65-5" href="#__codelineno-65-5"></a><span class="s">EOF</span>
+<a id="__codelineno-65-6" name="__codelineno-65-6" href="#__codelineno-65-6"></a>
+<a id="__codelineno-65-7" name="__codelineno-65-7" href="#__codelineno-65-7"></a><span class="c1"># Simple email pattern</span>
+<a id="__codelineno-65-8" name="__codelineno-65-8" href="#__codelineno-65-8"></a>grep<span class="w"> </span>-E<span class="w"> </span>-o<span class="w"> </span><span class="s1">&#39;[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}&#39;</span><span class="w"> </span>contacts.txt
+</code></pre></div>
+<p>The <code>-o</code> flag shows only the matching part:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a>john.doe@university.edu
+<a id="__codelineno-66-2" name="__codelineno-66-2" href="#__codelineno-66-2"></a>jane_smith@lab.org
+<a id="__codelineno-66-3" name="__codelineno-66-3" href="#__codelineno-66-3"></a>admin@server.com
+</code></pre></div></p>
+<h3 id="4-parse-fasta-headers">4. Parse FASTA Headers</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>sequences.fasta<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-67-2" name="__codelineno-67-2" href="#__codelineno-67-2"></a><span class="s">&gt;NM_001234.5 Homo sapiens gene [organism=human]</span>
+<a id="__codelineno-67-3" name="__codelineno-67-3" href="#__codelineno-67-3"></a><span class="s">ATGCGCTAG</span>
+<a id="__codelineno-67-4" name="__codelineno-67-4" href="#__codelineno-67-4"></a><span class="s">&gt;XM_005678.2 Mus musculus protein [organism=mouse]</span>
+<a id="__codelineno-67-5" name="__codelineno-67-5" href="#__codelineno-67-5"></a><span class="s">GCTAGCTAG</span>
+<a id="__codelineno-67-6" name="__codelineno-67-6" href="#__codelineno-67-6"></a><span class="s">&gt;NR_999999.1 Rattus norvegicus RNA [organism=rat]</span>
+<a id="__codelineno-67-7" name="__codelineno-67-7" href="#__codelineno-67-7"></a><span class="s">TACGATCGA</span>
+<a id="__codelineno-67-8" name="__codelineno-67-8" href="#__codelineno-67-8"></a><span class="s">EOF</span>
+<a id="__codelineno-67-9" name="__codelineno-67-9" href="#__codelineno-67-9"></a>
+<a id="__codelineno-67-10" name="__codelineno-67-10" href="#__codelineno-67-10"></a><span class="c1"># Extract accession numbers (pattern: 2 letters, underscore, 6 digits, dot, version)</span>
+<a id="__codelineno-67-11" name="__codelineno-67-11" href="#__codelineno-67-11"></a>grep<span class="w"> </span>-E<span class="w"> </span>-o<span class="w"> </span><span class="s1">&#39;[A-Z]{2}_[0-9]{6}\.[0-9]+&#39;</span><span class="w"> </span>sequences.fasta
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a>NM_001234.5
+<a id="__codelineno-68-2" name="__codelineno-68-2" href="#__codelineno-68-2"></a>XM_005678.2
+<a id="__codelineno-68-3" name="__codelineno-68-3" href="#__codelineno-68-3"></a>NR_999999.1
+</code></pre></div></p>
+<h3 id="5-validate-genomic-coordinates">5. Validate Genomic Coordinates</h3>
+<p><strong>Format: chr# or chrX/chrY, then position</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>coordinates.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-69-2" name="__codelineno-69-2" href="#__codelineno-69-2"></a><span class="s">chr1:12345</span>
+<a id="__codelineno-69-3" name="__codelineno-69-3" href="#__codelineno-69-3"></a><span class="s">chr10:999999</span>
+<a id="__codelineno-69-4" name="__codelineno-69-4" href="#__codelineno-69-4"></a><span class="s">chrX:54321</span>
+<a id="__codelineno-69-5" name="__codelineno-69-5" href="#__codelineno-69-5"></a><span class="s">chr2:100</span>
+<a id="__codelineno-69-6" name="__codelineno-69-6" href="#__codelineno-69-6"></a><span class="s">chrZ:12345</span>
+<a id="__codelineno-69-7" name="__codelineno-69-7" href="#__codelineno-69-7"></a><span class="s">chr:12345</span>
+<a id="__codelineno-69-8" name="__codelineno-69-8" href="#__codelineno-69-8"></a><span class="s">EOF</span>
+<a id="__codelineno-69-9" name="__codelineno-69-9" href="#__codelineno-69-9"></a>
+<a id="__codelineno-69-10" name="__codelineno-69-10" href="#__codelineno-69-10"></a><span class="c1"># Match chr + digit(s) or X/Y, colon, then position</span>
+<a id="__codelineno-69-11" name="__codelineno-69-11" href="#__codelineno-69-11"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;^chr([0-9]+|[XY]):[0-9]+$&#39;</span><span class="w"> </span>coordinates.txt
+</code></pre></div>
+<p>Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a>chr1:12345
+<a id="__codelineno-70-2" name="__codelineno-70-2" href="#__codelineno-70-2"></a>chr10:999999
+<a id="__codelineno-70-3" name="__codelineno-70-3" href="#__codelineno-70-3"></a>chrX:54321
+<a id="__codelineno-70-4" name="__codelineno-70-4" href="#__codelineno-70-4"></a>chr2:100
+</code></pre></div></p>
+<hr />
+<h2 id="practice-exercises">Practice Exercises</h2>
+<h3 id="setup-create-test-files">Setup: Create Test Files</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a><span class="nb">cd</span><span class="w"> </span>~/bioinfo-course/module06
+<a id="__codelineno-71-2" name="__codelineno-71-2" href="#__codelineno-71-2"></a>mkdir<span class="w"> </span>practice
+<a id="__codelineno-71-3" name="__codelineno-71-3" href="#__codelineno-71-3"></a><span class="nb">cd</span><span class="w"> </span>practice
+<a id="__codelineno-71-4" name="__codelineno-71-4" href="#__codelineno-71-4"></a>
+<a id="__codelineno-71-5" name="__codelineno-71-5" href="#__codelineno-71-5"></a><span class="c1"># Sample IDs with various formats</span>
+<a id="__codelineno-71-6" name="__codelineno-71-6" href="#__codelineno-71-6"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>sample_ids.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-71-7" name="__codelineno-71-7" href="#__codelineno-71-7"></a><span class="s">SMP-001</span>
+<a id="__codelineno-71-8" name="__codelineno-71-8" href="#__codelineno-71-8"></a><span class="s">SMP-042</span>
+<a id="__codelineno-71-9" name="__codelineno-71-9" href="#__codelineno-71-9"></a><span class="s">SMP-999</span>
+<a id="__codelineno-71-10" name="__codelineno-71-10" href="#__codelineno-71-10"></a><span class="s">CTRL-001</span>
+<a id="__codelineno-71-11" name="__codelineno-71-11" href="#__codelineno-71-11"></a><span class="s">BACKUP_SMP-001</span>
+<a id="__codelineno-71-12" name="__codelineno-71-12" href="#__codelineno-71-12"></a><span class="s">SMP-1234</span>
+<a id="__codelineno-71-13" name="__codelineno-71-13" href="#__codelineno-71-13"></a><span class="s">SMP-01A</span>
+<a id="__codelineno-71-14" name="__codelineno-71-14" href="#__codelineno-71-14"></a><span class="s">smp-001</span>
+<a id="__codelineno-71-15" name="__codelineno-71-15" href="#__codelineno-71-15"></a><span class="s">SMP_001</span>
+<a id="__codelineno-71-16" name="__codelineno-71-16" href="#__codelineno-71-16"></a><span class="s">EOF</span>
+<a id="__codelineno-71-17" name="__codelineno-71-17" href="#__codelineno-71-17"></a>
+<a id="__codelineno-71-18" name="__codelineno-71-18" href="#__codelineno-71-18"></a><span class="c1"># Gene names</span>
+<a id="__codelineno-71-19" name="__codelineno-71-19" href="#__codelineno-71-19"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>genes.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-71-20" name="__codelineno-71-20" href="#__codelineno-71-20"></a><span class="s">BRCA1</span>
+<a id="__codelineno-71-21" name="__codelineno-71-21" href="#__codelineno-71-21"></a><span class="s">BRCA2</span>
+<a id="__codelineno-71-22" name="__codelineno-71-22" href="#__codelineno-71-22"></a><span class="s">TP53</span>
+<a id="__codelineno-71-23" name="__codelineno-71-23" href="#__codelineno-71-23"></a><span class="s">tp53</span>
+<a id="__codelineno-71-24" name="__codelineno-71-24" href="#__codelineno-71-24"></a><span class="s">MYC</span>
+<a id="__codelineno-71-25" name="__codelineno-71-25" href="#__codelineno-71-25"></a><span class="s">MYCN</span>
+<a id="__codelineno-71-26" name="__codelineno-71-26" href="#__codelineno-71-26"></a><span class="s">EGFR</span>
+<a id="__codelineno-71-27" name="__codelineno-71-27" href="#__codelineno-71-27"></a><span class="s">ERBB2</span>
+<a id="__codelineno-71-28" name="__codelineno-71-28" href="#__codelineno-71-28"></a><span class="s">KRAS</span>
+<a id="__codelineno-71-29" name="__codelineno-71-29" href="#__codelineno-71-29"></a><span class="s">EOF</span>
+<a id="__codelineno-71-30" name="__codelineno-71-30" href="#__codelineno-71-30"></a>
+<a id="__codelineno-71-31" name="__codelineno-71-31" href="#__codelineno-71-31"></a><span class="c1"># DNA sequences with motifs</span>
+<a id="__codelineno-71-32" name="__codelineno-71-32" href="#__codelineno-71-32"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>motifs.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-71-33" name="__codelineno-71-33" href="#__codelineno-71-33"></a><span class="s">ATGCGATATAAAAGGCTAG</span>
+<a id="__codelineno-71-34" name="__codelineno-71-34" href="#__codelineno-71-34"></a><span class="s">CGCTATAAAGGCTTAG</span>
+<a id="__codelineno-71-35" name="__codelineno-71-35" href="#__codelineno-71-35"></a><span class="s">GCGATATGGCTAGCT</span>
+<a id="__codelineno-71-36" name="__codelineno-71-36" href="#__codelineno-71-36"></a><span class="s">ATGCTATAATTAGGCT</span>
+<a id="__codelineno-71-37" name="__codelineno-71-37" href="#__codelineno-71-37"></a><span class="s">CGCGCGCGCGCGCGCG</span>
+<a id="__codelineno-71-38" name="__codelineno-71-38" href="#__codelineno-71-38"></a><span class="s">ATGCCCCCCCCCGAT</span>
+<a id="__codelineno-71-39" name="__codelineno-71-39" href="#__codelineno-71-39"></a><span class="s">EOF</span>
+</code></pre></div>
+<h3 id="exercises">Exercises</h3>
+<p><strong>Exercise 1:</strong> Find all valid sample IDs (format: SMP-### where ### is exactly 3 digits)</p>
+<details>
+<summary>Solution</summary>
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;^SMP-[0-9]{3}$&#39;</span><span class="w"> </span>sample_ids.txt
+</code></pre></div>
+
+Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-73-1" name="__codelineno-73-1" href="#__codelineno-73-1"></a>SMP-001
+<a id="__codelineno-73-2" name="__codelineno-73-2" href="#__codelineno-73-2"></a>SMP-042
+<a id="__codelineno-73-3" name="__codelineno-73-3" href="#__codelineno-73-3"></a>SMP-999
+</code></pre></div>
+</details>
+
+<p><strong>Exercise 2:</strong> Find all BRCA genes (BRCA1 or BRCA2)</p>
+<details>
+<summary>Solution</summary>
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;^BRCA[12]$&#39;</span><span class="w"> </span>genes.txt
+</code></pre></div>
+
+Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a>BRCA1
+<a id="__codelineno-75-2" name="__codelineno-75-2" href="#__codelineno-75-2"></a>BRCA2
+</code></pre></div>
+</details>
+
+<p><strong>Exercise 3:</strong> Find genes starting with "TP" or "MYC"</p>
+<details>
+<summary>Solution</summary>
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-76-1" name="__codelineno-76-1" href="#__codelineno-76-1"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;^(TP|MYC)&#39;</span><span class="w"> </span>genes.txt
+</code></pre></div>
+
+Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-77-1" name="__codelineno-77-1" href="#__codelineno-77-1"></a>TP53
+<a id="__codelineno-77-2" name="__codelineno-77-2" href="#__codelineno-77-2"></a>MYC
+<a id="__codelineno-77-3" name="__codelineno-77-3" href="#__codelineno-77-3"></a>MYCN
+</code></pre></div>
+</details>
+
+<p><strong>Exercise 4:</strong> Case-insensitive search for "tp53"</p>
+<details>
+<summary>Solution</summary>
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-78-1" name="__codelineno-78-1" href="#__codelineno-78-1"></a>grep<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;tp53&#39;</span><span class="w"> </span>genes.txt
+</code></pre></div>
+
+Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-79-1" name="__codelineno-79-1" href="#__codelineno-79-1"></a>TP53
+<a id="__codelineno-79-2" name="__codelineno-79-2" href="#__codelineno-79-2"></a>tp53
+</code></pre></div>
+</details>
+
+<p><strong>Exercise 5:</strong> Find sequences with a TATA box (TATAA or TATAAA)</p>
+<details>
+<summary>Solution</summary>
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-80-1" name="__codelineno-80-1" href="#__codelineno-80-1"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;TATA{2,3}&#39;</span><span class="w"> </span>motifs.txt
+</code></pre></div>
+
+Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-81-1" name="__codelineno-81-1" href="#__codelineno-81-1"></a>ATGCGATATAAAAGGCTAG
+<a id="__codelineno-81-2" name="__codelineno-81-2" href="#__codelineno-81-2"></a>CGCTATAAAGGCTTAG
+<a id="__codelineno-81-3" name="__codelineno-81-3" href="#__codelineno-81-3"></a>ATGCTATAATTAGGCT
+</code></pre></div>
+</details>
+
+<p><strong>Exercise 6:</strong> Find sequences with poly-C runs (5+ Cs in a row)</p>
+<details>
+<summary>Solution</summary>
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-82-1" name="__codelineno-82-1" href="#__codelineno-82-1"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;C{5,}&#39;</span><span class="w"> </span>motifs.txt
+</code></pre></div>
+
+Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-83-1" name="__codelineno-83-1" href="#__codelineno-83-1"></a>ATGCCCCCCCCCGAT
+</code></pre></div>
+</details>
+
+<p><strong>Exercise 7:</strong> Find sequences with CG dinucleotide repeats (3+ times)</p>
+<details>
+<summary>Solution</summary>
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-84-1" name="__codelineno-84-1" href="#__codelineno-84-1"></a>grep<span class="w"> </span>-E<span class="w"> </span><span class="s1">&#39;(CG){3,}&#39;</span><span class="w"> </span>motifs.txt
+</code></pre></div>
+
+Output:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-85-1" name="__codelineno-85-1" href="#__codelineno-85-1"></a>CGCGCGCGCGCGCGCG
+</code></pre></div>
+</details>
+
+<hr />
+<h2 id="the-exit-ticket-challenge-variant-annotation-file">The Exit Ticket Challenge: Variant Annotation File</h2>
+<h3 id="scenario">Scenario</h3>
+<p>You've received a variant annotation file and need to extract specific information using regex.</p>
+<h3 id="setup">Setup</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-86-1" name="__codelineno-86-1" href="#__codelineno-86-1"></a><span class="nb">cd</span><span class="w"> </span>~/bioinfo-course/module06
+<a id="__codelineno-86-2" name="__codelineno-86-2" href="#__codelineno-86-2"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>variants_annotated.txt<span class="w"> </span><span class="s">&lt;&lt; &#39;EOF&#39;</span>
+<a id="__codelineno-86-3" name="__codelineno-86-3" href="#__codelineno-86-3"></a><span class="s">chr1:12345:A&gt;G|GENE1|missense|pathogenic|rs123456</span>
+<a id="__codelineno-86-4" name="__codelineno-86-4" href="#__codelineno-86-4"></a><span class="s">chr2:67890:C&gt;T|GENE2|synonymous|benign|rs234567</span>
+<a id="__codelineno-86-5" name="__codelineno-86-5" href="#__codelineno-86-5"></a><span class="s">chr3:11111:G&gt;A|GENE3|nonsense|pathogenic|rs345678</span>
+<a id="__codelineno-86-6" name="__codelineno-86-6" href="#__codelineno-86-6"></a><span class="s">chr4:22222:T&gt;C|GENE4|missense|uncertain|rs456789</span>
+<a id="__codelineno-86-7" name="__codelineno-86-7" href="#__codelineno-86-7"></a><span class="s">chr5:33333:A&gt;T|GENE5|missense|benign|rs567890</span>
+<a id="__codelineno-86-8" name="__codelineno-86-8" href="#__codelineno-86-8"></a><span class="s">chrX:44444:C&gt;G|GENE6|frameshift|pathogenic|rs678901</span>
+<a id="__codelineno-86-9" name="__codelineno-86-9" href="#__codelineno-86-9"></a><span class="s">chr10:55555:G&gt;C|GENE7|missense|pathogenic|rs789012</span>
+<a id="__codelineno-86-10" name="__codelineno-86-10" href="#__codelineno-86-10"></a><span class="s">chr22:66666:T&gt;A|GENE8|synonymous|benign|rs890123</span>
+<a id="__codelineno-86-11" name="__codelineno-86-11" href="#__codelineno-86-11"></a><span class="s">chrY:77777:A&gt;C|GENE9|missense|uncertain|rs901234</span>
+<a id="__codelineno-86-12" name="__codelineno-86-12" href="#__codelineno-86-12"></a><span class="s">chr1:88888:C&gt;T|GENE10|nonsense|pathogenic|rs012345</span>
+<a id="__codelineno-86-13" name="__codelineno-86-13" href="#__codelineno-86-13"></a><span class="s">EOF</span>
+</code></pre></div>
+<h3 id="format-explanation">Format Explanation</h3>
+<p>Each line: <code>chromosome:position:variant|gene|consequence|significance|rsID</code></p>
+<h3 id="your-tasks">Your Tasks</h3>
+<p>Use regex to answer these questions. Record each command!</p>
+<p><strong>Task 1:</strong> Extract all variants on chromosome 1</p>
+<p><strong>Task 2:</strong> Extract all pathogenic variants (lines containing "pathogenic")</p>
+<p><strong>Task 3:</strong> Extract all rsIDs (pattern: rs followed by 6 digits)</p>
+<p><strong>Task 4:</strong> Find nonsense or frameshift variants</p>
+<p><strong>Task 5:</strong> Extract variants on sex chromosomes (chrX or chrY)</p>
+<p><strong>Task 6:</strong> Find variants in genes starting with "GENE" and a single digit (GENE1-GENE9, not GENE10)</p>
+<p><strong>Task 7:</strong> Extract chromosome and position for all missense variants</p>
+<p><strong>Task 8:</strong> Count how many pathogenic variants exist</p>
+<p><strong>Task 9:</strong> Find variants at positions greater than 50000 (regex can't do numeric comparison directly, but you can match position starting with 5-9 or having 6+ digits)</p>
+<p><strong>Task 10:</strong> Create a file <code>pathogenic_variants.txt</code> with only pathogenic variants, sorted by chromosome</p>
+<hr />
+<h2 id="quick-reference">Quick Reference</h2>
+<h3 id="basic-syntax">Basic Syntax</h3>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>abc</code></td>
+<td>Literal characters</td>
+<td>Matches "abc"</td>
+</tr>
+<tr>
+<td><code>.</code></td>
+<td>Any single character</td>
+<td><code>a.c</code> matches "abc", "a1c", "a c"</td>
+</tr>
+<tr>
+<td><code>\</code></td>
+<td>Escape special character</td>
+<td><code>\.</code> matches literal "."</td>
+</tr>
+</tbody>
+</table>
+<h3 id="anchors">Anchors</h3>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>^</code></td>
+<td>Start of line</td>
+<td><code>^SMP</code> matches lines starting with "SMP"</td>
+</tr>
+<tr>
+<td><code>$</code></td>
+<td>End of line</td>
+<td><code>txt$</code> matches lines ending with "txt"</td>
+</tr>
+</tbody>
+</table>
+<h3 id="character-classes">Character Classes</h3>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[abc]</code></td>
+<td>Match a, b, or c</td>
+<td><code>[ACGT]</code> matches any nucleotide</td>
+</tr>
+<tr>
+<td><code>[a-z]</code></td>
+<td>Match range</td>
+<td><code>[0-9]</code> matches any digit</td>
+</tr>
+<tr>
+<td><code>[^abc]</code></td>
+<td>Match anything except a, b, or c</td>
+<td><code>[^ACGT]</code> matches non-ACGT</td>
+</tr>
+<tr>
+<td><code>\d</code></td>
+<td>Digit (with -P)</td>
+<td><code>\d{3}</code> matches 3 digits</td>
+</tr>
+<tr>
+<td><code>\w</code></td>
+<td>Word character (with -P)</td>
+<td><code>\w+</code> matches word</td>
+</tr>
+<tr>
+<td><code>\s</code></td>
+<td>Whitespace (with -P)</td>
+<td><code>\s+</code> matches spaces/tabs</td>
+</tr>
+</tbody>
+</table>
+<h3 id="quantifiers">Quantifiers</h3>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>*</code></td>
+<td>Zero or more</td>
+<td><code>A*</code> matches "", "A", "AA"</td>
+</tr>
+<tr>
+<td><code>+</code></td>
+<td>One or more</td>
+<td><code>A+</code> matches "A", "AA", not ""</td>
+</tr>
+<tr>
+<td><code>?</code></td>
+<td>Zero or one (optional)</td>
+<td><code>colou?r</code> matches "color" and "colour"</td>
+</tr>
+<tr>
+<td><code>{n}</code></td>
+<td>Exactly n times</td>
+<td><code>[0-9]{3}</code> matches 3 digits</td>
+</tr>
+<tr>
+<td><code>{n,}</code></td>
+<td>At least n times</td>
+<td><code>A{2,}</code> matches "AA", "AAA", etc.</td>
+</tr>
+<tr>
+<td><code>{n,m}</code></td>
+<td>Between n and m times</td>
+<td><code>A{2,4}</code> matches "AA", "AAA", "AAAA"</td>
+</tr>
+</tbody>
+</table>
+<h3 id="groups-and-alternation">Groups and Alternation</h3>
+<table>
+<thead>
+<tr>
+<th>Pattern</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>(...)</code></td>
+<td>Group</td>
+<td><code>(AG){3}</code> matches "AGAGAG"</td>
+</tr>
+<tr>
+<td><code>\|</code></td>
+<td>Alternation (OR)</td>
+<td><code>cat\|dog</code> matches "cat" or "dog"</td>
+</tr>
+</tbody>
+</table>
+<h3 id="grep-options">grep Options</h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>What It Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-E</code></td>
+<td>Extended regex (recommended)</td>
+</tr>
+<tr>
+<td><code>-P</code></td>
+<td>Perl-compatible regex</td>
+</tr>
+<tr>
+<td><code>-i</code></td>
+<td>Case-insensitive</td>
+</tr>
+<tr>
+<td><code>-v</code></td>
+<td>Invert match (show non-matching lines)</td>
+</tr>
+<tr>
+<td><code>-o</code></td>
+<td>Show only matching part</td>
+</tr>
+<tr>
+<td><code>-c</code></td>
+<td>Count matching lines</td>
+</tr>
+<tr>
+<td><code>-n</code></td>
+<td>Show line numbers</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="exit-ticket">Exit Ticket</h2>
+<p>To complete this module, send me an email with:</p>
+<p><strong>Subject:</strong> Bioinfo M6 Exit Ticket – [Your Name]</p>
+<p><strong>Content:</strong></p>
+<ol>
+<li>Your commands for all 10 tasks in the variant annotation challenge</li>
+<li>The output for tasks 3, 8, and 10</li>
+<li>One paragraph (4-5 sentences) explaining:</li>
+<li>The difference between wildcards and regex</li>
+<li>One example where anchors (^ or $) were essential</li>
+<li>One example where quantifiers made your pattern more flexible</li>
+</ol>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>Congratulations! You now understand:</p>
+<p>✓ Regular expressions vs wildcards—when to use each
+✓ Literal characters and metacharacters
+✓ The dot (.) for matching any character
+✓ Character classes [...] and ranges
+✓ Anchors (^, $) for matching positions
+✓ Quantifiers (*, +, ?, {n,m}) for repetition
+✓ Grouping (...) for complex patterns
+✓ Alternation (|) for OR logic
+✓ Escaping special characters with \
+✓ grep flavors: basic, extended (-E), and Perl (-P)
+✓ Practical bioinformatics applications: ID validation, motif finding, parsing file formats</p>
+<p><strong>Regular expressions are a superpower!</strong> They let you:
+- Validate sample IDs and file formats
+- Find sequence motifs
+- Parse complex bioinformatics file formats
+- Extract specific information from large datasets
+- Quality-control manifest files</p>
+<p>You'll use regex constantly in bioinformatics. With practice, complex patterns become second nature!</p>
+<p>In the next module, we'll learn about process management—how to monitor, control, and rescue stuck programs.</p>
+<p><strong>Next:</strong> <a href="../07-processes/">Module 7 — Process Management &amp; Job Control</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../05-pipes-filters/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 5 — Pipes, Redirects &amp; Filters">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                5 — Pipes, Redirects & Filters
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../07-processes/" class="md-footer__link md-footer__link--next" aria-label="Next: 7 — Process Management &amp; Job Control">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                7 — Process Management & Job Control
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/SJRussell/BioinfoCrashCourse" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.edit", "content.action.view", "content.code.copy", "navigation.footer", "navigation.indexes", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,2369 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://russell.lab.ca/bioinformatics-tutorial/modules/01-directory-tree/">
+      
+      
+        <link rel="prev" href="../00-setup/">
+      
+      
+        <link rel="next" href="../02-working-with-files/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>1 — The Directory Tree & Navigation - Bioinformatics Tutorial</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#module-1-the-directory-tree-navigation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Bioinformatics Tutorial" class="md-header__button md-logo" aria-label="Bioinformatics Tutorial" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Bioinformatics Tutorial
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1 — The Directory Tree & Navigation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="green" data-md-color-accent="deep-purple"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="deep-orange"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Bioinformatics Tutorial" class="md-nav__button md-logo" aria-label="Bioinformatics Tutorial" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Bioinformatics Tutorial
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cheatsheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cheat Sheet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Unix Fundamentals
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Unix Fundamentals
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    0 — Setup & Understanding Your Environment
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    1 — The Directory Tree & Navigation
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    1 — The Directory Tree & Navigation
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-youll-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      What You'll Learn
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-directory-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Directory Tree
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Directory Tree">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-unix-organizes-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      How Unix Organizes Files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#important-not-like-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      Important: Not Like Windows
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding Paths
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Understanding Paths">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-a-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is a Path?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-absolute-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Absolute Paths
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-relative-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Relative Paths
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#special-directory-symbols" class="md-nav__link">
+    <span class="md-ellipsis">
+      Special Directory Symbols
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-am-i-the-pwd-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      Where Am I? The pwd Command
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#moving-around-the-cd-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moving Around: The cd Command
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Moving Around: The cd Command">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Examples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practice-navigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practice Navigation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#listing-contents-the-ls-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      Listing Contents: The ls Command
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Listing Contents: The ls Command">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Usage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#understanding-ls-l-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding ls -l Output
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#useful-ls-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Useful ls Options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#combining-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Combining Options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hidden-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hidden Files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practice-with-ls" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practice with ls
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-exercise-exploring-your-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practical Exercise: Exploring Your System
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practical Exercise: Exploring Your System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercise-1-explore-the-root-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise 1: Explore the Root Directory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercise-2-count-subdirectories" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise 2: Count Subdirectories
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercise-3-find-your-home" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise 3: Find Your Home
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-treasure-hunt-challenge" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Treasure Hunt Challenge
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Treasure Hunt Challenge">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-create-a-treasure-hunt-directory-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup: Create a Treasure Hunt Directory Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#your-mission" class="md-nav__link">
+    <span class="md-ellipsis">
+      Your Mission
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-file-paths-in-bioinformatics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding File Paths in Bioinformatics
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-mistakes-and-how-to-avoid-them" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Mistakes and How to Avoid Them
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Mistakes and How to Avoid Them">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mistake-1-forgetting-where-you-are" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mistake 1: Forgetting Where You Are
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mistake-2-using-the-wrong-path-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mistake 2: Using the Wrong Path Type
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mistake-3-spaces-in-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mistake 3: Spaces in Paths
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mistake-4-case-sensitivity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mistake 4: Case Sensitivity
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#navigation-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Navigation Commands
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listing-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Listing Commands
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#path-shortcuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Path Shortcuts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exit-ticket" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exit Ticket
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-working-with-files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2 — Working with Files
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-manipulating-files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    3 — Manipulating Files (Safely!)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-wildcards/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    4 — Wildcards & Pattern Matching
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-pipes-filters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    5 — Pipes, Redirects & Filters
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-regex/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    6 — Regular Expressions for Bioinformatics
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-processes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    7 — Process Management & Job Control
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-editing-compression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    8 — Text Editing & File Compression
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Bioinformatics Applications
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Bioinformatics Applications
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-pipes-tsv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    9 — Advanced TSV Data Wrangling
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-rnaseq-primer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    10 — RNA-seq Primer (Watch)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-fastq-101/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    11 — FASTQ 101 (Hands-on)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-env-qc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    12 — Local Env + Tiny QC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-pull-one-srr/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    13 — Pull One Single-Cell FASTQ
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-view-run-view/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    14 — The View → Run → View Loop
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-capstone/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    15 — Capstone One-Command QC Script
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-youll-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      What You'll Learn
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-directory-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Directory Tree
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Directory Tree">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-unix-organizes-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      How Unix Organizes Files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#important-not-like-windows" class="md-nav__link">
+    <span class="md-ellipsis">
+      Important: Not Like Windows
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding Paths
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Understanding Paths">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-a-path" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is a Path?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#1-absolute-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Absolute Paths
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-relative-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Relative Paths
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#special-directory-symbols" class="md-nav__link">
+    <span class="md-ellipsis">
+      Special Directory Symbols
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-am-i-the-pwd-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      Where Am I? The pwd Command
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#moving-around-the-cd-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      Moving Around: The cd Command
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Moving Around: The cd Command">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Examples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practice-navigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practice Navigation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#listing-contents-the-ls-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      Listing Contents: The ls Command
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Listing Contents: The ls Command">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Usage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#understanding-ls-l-output" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding ls -l Output
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#useful-ls-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Useful ls Options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#combining-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Combining Options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hidden-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hidden Files
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practice-with-ls" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practice with ls
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-exercise-exploring-your-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practical Exercise: Exploring Your System
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practical Exercise: Exploring Your System">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#exercise-1-explore-the-root-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise 1: Explore the Root Directory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercise-2-count-subdirectories" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise 2: Count Subdirectories
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exercise-3-find-your-home" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercise 3: Find Your Home
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-treasure-hunt-challenge" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Treasure Hunt Challenge
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Treasure Hunt Challenge">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-create-a-treasure-hunt-directory-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Setup: Create a Treasure Hunt Directory Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#your-mission" class="md-nav__link">
+    <span class="md-ellipsis">
+      Your Mission
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-file-paths-in-bioinformatics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding File Paths in Bioinformatics
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-mistakes-and-how-to-avoid-them" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Mistakes and How to Avoid Them
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Mistakes and How to Avoid Them">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mistake-1-forgetting-where-you-are" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mistake 1: Forgetting Where You Are
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mistake-2-using-the-wrong-path-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mistake 2: Using the Wrong Path Type
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mistake-3-spaces-in-paths" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mistake 3: Spaces in Paths
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mistake-4-case-sensitivity" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mistake 4: Case Sensitivity
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#navigation-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Navigation Commands
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listing-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Listing Commands
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#path-shortcuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Path Shortcuts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exit-ticket" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exit Ticket
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="module-1-the-directory-tree-navigation">Module 1 — The Directory Tree &amp; Navigation</h1>
+<p><strong>Time:</strong> 60–75 min
+<strong>Goal:</strong> Understand how files and folders are organized in Unix, master navigation between directories, and learn to list and inspect directory contents.
+<strong>Exit ticket (email me):</strong> The outputs of your treasure hunt commands proving you found the hidden files.</p>
+<hr />
+<h2 id="what-youll-learn">What You'll Learn</h2>
+<p>By the end of this module, you will understand:</p>
+<ul>
+<li>How Unix organizes files in a tree structure</li>
+<li>What the root directory is and how paths work</li>
+<li>The difference between absolute and relative paths</li>
+<li>Special directory shortcuts: <code>~</code>, <code>.</code>, <code>..</code></li>
+<li>How to navigate the filesystem with <code>cd</code></li>
+<li>How to list directory contents with <code>ls</code> and all its useful options</li>
+<li>How to find out where you are at any time</li>
+</ul>
+<hr />
+<h2 id="the-directory-tree">The Directory Tree</h2>
+<h3 id="how-unix-organizes-files">How Unix Organizes Files</h3>
+<p>In Unix-like systems (Linux, macOS), all files and folders are organized in a <strong>tree structure</strong>, starting from a single point called the <strong>root directory</strong>.</p>
+<p>Think of it like a real tree, but upside down:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>                        /  (root)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>                        |
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>        +---------------+---------------+
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>        |               |               |
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>      home            usr              var
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        |               |               |
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    +---+---+       +---+---+       +---+---+
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    |       |       |       |       |       |
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>  alice   bob    bin     lib     log     tmp
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    |
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>+---+---+
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>|       |
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>docs   data
+</code></pre></div>
+<p><strong>Key concepts:</strong></p>
+<ul>
+<li><strong>Root directory (<code>/</code>)</strong>: The very top of the tree. Everything in the system lives under this directory.</li>
+<li><strong>Directories</strong>: Folders that can contain files and other directories (also called "subdirectories")</li>
+<li><strong>Path</strong>: The route you take through the tree to reach a file or directory</li>
+</ul>
+<h3 id="important-not-like-windows">Important: Not Like Windows</h3>
+<p>If you're coming from Windows, this is different:</p>
+<ul>
+<li><strong>Windows</strong> has multiple drive letters: <code>C:\</code>, <code>D:\</code>, etc.</li>
+<li><strong>Unix/Linux/macOS</strong> has ONE root (<code>/</code>), and everything hangs off it</li>
+</ul>
+<p>Even USB drives and external hard drives appear as directories under the root, not as separate drive letters.</p>
+<hr />
+<h2 id="understanding-paths">Understanding Paths</h2>
+<h3 id="what-is-a-path">What is a Path?</h3>
+<p>A <strong>path</strong> is the address of a file or directory—it tells the computer exactly where something is in the directory tree.</p>
+<p>There are two types of paths:</p>
+<h3 id="1-absolute-paths">1. Absolute Paths</h3>
+<p>An <strong>absolute path</strong> starts from the root directory (<code>/</code>) and specifies the complete route to a file or directory.</p>
+<p><strong>Examples of absolute paths:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>/home/alice/documents/report.txt
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>/usr/bin/python3
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>/var/log/system.log
+</code></pre></div></p>
+<p>Think of an absolute path like a complete street address: "123 Main Street, Springfield, IL, USA"—it tells you exactly where something is, no matter where you're currently located.</p>
+<p><strong>The key identifier:</strong> Absolute paths <strong>always start with <code>/</code></strong> (the root directory).</p>
+<h3 id="2-relative-paths">2. Relative Paths</h3>
+<p>A <strong>relative path</strong> starts from your <strong>current location</strong> (your current working directory) and gives directions from there.</p>
+<p><strong>Examples of relative paths:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>documents/report.txt          (from your home directory)
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>../bob/projects               (go up one level, then into bob/projects)
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>./data/sequences.fasta        (in the current directory&#39;s data folder)
+</code></pre></div></p>
+<p>Think of a relative path like giving directions: "Go two blocks north, then turn left"—the directions only make sense based on where you're starting from.</p>
+<p><strong>The key identifier:</strong> Relative paths <strong>never start with <code>/</code></strong>.</p>
+<h3 id="special-directory-symbols">Special Directory Symbols</h3>
+<p>Unix provides shortcuts for common locations:</p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Meaning</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>~</code></td>
+<td>Your home directory</td>
+<td><code>~/documents</code> = <code>/home/alice/documents</code></td>
+</tr>
+<tr>
+<td><code>.</code></td>
+<td>The current directory</td>
+<td><code>./script.sh</code> = run script in current directory</td>
+</tr>
+<tr>
+<td><code>..</code></td>
+<td>The parent directory (one level up)</td>
+<td><code>../</code> = go up one level</td>
+</tr>
+<tr>
+<td><code>/</code></td>
+<td>The root directory</td>
+<td><code>/home</code> = the home directory at root level</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Visual example of <code>.</code> and <code>..</code>:</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>/home/alice/projects/bioinformatics
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>                     ^
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>                     You are here
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>.   = /home/alice/projects/bioinformatics  (current location)
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>..  = /home/alice/projects                  (one level up)
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>../.. = /home/alice                         (two levels up)
+</code></pre></div>
+<hr />
+<h2 id="where-am-i-the-pwd-command">Where Am I? The <code>pwd</code> Command</h2>
+<p>When working in the terminal, you're always "inside" a directory—this is called your <strong>current working directory</strong> or <strong>working directory</strong>.</p>
+<p>To find out where you are, use the <code>pwd</code> command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">pwd</span>
+</code></pre></div>
+<p><code>pwd</code> stands for "<strong>p</strong>rint <strong>w</strong>orking <strong>d</strong>irectory."</p>
+<p><strong>Example output:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>/home/alice/bioinfo-course
+</code></pre></div></p>
+<p>This tells you that you're currently in the <code>bioinfo-course</code> directory, which is inside <code>alice</code>, which is inside <code>home</code>, which is at the root (<code>/</code>).</p>
+<div class="admonition tip">
+<p class="admonition-title">Lost? Use pwd</p>
+<p>If you ever feel lost or confused about where you are in the filesystem, just type <code>pwd</code>. It's like a GPS for the terminal.</p>
+</div>
+<hr />
+<h2 id="moving-around-the-cd-command">Moving Around: The <code>cd</code> Command</h2>
+<p>To change your location (move to a different directory), use the <code>cd</code> command:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nb">cd</span><span class="w"> </span><span class="o">[</span>directory<span class="o">]</span>
+</code></pre></div>
+<p><code>cd</code> stands for "<strong>c</strong>hange <strong>d</strong>irectory."</p>
+<h3 id="basic-examples">Basic Examples</h3>
+<p><strong>Go to your home directory:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">cd</span><span class="w"> </span>~
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="c1"># or just:</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nb">cd</span>
+</code></pre></div></p>
+<p>Running <code>cd</code> with no arguments always takes you home.</p>
+<p><strong>Go to a specific directory (absolute path):</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">cd</span><span class="w"> </span>/usr/local/bin
+</code></pre></div></p>
+<p><strong>Go to a subdirectory (relative path):</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nb">cd</span><span class="w"> </span>documents
+</code></pre></div></p>
+<p>This moves into the <code>documents</code> folder inside your current directory.</p>
+<p><strong>Go up one level:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nb">cd</span><span class="w"> </span>..
+</code></pre></div></p>
+<p><strong>Go up two levels:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nb">cd</span><span class="w"> </span>../..
+</code></pre></div></p>
+<p><strong>Go to the previous directory:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nb">cd</span><span class="w"> </span>-
+</code></pre></div></p>
+<p>This is like an "undo" for <code>cd</code>—it takes you back to wherever you just were.</p>
+<h3 id="practice-navigation">Practice Navigation</h3>
+<p>Let's practice moving around. Type these commands one at a time:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nb">cd</span><span class="w"> </span>~<span class="w">                    </span><span class="c1"># Go home</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nb">pwd</span><span class="w">                     </span><span class="c1"># Check where you are</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="nb">cd</span><span class="w"> </span>/<span class="w">                    </span><span class="c1"># Go to the root directory</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="nb">pwd</span><span class="w">                     </span><span class="c1"># Now you&#39;re at /</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>ls<span class="w">                      </span><span class="c1"># List what&#39;s in root (we&#39;ll learn ls next!)</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="nb">cd</span><span class="w"> </span>~<span class="w">                    </span><span class="c1"># Go back home</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="nb">cd</span><span class="w"> </span>bioinfo-course<span class="w">       </span><span class="c1"># Go into the course folder you made in Module 0</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="nb">pwd</span><span class="w">                     </span><span class="c1"># Confirm you&#39;re there</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="nb">cd</span><span class="w"> </span>..<span class="w">                   </span><span class="c1"># Go up one level</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="nb">pwd</span><span class="w">                     </span><span class="c1"># Back in your home directory</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="nb">cd</span><span class="w"> </span>-<span class="w">                    </span><span class="c1"># Jump back to bioinfo-course</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="nb">pwd</span><span class="w">                     </span><span class="c1"># Confirm</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Case Sensitivity</p>
+<p>Unix is <strong>case-sensitive</strong>. <code>Documents</code> and <code>documents</code> are different directories. If you get "No such file or directory," check your capitalization.</p>
+</div>
+<hr />
+<h2 id="listing-contents-the-ls-command">Listing Contents: The <code>ls</code> Command</h2>
+<p>The <code>ls</code> command shows you what's inside a directory.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>ls<span class="w"> </span><span class="o">[</span>options<span class="o">]</span><span class="w"> </span><span class="o">[</span>directory<span class="o">]</span>
+</code></pre></div>
+<p><code>ls</code> stands for "<strong>l</strong>i<strong>s</strong>t."</p>
+<h3 id="basic-usage">Basic Usage</h3>
+<p><strong>List the current directory:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>ls
+</code></pre></div></p>
+<p><strong>List a specific directory:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>ls<span class="w"> </span>/home
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>ls<span class="w"> </span>~/bioinfo-course
+</code></pre></div></p>
+<p><strong>List with more detail:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>ls<span class="w"> </span>-l
+</code></pre></div></p>
+<p>The <code>-l</code> option means "long format"—it shows permissions, owner, size, and modification date.</p>
+<h3 id="understanding-ls-l-output">Understanding <code>ls -l</code> Output</h3>
+<p>When you run <code>ls -l</code>, you'll see output like this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>drwxr-xr-x  2 alice users  4096 Jan 15 14:32 documents
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>-rw-r--r--  1 alice users  1234 Jan 15 09:15 notes.txt
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>-rwxr-xr-x  1 alice users  8192 Jan 14 16:45 script.sh
+</code></pre></div>
+<p>Let's decode this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>drwxr-xr-x  2 alice users  4096 Jan 15 14:32 documents
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>│││││││││  │   │     │      │     │          └─ File/directory name
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>││││││││││ │   │     │      │     └─ Modification date and time
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>│││││││││  │   │     │      └─ Size in bytes
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>││││││││││ │   │     └─ Group
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>│││││││││  │   └─ Owner
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>││││││││││ └─ Number of links
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>│└┴┴┴┴┴┴┴─ Permissions
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>└─ Type (d=directory, -=regular file, l=link)
+</code></pre></div>
+<p><strong>First character tells you the type:</strong>
+- <code>d</code> = directory (folder)
+- <code>-</code> = regular file
+- <code>l</code> = symbolic link (like a shortcut)</p>
+<p><strong>The next 9 characters are permissions</strong> (we'll cover these in detail later):
+- <code>rwx</code> = read, write, execute permissions for the owner
+- <code>r-x</code> = read and execute for the group
+- <code>r-x</code> = read and execute for everyone else</p>
+<h3 id="useful-ls-options">Useful <code>ls</code> Options</h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>What It Does</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-l</code></td>
+<td>Long format (detailed)</td>
+<td><code>ls -l</code></td>
+</tr>
+<tr>
+<td><code>-a</code></td>
+<td>Show <strong>all</strong> files, including hidden ones (names starting with <code>.</code>)</td>
+<td><code>ls -a</code></td>
+</tr>
+<tr>
+<td><code>-h</code></td>
+<td>Human-readable sizes (KB, MB, GB instead of bytes)</td>
+<td><code>ls -lh</code></td>
+</tr>
+<tr>
+<td><code>-t</code></td>
+<td>Sort by modification time (newest first)</td>
+<td><code>ls -lt</code></td>
+</tr>
+<tr>
+<td><code>-r</code></td>
+<td>Reverse the sort order</td>
+<td><code>ls -lr</code></td>
+</tr>
+<tr>
+<td><code>-S</code></td>
+<td>Sort by file size (largest first)</td>
+<td><code>ls -lS</code></td>
+</tr>
+<tr>
+<td><code>-R</code></td>
+<td>Recursive (show subdirectories too)</td>
+<td><code>ls -R</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="combining-options">Combining Options</h3>
+<p>You can combine multiple options with a single dash:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>ls<span class="w"> </span>-lah
+</code></pre></div>
+<p>This means: long format (<code>-l</code>) + show all files (<code>-a</code>) + human-readable sizes (<code>-h</code>)</p>
+<p><strong>Example output:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>$<span class="w"> </span>ls<span class="w"> </span>-lah<span class="w"> </span>~/bioinfo-course
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>total<span class="w"> </span>24K
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>drwxr-xr-x<span class="w">  </span><span class="m">5</span><span class="w"> </span>alice<span class="w"> </span>users<span class="w"> </span><span class="m">4</span>.0K<span class="w"> </span>Jan<span class="w"> </span><span class="m">15</span><span class="w"> </span><span class="m">14</span>:32<span class="w"> </span>.
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>drwxr-xr-x<span class="w"> </span><span class="m">28</span><span class="w"> </span>alice<span class="w"> </span>users<span class="w"> </span><span class="m">4</span>.0K<span class="w"> </span>Jan<span class="w"> </span><span class="m">15</span><span class="w"> </span><span class="m">14</span>:30<span class="w"> </span>..
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>drwxr-xr-x<span class="w">  </span><span class="m">2</span><span class="w"> </span>alice<span class="w"> </span>users<span class="w"> </span><span class="m">4</span>.0K<span class="w"> </span>Jan<span class="w"> </span><span class="m">15</span><span class="w"> </span><span class="m">14</span>:32<span class="w"> </span>module01
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>drwxr-xr-x<span class="w">  </span><span class="m">2</span><span class="w"> </span>alice<span class="w"> </span>users<span class="w"> </span><span class="m">4</span>.0K<span class="w"> </span>Jan<span class="w"> </span><span class="m">15</span><span class="w"> </span><span class="m">14</span>:32<span class="w"> </span>module02
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>drwxr-xr-x<span class="w">  </span><span class="m">2</span><span class="w"> </span>alice<span class="w"> </span>users<span class="w"> </span><span class="m">4</span>.0K<span class="w"> </span>Jan<span class="w"> </span><span class="m">15</span><span class="w"> </span><span class="m">14</span>:32<span class="w"> </span>module03
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>alice<span class="w"> </span>users<span class="w">  </span><span class="m">127</span><span class="w"> </span>Jan<span class="w"> </span><span class="m">15</span><span class="w"> </span><span class="m">14</span>:35<span class="w"> </span>README.txt
+</code></pre></div></p>
+<p>Notice:
+- <code>.</code> represents the current directory itself
+- <code>..</code> represents the parent directory
+- Sizes are shown as <code>4.0K</code> instead of <code>4096</code> bytes (thanks to <code>-h</code>)</p>
+<h3 id="hidden-files">Hidden Files</h3>
+<p>In Unix, files and directories that start with a <code>.</code> are <strong>hidden</strong> by default. These are usually configuration files.</p>
+<p><strong>Examples of hidden files/directories:</strong>
+- <code>.bashrc</code> — bash configuration
+- <code>.ssh/</code> — SSH keys and settings
+- <code>.config/</code> — application configurations</p>
+<p>To see hidden files, use <code>-a</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>ls<span class="w"> </span>-a
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>ls<span class="w"> </span>-la<span class="w">      </span><span class="c1"># Long format + show all</span>
+</code></pre></div>
+<h3 id="practice-with-ls">Practice with <code>ls</code></h3>
+<p>Try these commands in your home directory:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="nb">cd</span><span class="w"> </span>~
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>ls<span class="w">                    </span><span class="c1"># Basic list</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>ls<span class="w"> </span>-l<span class="w">                 </span><span class="c1"># Long format</span>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>ls<span class="w"> </span>-la<span class="w">                </span><span class="c1"># Long format including hidden files</span>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>ls<span class="w"> </span>-lh<span class="w">                </span><span class="c1"># Long format with human-readable sizes</span>
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>ls<span class="w"> </span>-lt<span class="w">                </span><span class="c1"># Long format sorted by time (newest first)</span>
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>ls<span class="w"> </span>-lS<span class="w">                </span><span class="c1"># Long format sorted by size (largest first)</span>
+<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>ls<span class="w"> </span>-lrS<span class="w">               </span><span class="c1"># Long format sorted by size (smallest first - reversed)</span>
+</code></pre></div>
+<hr />
+<h2 id="practical-exercise-exploring-your-system">Practical Exercise: Exploring Your System</h2>
+<p>Let's explore some standard Unix directories to understand the filesystem structure.</p>
+<h3 id="exercise-1-explore-the-root-directory">Exercise 1: Explore the Root Directory</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="nb">cd</span><span class="w"> </span>/<span class="w">                  </span><span class="c1"># Go to the root</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>ls<span class="w">                    </span><span class="c1"># See what&#39;s there</span>
+</code></pre></div>
+<p>You'll see directories like:</p>
+<ul>
+<li><strong><code>/home</code></strong> — Where user home directories live (on Linux)</li>
+<li><strong><code>/Users</code></strong> — User home directories (on macOS)</li>
+<li><strong><code>/usr</code></strong> — Unix System Resources (programs, libraries)</li>
+<li><strong><code>/bin</code></strong> — Essential command binaries (programs)</li>
+<li><strong><code>/etc</code></strong> — System configuration files</li>
+<li><strong><code>/var</code></strong> — Variable data (logs, temporary files)</li>
+<li><strong><code>/tmp</code></strong> — Temporary files (cleared on reboot)</li>
+</ul>
+<h3 id="exercise-2-count-subdirectories">Exercise 2: Count Subdirectories</h3>
+<p>How many items are in the root directory?</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="nb">cd</span><span class="w"> </span>/
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>ls<span class="w"> </span><span class="p">|</span><span class="w"> </span>wc<span class="w"> </span>-l
+</code></pre></div>
+<p>The <code>|</code> (pipe) sends the output of <code>ls</code> to <code>wc -l</code> (word count, lines mode), which counts the lines.</p>
+<h3 id="exercise-3-find-your-home">Exercise 3: Find Your Home</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="nb">cd</span><span class="w"> </span>~
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="nb">pwd</span>
+</code></pre></div>
+<p>Compare:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="nb">echo</span><span class="w"> </span><span class="nv">$HOME</span>
+</code></pre></div>
+<p><code>$HOME</code> is an <strong>environment variable</strong> that stores your home directory path. The <code>~</code> symbol is actually a shortcut that expands to <code>$HOME</code>.</p>
+<hr />
+<h2 id="the-treasure-hunt-challenge">The Treasure Hunt Challenge</h2>
+<p>Now let's put your skills to the test! This exercise will require you to navigate directories, list contents, and use various <code>ls</code> options.</p>
+<h3 id="setup-create-a-treasure-hunt-directory-structure">Setup: Create a Treasure Hunt Directory Structure</h3>
+<p>First, let's create a practice filesystem. Type or paste this entire block:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="nb">cd</span><span class="w"> </span>~/bioinfo-course
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>treasure_hunt/<span class="o">{</span>level1/<span class="o">{</span>level2a,level2b,level2c<span class="o">}</span>,archive,secrets<span class="o">}</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>touch<span class="w"> </span>treasure_hunt/level1/clue1.txt
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>touch<span class="w"> </span>treasure_hunt/level1/level2a/clue2.txt
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>touch<span class="w"> </span>treasure_hunt/level1/level2b/.hidden_treasure.txt
+<a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>touch<span class="w"> </span>treasure_hunt/secrets/.secret_key.txt
+<a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Congratulations! You found the treasure!&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>treasure_hunt/level1/level2b/.hidden_treasure.txt
+<a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;The secret key is: BIOINFO2024&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>treasure_hunt/secrets/.secret_key.txt
+<a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Look deeper in level2b...&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>treasure_hunt/level1/clue1.txt
+<a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;The treasure is hidden nearby...&quot;</span><span class="w"> </span>&gt;<span class="w"> </span>treasure_hunt/level1/level2a/clue2.txt
+</code></pre></div>
+<h3 id="your-mission">Your Mission</h3>
+<p>Complete these challenges and record your commands and outputs:</p>
+<p><strong>Challenge 1:</strong> Starting from <code>~/bioinfo-course</code>, navigate to the <code>treasure_hunt</code> directory and list all visible files and folders. What do you see?</p>
+<details>
+<summary>Hint</summary>
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="nb">cd</span><span class="w"> </span>~/bioinfo-course/treasure_hunt
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>ls
+</code></pre></div>
+</details>
+
+<p><strong>Challenge 2:</strong> Use <code>ls</code> with the appropriate option to find ALL files in the <code>treasure_hunt</code> directory, including hidden ones. What hidden file(s) do you see?</p>
+<details>
+<summary>Hint</summary>
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>ls<span class="w"> </span>-a
+</code></pre></div>
+</details>
+
+<p><strong>Challenge 3:</strong> Navigate to <code>treasure_hunt/level1</code> and read the contents of <code>clue1.txt</code>. Where does it tell you to look?</p>
+<details>
+<summary>Hint</summary>
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="nb">cd</span><span class="w"> </span>level1
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>cat<span class="w"> </span>clue1.txt
+</code></pre></div>
+</details>
+
+<p><strong>Challenge 4:</strong> Following the clue, navigate to <code>level2b</code> and find the hidden treasure file. Display its contents. What does it say?</p>
+<details>
+<summary>Hint</summary>
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="nb">cd</span><span class="w"> </span>level2b
+<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>ls<span class="w"> </span>-a
+<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>cat<span class="w"> </span>.hidden_treasure.txt
+</code></pre></div>
+</details>
+
+<p><strong>Challenge 5:</strong> Using a single absolute path, navigate directly from wherever you are to the <code>secrets</code> directory and reveal the hidden secret key file. What is the secret key?</p>
+<details>
+<summary>Hint</summary>
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="nb">cd</span><span class="w"> </span>~/bioinfo-course/treasure_hunt/secrets
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>ls<span class="w"> </span>-a
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>cat<span class="w"> </span>.secret_key.txt
+</code></pre></div>
+</details>
+
+<p><strong>Challenge 6:</strong> From the <code>secrets</code> directory, use a relative path with <code>..</code> to navigate to the <code>archive</code> directory. Then use <code>pwd</code> to confirm your location.</p>
+<details>
+<summary>Hint</summary>
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="nb">cd</span><span class="w"> </span>../archive
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="nb">pwd</span>
+</code></pre></div>
+</details>
+
+<hr />
+<h2 id="understanding-file-paths-in-bioinformatics">Understanding File Paths in Bioinformatics</h2>
+<p>Why does all this matter for bioinformatics?</p>
+<p>When you're working with genomic data, you'll often have:</p>
+<ul>
+<li><strong>Data files</strong> in one directory: <code>/data/fastq/sample001.fastq.gz</code></li>
+<li><strong>Reference genomes</strong> in another: <code>/refs/human/GRCh38.fa</code></li>
+<li><strong>Analysis scripts</strong> in your home directory: <code>~/scripts/run_alignment.sh</code></li>
+<li><strong>Results</strong> in yet another place: <code>~/projects/cancer_study/results/</code></li>
+</ul>
+<p>You need to be comfortable:
+- Specifying where input files are (absolute or relative paths)
+- Telling programs where to write output
+- Organizing your projects logically
+- Navigating quickly between directories</p>
+<p><strong>Example bioinformatics command using paths:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Running an aligner with absolute paths</span>
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>bwa<span class="w"> </span>mem<span class="w"> </span>/refs/human/GRCh38.fa<span class="w"> </span>/data/fastq/sample001_R1.fastq.gz<span class="w"> </span>/data/fastq/sample001_R2.fastq.gz<span class="w"> </span>&gt;<span class="w"> </span>~/results/sample001.sam
+</code></pre></div></p>
+<p>Understanding paths is fundamental to running bioinformatics pipelines!</p>
+<hr />
+<h2 id="common-mistakes-and-how-to-avoid-them">Common Mistakes and How to Avoid Them</h2>
+<h3 id="mistake-1-forgetting-where-you-are">Mistake 1: Forgetting Where You Are</h3>
+<p><strong>Problem:</strong> Running commands without knowing your current directory.</p>
+<p><strong>Solution:</strong> Use <code>pwd</code> frequently, especially when you're starting out.</p>
+<h3 id="mistake-2-using-the-wrong-path-type">Mistake 2: Using the Wrong Path Type</h3>
+<p><strong>Problem:</strong> Using a relative path when you should use absolute, or vice versa.</p>
+<p><strong>Solution:</strong>
+- If you need something to work regardless of where you are, use <strong>absolute paths</strong> (<code>/home/alice/data</code>)
+- If you're working within a project, <strong>relative paths</strong> are fine (<code>./data</code>)</p>
+<h3 id="mistake-3-spaces-in-paths">Mistake 3: Spaces in Paths</h3>
+<p><strong>Problem:</strong> Paths with spaces cause errors.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="nb">cd</span><span class="w"> </span>my<span class="w"> </span>documents<span class="w">     </span><span class="c1"># ERROR! Tries to cd to &quot;my&quot; then run &quot;documents&quot;</span>
+</code></pre></div>
+<p><strong>Solution:</strong> Quote paths with spaces or escape them:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="nb">cd</span><span class="w"> </span><span class="s2">&quot;my documents&quot;</span><span class="w">   </span><span class="c1"># Correct</span>
+<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a><span class="nb">cd</span><span class="w"> </span>my<span class="se">\ </span>documents<span class="w">    </span><span class="c1"># Also correct (backslash escapes the space)</span>
+</code></pre></div>
+<p><strong>Better solution:</strong> Avoid spaces in directory and file names! Use underscores or dashes instead:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>mkdir<span class="w"> </span>my_documents<span class="w">  </span><span class="c1"># Better</span>
+<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>mkdir<span class="w"> </span>my-documents<span class="w">  </span><span class="c1"># Also good</span>
+</code></pre></div>
+<h3 id="mistake-4-case-sensitivity">Mistake 4: Case Sensitivity</h3>
+<p><strong>Problem:</strong> Typing <code>Documents</code> when the folder is actually <code>documents</code>.</p>
+<p><strong>Solution:</strong> Use tab completion! Start typing and press Tab—the terminal will complete it with the correct capitalization.</p>
+<hr />
+<h2 id="quick-reference">Quick Reference</h2>
+<h3 id="navigation-commands">Navigation Commands</h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What It Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pwd</code></td>
+<td>Print working directory (where am I?)</td>
+</tr>
+<tr>
+<td><code>cd [dir]</code></td>
+<td>Change to directory</td>
+</tr>
+<tr>
+<td><code>cd ~</code> or <code>cd</code></td>
+<td>Go to home directory</td>
+</tr>
+<tr>
+<td><code>cd /</code></td>
+<td>Go to root directory</td>
+</tr>
+<tr>
+<td><code>cd ..</code></td>
+<td>Go up one level</td>
+</tr>
+<tr>
+<td><code>cd -</code></td>
+<td>Go to previous directory</td>
+</tr>
+<tr>
+<td><code>cd ../..</code></td>
+<td>Go up two levels</td>
+</tr>
+</tbody>
+</table>
+<h3 id="listing-commands">Listing Commands</h3>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What It Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ls</code></td>
+<td>List directory contents</td>
+</tr>
+<tr>
+<td><code>ls -l</code></td>
+<td>Long format (detailed)</td>
+</tr>
+<tr>
+<td><code>ls -a</code></td>
+<td>Show all files (including hidden)</td>
+</tr>
+<tr>
+<td><code>ls -lh</code></td>
+<td>Long format with human-readable sizes</td>
+</tr>
+<tr>
+<td><code>ls -lt</code></td>
+<td>Sort by modification time</td>
+</tr>
+<tr>
+<td><code>ls -lS</code></td>
+<td>Sort by size</td>
+</tr>
+<tr>
+<td><code>ls -R</code></td>
+<td>Recursive (show subdirectories)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="path-shortcuts">Path Shortcuts</h3>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>~</code></td>
+<td>Home directory</td>
+</tr>
+<tr>
+<td><code>.</code></td>
+<td>Current directory</td>
+</tr>
+<tr>
+<td><code>..</code></td>
+<td>Parent directory (one level up)</td>
+</tr>
+<tr>
+<td><code>/</code></td>
+<td>Root directory</td>
+</tr>
+<tr>
+<td><code>-</code></td>
+<td>Previous directory (with <code>cd</code>)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="exit-ticket">Exit Ticket</h2>
+<p>To complete this module, send me an email with:</p>
+<p><strong>Subject:</strong> Bioinfo M1 Exit Ticket – [Your Name]</p>
+<p><strong>Content:</strong></p>
+<ol>
+<li>The command you used for Challenge 4 and the message you found in the hidden treasure file</li>
+<li>The command you used for Challenge 5 and the secret key you discovered</li>
+<li>The command you used for Challenge 6 and the output of <code>pwd</code> showing you reached the archive directory</li>
+<li>One sentence describing the difference between absolute and relative paths in your own words</li>
+</ol>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>Congratulations! You now understand:</p>
+<p>✓ How Unix organizes files in a tree structure starting from the root (<code>/</code>)
+✓ The difference between absolute and relative paths
+✓ Special directory shortcuts: <code>~</code>, <code>.</code>, <code>..</code>
+✓ How to check your location with <code>pwd</code>
+✓ How to navigate with <code>cd</code>
+✓ How to list directory contents with <code>ls</code> and its many options
+✓ How to find hidden files with <code>ls -a</code>
+✓ Why understanding paths is critical for bioinformatics workflows</p>
+<p>In the next module, we'll learn how to work with files—creating, viewing, and understanding their contents.</p>
+<p><strong>Next:</strong> <a href="../02-working-with-files/">Module 2 — Working with Files</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../00-setup/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 0 — Setup &amp; Understanding Your Environment">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                0 — Setup & Understanding Your Environment
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../02-working-with-files/" class="md-footer__link md-footer__link--next" aria-label="Next: 2 — Working with Files">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                2 — Working with Files
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/SJRussell/BioinfoCrashCourse" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["content.action.edit", "content.action.view", "content.code.copy", "navigation.footer", "navigation.indexes", "navigation.sections", "navigation.expand", "navigation.top", "search.highlight", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
