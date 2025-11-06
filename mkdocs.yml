@@ -33,19 +33,24 @@ theme:
 nav:
   - Home: index.md
   - Cheat Sheet: cheatsheet.md
-  - Modules:
-      - 0 — Setup & Expectations: modules/00-setup.md
-      - 1 — Navigation & Files: modules/01-navigation-files.md
-      - 2 — Pipes, Redirects & TSV Lab: modules/02-pipes-tsv.md
-      - 2b — Regex Primer for Manifests & Motifs: modules/02b-regex-basics.md
-      - 3 — Processes & Hung-Terminal Rescue: modules/03-processes.md
-      - 4 — Editing, Compression & Checksums: modules/04-editing-compression.md
-      - 5 — RNA-seq Primer (Watch): modules/05-rnaseq-primer.md
-      - 6 — FASTQ 101 (Hands-on): modules/06-fastq-101.md
-      - 7 — Local Env + Tiny QC: modules/07-env-qc.md
-      - 8 — Pull One Single-Cell FASTQ: modules/08-pull-one-srr.md
-      - 9 — The View → Run → View Loop: modules/09-view-run-view.md
-      - 10 — Capstone One-Command QC Script: modules/10-capstone.md
+  - Unix Fundamentals:
+      - 0 — Setup & Understanding Your Environment: modules/00-setup.md
+      - 1 — The Directory Tree & Navigation: modules/01-directory-tree.md
+      - 2 — Working with Files: modules/02-working-with-files.md
+      - 3 — Manipulating Files (Safely!): modules/03-manipulating-files.md
+      - 4 — Wildcards & Pattern Matching: modules/04-wildcards.md
+      - 5 — Pipes, Redirects & Filters: modules/05-pipes-filters.md
+      - 6 — Regular Expressions for Bioinformatics: modules/06-regex.md
+      - 7 — Process Management & Job Control: modules/07-processes.md
+      - 8 — Text Editing & File Compression: modules/08-editing-compression.md
+  - Bioinformatics Applications:
+      - 9 — Advanced TSV Data Wrangling: modules/02-pipes-tsv.md
+      - 10 — RNA-seq Primer (Watch): modules/05-rnaseq-primer.md
+      - 11 — FASTQ 101 (Hands-on): modules/06-fastq-101.md
+      - 12 — Local Env + Tiny QC: modules/07-env-qc.md
+      - 13 — Pull One Single-Cell FASTQ: modules/08-pull-one-srr.md
+      - 14 — The View → Run → View Loop: modules/09-view-run-view.md
+      - 15 — Capstone One-Command QC Script: modules/10-capstone.md
 plugins:
   - search
 

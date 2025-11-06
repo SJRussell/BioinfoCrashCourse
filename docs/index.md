@@ -1,40 +1,58 @@
 # Digital Embryo — Bioinformatics Command-Line Tutorial
 
-Welcome to the **Digital Embryo** bioinformatics tutorial! This hands-on course will take you from command-line basics to analyzing real RNA-seq data.
+Welcome to the **Digital Embryo** bioinformatics tutorial! This hands-on course will take you from command-line basics to analyzing real RNA-seq data, with **no prior coding knowledge required**.
 
 ## Learning Path
 
 ```mermaid
 graph TD
-    A[Module 0: Setup & Environment] --> B[Module 1: Navigation & Files]
-    B --> C[Module 2: Pipes & Data Wrangling]
-    C --> C2[Module 2b: Regex for Manifests & Motifs]
-    C2 --> D[Module 3: Process Management]
-    D --> E[Module 4: Editing & Compression]
-    E --> F[Module 5: RNA-seq Primer]
-    F --> G[Module 6: FASTQ Analysis]
-    G --> H[Module 7: Conda & QC Tools]
-    H --> I[Module 8: Download Real Data]
-    I --> J[Module 9: View-Run-View Loop]
-    J --> K[Module 10: Capstone Script]
-    
+    A[Module 0: Setup] --> B[Module 1: Directory Tree]
+    B --> C[Module 2: Working with Files]
+    C --> D[Module 3: Manipulating Files]
+    D --> E[Module 4: Wildcards]
+    E --> F[Module 5: Pipes & Filters]
+    F --> G[Module 6: Regular Expressions]
+    G --> H[Module 7: Process Management]
+    H --> I[Module 8: Editing & Compression]
+    I --> J[Module 9: TSV Wrangling]
+    J --> K[Module 10: RNA-seq Primer]
+    K --> L[Module 11: FASTQ Analysis]
+    L --> M[Module 12: Conda & QC]
+    M --> N[Module 13: Download Data]
+    N --> O[Module 14: View-Run-View]
+    O --> P[Module 15: Capstone]
+
     style A fill:#e1f5fe
-    style K fill:#c8e6c9
-    style F fill:#fff3e0
+    style I fill:#e1f5fe
+    style J fill:#fff3e0
+    style P fill:#c8e6c9
 ```
 
-1. [Module 0: Setup & Expectations](modules/00-setup.md) — Install tools and confirm your environment.
-2. [Module 1: Navigation & Files](modules/01-navigation-files.md) — Move around, inspect data, and manage directories.
-3. [Module 2: Pipes, Redirects & a TSV Search Lab](modules/02-pipes-tsv.md) — Chain commands to wrangle tabular manifests.
-4. [Module 2b: Regex Primer for Manifests & Motifs](modules/02b-regex-basics.md) — Learn anchors, classes, quantifiers, and groups to vet manifests and spot short DNA motifs.
-5. [Module 3: Processes & Hung-Terminal Rescue](modules/03-processes.md) — Monitor and control what’s running.
-6. [Module 4: Editing & Compression](modules/04-editing-compression.md) — Edit text safely and work with compressed data.
-7. [Module 5: RNA-seq Primer](modules/05-rnaseq-primer.md) — Preview the RNA-seq workflow and vocabulary.
-8. [Module 6: FASTQ Analysis](modules/06-fastq-101.md) — Inspect reads and compute quick QC stats.
-9. [Module 7: Conda & QC Tools](modules/07-env-qc.md) — Build environments and run FastQC/MultiQC.
-10. [Module 8: Download Real Data](modules/08-pull-one-srr.md) — Retrieve sequencing runs from public archives.
-11. [Module 9: View-Run-View Loop](modules/09-view-run-view.md) — Iterate on alignments and reports.
-12. [Module 10: Capstone Script](modules/10-capstone.md) — Automate the workflow end-to-end.
+## Unix Fundamentals (Modules 0-8)
+
+Build a rock-solid foundation in Unix command-line skills with comprehensive, beginner-friendly modules:
+
+1. **[Module 0: Setup & Understanding Your Environment](modules/00-setup.md)** — Learn what terminals and shells are, understand command structure (command + options + arguments), and set up your workspace.
+2. **[Module 1: The Directory Tree & Navigation](modules/01-directory-tree.md)** — Master the Unix filesystem tree, understand absolute vs relative paths, and navigate with pwd, cd, and ls.
+3. **[Module 2: Working with Files](modules/02-working-with-files.md)** — Create, view, and inspect files with cat, less, head, tail, and wc. Learn when to use each tool.
+4. **[Module 3: Manipulating Files (Safely!)](modules/03-manipulating-files.md)** — Copy, move, rename, and delete files while learning critical safety practices and the "interactive mode" flag.
+5. **[Module 4: Wildcards & Pattern Matching](modules/04-wildcards.md)** — Use *, ?, and [...] to work with multiple files efficiently. Essential for batch processing genomic data.
+6. **[Module 5: Pipes, Redirects & Filters](modules/05-pipes-filters.md)** — Chain commands together with pipes and master grep, cut, sort, uniq, and wc for data wrangling.
+7. **[Module 6: Regular Expressions for Bioinformatics](modules/06-regex.md)** — Learn powerful pattern matching for validating sample IDs, finding sequence motifs, and parsing file formats.
+8. **[Module 7: Process Management & Job Control](modules/07-processes.md)** — Monitor programs, rescue frozen terminals, manage background jobs, and handle long-running analyses.
+9. **[Module 8: Text Editing & File Compression](modules/08-editing-compression.md)** — Edit files with nano, work with compressed genomic data (gzip), and verify file integrity with checksums.
+
+## Bioinformatics Applications (Modules 9-15)
+
+Apply your Unix skills to real bioinformatics workflows:
+
+10. **[Module 9: Advanced TSV Data Wrangling](modules/02-pipes-tsv.md)** — Chain commands to wrangle tabular sample manifests.
+11. **[Module 10: RNA-seq Primer](modules/05-rnaseq-primer.md)** — Preview the RNA-seq workflow and vocabulary.
+12. **[Module 11: FASTQ Analysis](modules/06-fastq-101.md)** — Inspect sequencing reads and compute QC statistics.
+13. **[Module 12: Conda & QC Tools](modules/07-env-qc.md)** — Build conda environments and run FastQC/MultiQC.
+14. **[Module 13: Download Real Data](modules/08-pull-one-srr.md)** — Retrieve sequencing runs from public archives (SRA/ENA).
+15. **[Module 14: View-Run-View Loop](modules/09-view-run-view.md)** — Iterate on analysis pipelines with sanity checks.
+16. **[Module 15: Capstone Script](modules/10-capstone.md)** — Automate the complete QC workflow end-to-end.
 
 ## Course Philosophy
 
