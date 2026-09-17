@@ -1,4 +1,4 @@
-# Module 5 — RNA-seq Primer (Watch/Skim)
+# Module 10 — RNA-seq Primer (Watch)
 
 **Time:** 30–45 min  
 **Goal:** Know the wet-lab → data flow so FASTQ lines make sense.
@@ -50,7 +50,9 @@ Optional references for later: [SRA home](https://www.ncbi.nlm.nih.gov/sra) & [R
 
 ## Exit Ticket (email)
 
-**Subject:** DE M5 Exit Ticket – <Your Name>  
+**Subject:** Bioinfo M10 Exit Ticket – <Your Name>
 **Paste:**
 
 Three bullets: (1) what a read's quality string represents, (2) one library-prep choice and its consequence, (3) why we "look before we loop," in your own words.
+
+**Next:** [Module 11 — FASTQ 101](06-fastq-101.md)

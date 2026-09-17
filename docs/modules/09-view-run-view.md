@@ -1,4 +1,4 @@
-# Module 9 — The "View → Run → View" Loop (on a Real File)
+# Module 14 — The View → Run → View Loop (on a Real File)
 
 **Time:** 60–75 min  
 **Goal:** Practice the core habit on your downloaded FASTQ.
@@ -32,7 +32,7 @@ graph TD
 === "Linux/WSL"
 
     ```bash
-    cd ~/de-onramp/lesson5/data
+    cd ~/bioinfo-course/module13/data
     zcat SRR.fastq.gz | head -n 8
     zcat SRR.fastq.gz | awk 'NR%4==2{r++; bp+=length($0)} END{print "Reads:",r,"Bases:",bp}'
     ```
@@ -46,7 +46,7 @@ graph TD
 === "macOS"
 
     ```bash
-    cd ~/de-onramp/lesson5/data
+    cd ~/bioinfo-course/module13/data
     gzcat SRR.fastq.gz | head -n 8
     gzcat SRR.fastq.gz | awk 'NR%4==2{r++; bp+=length($0)} END{print "Reads:",r,"Bases:",bp}'
     ```
@@ -83,8 +83,10 @@ Create `../qc/notes.txt` with 4–5 bullets answering:
 
 ## Exit Ticket (email)
 
-**Subject:** DE M9 Exit Ticket – <Your Name>  
+**Subject:** Bioinfo M14 Exit Ticket – <Your Name>
 **Paste:**
 
 - 5 bullets from your `notes.txt`
 - One MultiQC screenshot (per-base quality or GC)
+
+**Next:** [Module 15 — Capstone One-Command QC Script](10-capstone.md)

@@ -2,7 +2,7 @@
 
 Short, hands-on modules to get new thesis students productive on the command line and ready to work with FASTQ files. Local-first (no cluster access required), designed to be completed in 8–10 hours.
 
-**Site:** built with MkDocs Material
+**Site:** [Bioinformatics Tutorial](https://sjrussell.github.io/BioinfoCrashCourse/), built with MkDocs Material
 
 **Audience:** motivated undergrads/grad students with little CLI experience
 
@@ -50,16 +50,21 @@ If you prefer pipx: `pipx install mkdocs-material`
    ├─ cheatsheet.md
    └─ modules/
       ├─ 00-setup.md
-      ├─ 01-navigation-files.md
-      ├─ 02-pipes-tsv.md
-      ├─ 03-processes.md
-      ├─ 04-editing-compression.md
-      ├─ 05-rnaseq-primer.md
-      ├─ 06-fastq-101.md
-      ├─ 07-env-qc.md
-      ├─ 08-pull-one-srr.md
-      ├─ 09-view-run-view.md
-      └─ 10-capstone.md
+      ├─ 01-directory-tree.md
+      ├─ 02-working-with-files.md
+      ├─ 03-manipulating-files.md
+      ├─ 04-wildcards.md
+      ├─ 05-pipes-filters.md
+      ├─ 06-regex.md
+      ├─ 07-processes.md
+      ├─ 08-editing-compression.md
+      ├─ 02-pipes-tsv.md          # Module 9
+      ├─ 05-rnaseq-primer.md      # Module 10
+      ├─ 06-fastq-101.md          # Module 11
+      ├─ 07-env-qc.md             # Module 12
+      ├─ 08-pull-one-srr.md       # Module 13
+      ├─ 09-view-run-view.md      # Module 14
+      └─ 10-capstone.md            # Module 15
 ```
 
 If you add helper scripts later, keep them under `docs/assets/scripts/` so they're visible but students still type first.
@@ -72,33 +77,36 @@ If you add helper scripts later, keep them under `docs/assets/scripts/` so they'
 nav:
   - Home: index.md
   - Cheat Sheet: cheatsheet.md
-  - Modules:
-      - 0 — Setup & Expectations: modules/00-setup.md
-      - 1 — Navigation & Files: modules/01-navigation-files.md
-      - 2 — Pipes, Redirects & TSV Lab: modules/02-pipes-tsv.md
-      - 3 — Processes & Hung-Terminal Rescue: modules/03-processes.md
-      - 4 — Editing, Compression & Checksums: modules/04-editing-compression.md
-      - 5 — RNA-seq Primer (Watch): modules/05-rnaseq-primer.md
-      - 6 — FASTQ 101 (Hands-on): modules/06-fastq-101.md
-      - 7 — Local Env + Tiny QC: modules/07-env-qc.md
-      - 8 — Pull One Single-Cell FASTQ: modules/08-pull-one-srr.md
-      - 9 — The View → Run → View Loop: modules/09-view-run-view.md
-      - 10 — Capstone: One-Command QC Script: modules/10-capstone.md
+  - Unix Fundamentals:
+      - 0 — Setup & Understanding Your Environment: modules/00-setup.md
+      - 1 — The Directory Tree & Navigation: modules/01-directory-tree.md
+      - 2 — Working with Files: modules/02-working-with-files.md
+      - 3 — Manipulating Files (Safely!): modules/03-manipulating-files.md
+      - 4 — Wildcards & Pattern Matching: modules/04-wildcards.md
+      - 5 — Pipes, Redirects & Filters: modules/05-pipes-filters.md
+      - 6 — Regular Expressions for Bioinformatics: modules/06-regex.md
+      - 7 — Process Management & Job Control: modules/07-processes.md
+      - 8 — Text Editing & File Compression: modules/08-editing-compression.md
+  - Bioinformatics Applications:
+      - 9 — Advanced TSV Data Wrangling: modules/02-pipes-tsv.md
+      - 10 — RNA-seq Primer (Watch): modules/05-rnaseq-primer.md
+      - 11 — FASTQ 101 (Hands-on): modules/06-fastq-101.md
+      - 12 — Local Env + Tiny QC: modules/07-env-qc.md
+      - 13 — Pull One Single-Cell FASTQ: modules/08-pull-one-srr.md
+      - 14 — The View → Run → View Loop: modules/09-view-run-view.md
+      - 15 — Capstone One-Command QC Script: modules/10-capstone.md
 ```
 
 ## What students will learn (modules)
 
-- **0 — Setup & Expectations:** VS Code + terminal; WSL2 on Windows; request Alliance account (no cluster use yet).
-- **1 — Navigation & Files:** pwd, ls, cd, mkdir, safe rm, less, head, tail, wc, globs.
-- **2 — Pipes & TSV Lab:** |, >, 2>, grep, cut, awk, sort, uniq; search a generated 10k-row TSV.
-- **3 — Processes:** Ctrl-C, Ctrl-Z, jobs, fg/bg, ps, top/htop, kill, pkill, pstree.
-- **4 — Editing/Compression:** nano, gzip/zcat/zless, sha256sum.
-- **5 — RNA-seq Primer (watch):** short videos; read structure; quality scores; "look before you loop".
-- **6 — FASTQ 101:** 4-line records, robust read counts, longest read, quick GC%.
-- **7 — Local Env + Tiny QC:** Miniforge env; seqtk, fastqc, multiqc; open HTML report locally.
-- **8 — Pull One SRR:** SRA Run Selector → ENA HTTPS link → wget -c + checksum; optional downsample.
-- **9 — View → Run → View:** sanity-check reads; run FastQC/MultiQC; write quick notes on quality/GC/adapters.
-- **10 — Capstone:** a single `run_qc.sh` that downsamples (optional), runs FastQC/MultiQC, and writes a summary.
+- **0–8 — Unix fundamentals:** environment setup, navigation, file operations, wildcards, pipes, regex, process management, editing, compression, and checksums.
+- **9 — Advanced TSV data wrangling:** `grep`, `cut`, `awk`, `sort`, and `uniq` on a generated 10,000-row dataset.
+- **10 — RNA-seq Primer:** short videos; read structure; quality scores; "look before you loop."
+- **11 — FASTQ 101:** four-line records, robust read counts, longest read, and quick GC%.
+- **12 — Local Env + Tiny QC:** Miniforge environment; seqtk, FastQC, and MultiQC.
+- **13 — Pull One SRR:** SRA Run Selector → ENA HTTPS link → resumable download and checksum.
+- **14 — View → Run → View:** inspect reads, run FastQC/MultiQC, and write QC notes.
+- **15 — Capstone:** a `run_qc.sh` script that optionally downsamples, runs QC, and writes a summary.
 
 Each module ends with an **Exit Ticket** (students email results to the instructor).
 
@@ -112,8 +120,8 @@ Each module ends with an **Exit Ticket** (students email results to the instruct
 
 - **MkDocs not found:** `pip install mkdocs-material` (or `pipx install mkdocs-material`).
 - **WSL can't find repo path:** open the repo from within WSL (e.g., `~/projects/digital-embryo-onramp`) rather than `C:\...`.
-- **FastQC/MultiQC missing:** ensure `conda activate rnaseq101` (Module 7).
-- **Long downloads:** use `wget -c` to resume; verify with `sha256sum -c`.
+- **FastQC/MultiQC missing:** ensure `conda activate rnaseq101` (Module 12).
+- **Long downloads:** resume with `wget -c` on Linux/WSL or `curl -L -C -` on macOS, then verify the checksum.
 
 ## Contributing
 

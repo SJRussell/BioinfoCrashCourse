@@ -982,7 +982,7 @@ To complete this module, send me an email with:
 
 1. Contents of your `analysis_config.txt`
 2. Contents of your `sample_manifest.tsv`
-3. Output of checksum verification (`sha256sum -c checksums.sha256`)
+3. Output of checksum verification (`sha256sum -c checksums.sha256` on Linux/WSL or `shasum -a 256 -c checksums.sha256` on macOS)
 4. The command you used to count reads in the compressed FASTQ
 5. Contents of your `run_analysis.sh` script
 6. One paragraph (3-4 sentences) explaining why compression and checksums are important in bioinformatics
@@ -1009,6 +1009,6 @@ Congratulations! You now understand:
 - Creating and modifying analysis scripts
 - Managing disk space efficiently
 
-In the next module, we'll dive into advanced text processing with awk—a powerful tool for manipulating tabular data.
+In the next module, we'll apply pipes, `awk`, and other filters to a larger tabular dataset.
 
-**Next:** [Module 9 — Advanced Text Processing with awk](09-awk.md)
+**Next:** [Module 9 — Advanced TSV Data Wrangling](02-pipes-tsv.md)

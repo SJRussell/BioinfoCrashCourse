@@ -56,7 +56,7 @@ Wildcards let you:
 - **Wildcards (globs)**: Used for **matching file names** (with `ls`, `cp`, `mv`, `rm`)
 - **Regular expressions (regex)**: Used for **matching text inside files** (with `grep`, `sed`, `awk`)
 
-We'll cover regular expressions in Module 7. This module focuses on wildcards for file names.
+We'll cover regular expressions in Module 6. This module focuses on wildcards for file names.
 
 ---
 

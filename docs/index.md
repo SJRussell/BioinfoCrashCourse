@@ -46,13 +46,13 @@ Build a rock-solid foundation in Unix command-line skills with comprehensive, be
 
 Apply your Unix skills to real bioinformatics workflows:
 
-10. **[Module 9: Advanced TSV Data Wrangling](modules/02-pipes-tsv.md)** — Chain commands to wrangle tabular sample manifests.
-11. **[Module 10: RNA-seq Primer](modules/05-rnaseq-primer.md)** — Preview the RNA-seq workflow and vocabulary.
-12. **[Module 11: FASTQ Analysis](modules/06-fastq-101.md)** — Inspect sequencing reads and compute QC statistics.
-13. **[Module 12: Conda & QC Tools](modules/07-env-qc.md)** — Build conda environments and run FastQC/MultiQC.
-14. **[Module 13: Download Real Data](modules/08-pull-one-srr.md)** — Retrieve sequencing runs from public archives (SRA/ENA).
-15. **[Module 14: View-Run-View Loop](modules/09-view-run-view.md)** — Iterate on analysis pipelines with sanity checks.
-16. **[Module 15: Capstone Script](modules/10-capstone.md)** — Automate the complete QC workflow end-to-end.
+1. **[Module 9: Advanced TSV Data Wrangling](modules/02-pipes-tsv.md)** — Chain commands to wrangle tabular sample manifests.
+2. **[Module 10: RNA-seq Primer (Watch)](modules/05-rnaseq-primer.md)** — Preview the RNA-seq workflow and vocabulary.
+3. **[Module 11: FASTQ 101 (Hands-on)](modules/06-fastq-101.md)** — Inspect sequencing reads and compute QC statistics.
+4. **[Module 12: Local Env + Tiny QC](modules/07-env-qc.md)** — Build conda environments and run FastQC/MultiQC.
+5. **[Module 13: Pull One Single-Cell FASTQ](modules/08-pull-one-srr.md)** — Retrieve a sequencing run from a public archive and verify it.
+6. **[Module 14: The View → Run → View Loop](modules/09-view-run-view.md)** — Iterate on analysis pipelines with sanity checks.
+7. **[Module 15: Capstone One-Command QC Script](modules/10-capstone.md)** — Automate the complete QC workflow end-to-end.
 
 ## Course Philosophy
 
@@ -88,7 +88,7 @@ Apply your Unix skills to real bioinformatics workflows:
 
 ## Getting Started
 
-1. Start with [Module 0: Setup & Expectations](modules/00-setup.md)
+1. Start with [Module 0: Setup & Understanding Your Environment](modules/00-setup.md)
 2. Keep the [Cheat Sheet](cheatsheet.md) handy for quick reference
 3. Type commands first, copy/paste second
 4. Submit exit tickets as you complete each module

@@ -705,8 +705,9 @@ Create a "runaway" process, find it, analyze it, and safely terminate it while d
 **Task 1:** Create a CPU-intensive background process
 
 ```bash
-# This one uses CPU without output
-cat /dev/zero | head -c 100M | md5sum &
+# `yes` runs until you stop it, so it stays alive long enough to inspect.
+# Redirect its output so it does not flood your terminal.
+yes > /dev/null &
 ```
 
 Record the job number and PID.
@@ -714,7 +715,7 @@ Record the job number and PID.
 **Task 2:** Use `ps` to find information about this process
 
 ```bash
-ps aux | grep [first_few_characters_of_command]
+ps aux | grep '[y]es'
 ```
 
 Record:
@@ -735,7 +736,7 @@ kill PID
 
 Wait 3 seconds, then check if it's still running:
 ```bash
-ps aux | grep PID
+ps -p PID -o pid,pcpu,pmem,command
 ```
 
 Record whether it died or is still running.
@@ -748,7 +749,7 @@ kill -9 PID
 
 Verify it's gone:
 ```bash
-ps aux | grep PID
+ps -p PID -o pid,pcpu,pmem,command
 jobs
 ```
 
@@ -904,7 +905,7 @@ To complete this module, send me an email with:
 **Content:**
 
 1. Screenshot from Task 3 showing the process in top/htop
-2. Recorded information from all 5 tasks (PID, CPU%, etc.)
+2. Recorded information from Tasks 1–5 (PID, CPU%, command, and whether SIGTERM stopped it)
 3. Your answers to the 4 reflection questions
 4. One paragraph (3-4 sentences) describing a time you might need these skills in real bioinformatics work
 

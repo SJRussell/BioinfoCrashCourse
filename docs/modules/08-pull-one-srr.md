@@ -1,4 +1,4 @@
-# Module 8 — Pull One Single-Cell FASTQ (Public SRA/ENA)
+# Module 13 — Pull One Single-Cell FASTQ (Public SRA/ENA)
 
 **Time:** 60–90 min  
 **Goal:** Find a study, choose one small run, download the FASTQ via HTTPS, and verify it.
@@ -26,7 +26,7 @@ From the SRR page, follow the ENA / EBI link. On the ENA run page, copy an HTTPS
 === "Linux/WSL"
 
     ```bash
-    mkdir -p ~/de-onramp/lesson5/data && cd ~/de-onramp/lesson5/data
+    mkdir -p ~/bioinfo-course/module13/data && cd ~/bioinfo-course/module13/data
 
     # Replace with your URL:
     wget -c "https://.../SRRxxxxxxx.fastq.gz" -O SRR.fastq.gz
@@ -42,10 +42,10 @@ From the SRR page, follow the ENA / EBI link. On the ENA run page, copy an HTTPS
 === "macOS"
 
     ```bash
-    mkdir -p ~/de-onramp/lesson5/data && cd ~/de-onramp/lesson5/data
+    mkdir -p ~/bioinfo-course/module13/data && cd ~/bioinfo-course/module13/data
 
     # Replace with your URL:
-    wget -c "https://.../SRRxxxxxxx.fastq.gz" -O SRR.fastq.gz
+    curl -L -C - "https://.../SRRxxxxxxx.fastq.gz" -o SRR.fastq.gz
 
     # Optional: if ENA provides checksums, verify; otherwise compute your own
     shasum -a 256 SRR.fastq.gz > SRR.fastq.gz.sha256
@@ -55,8 +55,8 @@ From the SRR page, follow the ENA / EBI link. On the ENA run page, copy an HTTPS
     gzcat SRR.fastq.gz | head -n 8
     ```
 
-If the file is very large and `head` feels slow, use `pv` or `zcat`/`gzcat | head` as above (fast).
-If you need to stop, Ctrl-C and rerun `wget -c` later to resume.
+If the file is very large, preview it with `zcat`/`gzcat | head` as above rather than expanding it.
+If you need to stop, press Ctrl-C and rerun `wget -c` (Linux/WSL) or `curl -L -C -` (macOS) later to resume.
 
 ## 4) (Optional) Keep a tiny working copy
 
@@ -67,9 +67,11 @@ seqtk sample -s 7 SRR.fastq.gz 10000 | gzip > SRR.10k.fastq.gz   # ~10k reads
 
 ## Exit Ticket (email)
 
-**Subject:** DE M8 Exit Ticket – <Your Name>  
+**Subject:** Bioinfo M13 Exit Ticket – <Your Name>
 **Paste:**
 
 - The study accession and the SRR you chose
-- Your exact `wget` command (with URL redacted if you prefer)
+- Your exact download command (with URL redacted if you prefer)
 - File size (`ls -lh`) and the single line from checksum verification (`sha256sum -c` or `shasum -a 256 -c`)
+
+**Next:** [Module 14 — The View → Run → View Loop](09-view-run-view.md)

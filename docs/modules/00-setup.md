@@ -567,4 +567,4 @@ Congratulations! You now understand:
 
 In the next module, we'll dive deeper into the directory tree structure and learn how to navigate your file system like a pro.
 
-**Next:** [Module 1 — Terminal Basics & First Commands](01-terminal-basics.md)
+**Next:** [Module 1 — The Directory Tree & Navigation](01-directory-tree.md)

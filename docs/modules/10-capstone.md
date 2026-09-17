@@ -1,19 +1,19 @@
-# Module 10 — Capstone: One-Command QC Script
+# Module 15 — Capstone: One-Command QC Script
 
 **Time:** 60–90 min  
 **Goal:** Write a robust script that down-samples (optional), runs fastqc and multiqc, and writes a text summary.
 
 !!! note "What you'll submit"
     - Your script `run_qc.sh`
-    - The `.out` summary it produces
+    - The `results/summary.txt` file it produces
     - 4–5 sentence reflection (what surprised you, one improvement)
 
 ## 1) Directory prep
 
 ```bash
-mkdir -p ~/de-onramp/capstone/{data,results,logs}
-cp ~/de-onramp/lesson5/data/SRR*.fastq.gz ~/de-onramp/capstone/data/
-cd ~/de-onramp/capstone
+mkdir -p ~/bioinfo-course/module15/{data,results,logs}
+cp ~/bioinfo-course/module13/data/SRR*.fastq.gz ~/bioinfo-course/module15/data/
+cd ~/bioinfo-course/module15
 conda activate rnaseq101
 ```
 
@@ -73,21 +73,35 @@ WORK="$OUT/${BASENAME}"
 TMP="${WORK}.tmp.fastq.gz"
 if awk "BEGIN{exit !($P < 1.0)}"; then
   seqtk sample -s 1 "$IN" "$P" | gzip > "$TMP"
+elif [[ "$IN" == *.gz ]]; then
+  # Use an absolute target so the link still works from inside the output directory.
+  IN_DIR=$(cd "$(dirname "$IN")" && pwd)
+  ln -sf "$IN_DIR/$(basename "$IN")" "$TMP"
 else
-  ln -sf "$(realpath "$IN")" "$TMP"
+  gzip -c "$IN" > "$TMP"
 fi
 
 # Run FastQC
 fastqc -o "$OUT/fastqc" "$TMP"
 
 # Aggregate
-multiqc -o "$OUT" "$OUT/fastqc" > "$OUT/logs/multiqc.log" 2>&1 || true
+multiqc -o "$OUT" "$OUT/fastqc" > "$OUT/logs/multiqc.log" 2>&1
 
 # Summaries: reads, bases, GC (rough), file size
-# Use gzcat for macOS compatibility
-READS=$(( (uname -s | grep -q Darwin) && gzcat "$TMP" || zcat "$TMP" ) | awk 'END{print NR/4}')
-BASES=$(( (uname -s | grep -q Darwin) && gzcat "$TMP" || zcat "$TMP" ) | awk 'NR%4==2{bp+=length($0)} END{print bp+0}')
-GC=$(( (uname -s | grep -q Darwin) && gzcat "$TMP" || zcat "$TMP" ) | awk 'NR%4==2{gsub(/[^GgCc]/,"");gc+=length($0);t+=length($0)} END{if(t) printf("%.2f",100*gc/t); else print 0}')
+stream_fastq() {
+  if [[ "$(uname -s)" == "Darwin" ]]; then
+    gzcat "$1"
+  else
+    zcat "$1"
+  fi
+}
+
+READS=$(stream_fastq "$TMP" | awk 'END{print NR/4}')
+BASES=$(stream_fastq "$TMP" | awk 'NR%4==2{bp+=length($0)} END{print bp+0}')
+GC=$(stream_fastq "$TMP" | awk 'NR%4==2{
+  seq=$0; gc_seq=$0; gsub(/[^GgCc]/,"",gc_seq)
+  gc+=length(gc_seq); total+=length(seq)
+} END{if(total) printf("%.2f",100*gc/total); else print 0}')
 SIZE=$(ls -lh "$TMP" | awk '{print $5}')
 
 {
@@ -133,7 +147,7 @@ Open `results/multiqc_report.html`.
 
 ## Exit Ticket (email)
 
-**Subject:** DE M10 Exit Ticket – <Your Name>  
+**Subject:** Bioinfo M15 Exit Ticket – <Your Name>
 **Attach:**
 
 - `run_qc.sh`

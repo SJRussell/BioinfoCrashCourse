@@ -1,5 +1,5 @@
 site_name: Bioinformatics Tutorial
-site_url: https://russell.lab.ca/bioinformatics-tutorial
+site_url: https://sjrussell.github.io/BioinfoCrashCourse/
 theme:
   name: material
   features:

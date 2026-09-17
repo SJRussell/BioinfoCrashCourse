@@ -639,13 +639,13 @@ Answer these questions using the commands you've learned. **Record both the comm
 
 **Task 2:** How many total lines are in the file?
 
-**Task 3:** Display only the first gene's header and sequence (first 3 lines).
+**Task 3:** Display the complete first gene entry: its header and all three sequence lines (first 4 lines).
 
 **Task 4:** Display only the last gene's information (last 4 lines).
 
-**Task 5:** What is the description/name of the third gene? (Hint: you need to get line 7 somehow)
+**Task 5:** What is the description/name of the third gene? (Hint: its header is on line 9.)
 
-**Task 6:** Without manually counting, what's the length of the first sequence line in Gene1? (Hint: use `head` to get just that line, then pipe to `wc -c` to count characters)
+**Task 6:** Without manually counting, what's the length of the first sequence line in Gene1? (Hint: use `head` and `tail` to isolate that line, then pipe to `wc -c`. Remember that `wc -c` also counts the newline.)
 
 ---
 
