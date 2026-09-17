@@ -1,5 +1,10 @@
 site_name: Bioinformatics Tutorial
 site_url: https://sjrussell.github.io/BioinfoCrashCourse/
+exclude_docs: |
+  modules/01-navigation-files.md
+  modules/02b-regex-basics.md
+  modules/03-processes.md
+  modules/04-editing-compression.md
 theme:
   name: material
   features:
